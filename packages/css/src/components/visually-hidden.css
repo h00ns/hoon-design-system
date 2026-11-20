@@ -1,0 +1,12 @@
+/* 화면에서는 숨기고 스크린리더에는 노출한다 */
+.hds-visually-hidden:not([data-focusable]:focus, [data-focusable]:focus-within) {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}

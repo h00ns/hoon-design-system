@@ -1,0 +1,16 @@
+/* IconButton: Button 위에 얹는 정사각형 변형 */
+.hds-button.hds-icon-button {
+  padding-inline: 0;
+  width: var(--_height);
+}
+
+.hds-icon-button__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hds-icon-button__icon > svg {
+  width: 1.25em;
+  height: 1.25em;
+}

@@ -1,12 +1,20 @@
 import { fileURLToPath } from 'node:url';
 import type { StorybookConfig } from '@storybook/react-vite';
+import remarkGfm from 'remark-gfm';
 
 const fromRoot = (path: string) => fileURLToPath(new URL(`../../../${path}`, import.meta.url));
 
 const config: StorybookConfig = {
   framework: '@storybook/react-vite',
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(ts|tsx)'],
-  addons: ['@storybook/addon-docs', '@storybook/addon-a11y'],
+  addons: [
+    {
+      name: '@storybook/addon-docs',
+      // MDX 에서 표·체크리스트 등 GitHub 마크다운 문법을 쓰기 위해
+      options: { mdxPluginOptions: { mdxCompileOptions: { remarkPlugins: [remarkGfm] } } },
+    },
+    '@storybook/addon-a11y',
+  ],
   viteFinal: async (viteConfig) => {
     // 빌드 없이 소스를 바로 보며 개발할 수 있도록 패키지를 src 로 연결한다
     viteConfig.resolve ??= {};

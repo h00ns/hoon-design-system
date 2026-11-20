@@ -18,7 +18,21 @@ function ThemeRoot({ theme, children }: { theme: Theme; children: ReactNode }) {
 
 const withTheme: Decorator = (Story, context) => (
   <ThemeRoot theme={context.globals.theme as Theme}>
-    <Story />
+    {context.viewMode === 'docs' ? (
+      // 문서 페이지의 예시 영역도 현재 테마 배경으로 그린다
+      <div
+        style={{
+          padding: 24,
+          borderRadius: 8,
+          background: 'var(--hds-color-bg-default)',
+          color: 'var(--hds-color-fg-default)',
+        }}
+      >
+        <Story />
+      </div>
+    ) : (
+      <Story />
+    )}
   </ThemeRoot>
 );
 
@@ -39,9 +53,20 @@ const preview: Preview = {
       },
     },
   },
-  initialGlobals: { theme: 'system' },
+  initialGlobals: { theme: 'light' },
   parameters: {
     layout: 'centered',
+    options: {
+      storySort: {
+        order: [
+          '시작하기',
+          ['소개', '설치', '테마', '접근성 원칙'],
+          'Foundations',
+          ['Colors', 'Typography', 'Spacing', 'Radius & Shadow', 'Motion', 'Z-index'],
+          'Components',
+        ],
+      },
+    },
     controls: { expanded: true },
     a11y: {
       // 접근성 위반을 경고가 아니라 실패로 취급한다

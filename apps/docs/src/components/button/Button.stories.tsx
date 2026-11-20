@@ -11,11 +11,11 @@ const PlusIcon = () => (
 const meta = {
   title: 'Components/Button',
   component: Button,
-  tags: ['autodocs'],
   args: { children: '저장' },
   argTypes: {
     variant: { control: 'inline-radio', options: ['primary', 'secondary', 'ghost', 'danger'] },
     size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] },
+    disabled: { control: 'boolean' },
   },
 } satisfies Meta<typeof Button>;
 

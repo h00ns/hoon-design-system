@@ -1,0 +1,60 @@
+/*
+ * Field: 레이블 · 컨트롤 · 설명 · 오류를 세로로 묶는다
+ * <div class="hds-field" data-invalid>
+ *   <label class="hds-field__label">이메일<span class="hds-field__required">*</span></label>
+ *   (컨트롤)
+ *   <p class="hds-field__description">…</p>
+ *   <p class="hds-field__error">…</p>
+ * </div>
+ */
+.hds-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hds-space-2);
+  min-width: 0;
+}
+
+.hds-field__label {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--hds-space-1);
+  color: var(--hds-color-fg-default);
+  font-size: var(--hds-font-size-sm);
+  font-weight: var(--hds-font-weight-medium);
+  line-height: var(--hds-font-line-height-normal);
+  cursor: default;
+}
+
+.hds-field[data-disabled] .hds-field__label {
+  color: var(--hds-color-fg-disabled);
+}
+
+.hds-field__required {
+  color: var(--hds-color-danger-fg);
+}
+
+.hds-field__description,
+.hds-field__error {
+  margin: 0;
+  font-size: var(--hds-font-size-sm);
+  line-height: var(--hds-font-line-height-normal);
+}
+
+.hds-field__description {
+  color: var(--hds-color-fg-muted);
+}
+
+.hds-field__error {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--hds-space-1);
+  color: var(--hds-color-danger-fg);
+}
+
+.hds-field__error-icon {
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+  /* 첫 줄 텍스트 중앙에 맞춘다 */
+  margin-top: calc((1lh - 1em) / 2);
+}

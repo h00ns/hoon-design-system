@@ -3,7 +3,13 @@
  * 모든 컴포넌트 스타일은 cascade layer 안에 있다.
  * → 소비자의 레이어 밖 CSS 가 항상 우선하므로 !important 없이 덮어쓸 수 있다.
  * 토큰(@hoon-ds/tokens/css)을 먼저 불러와야 한다.
+ *
+ * 새 컴포넌트는 이 파일 끝에 @import 한 줄을 추가한다.
  */
 @layer hds.base, hds.components;
 
+@import './components/visually-hidden.css' layer(hds.components);
 @import './components/button.css' layer(hds.components);
+@import './components/icon-button.css' layer(hds.components);
+@import './components/spinner.css' layer(hds.components);
+@import './components/field.css' layer(hds.components);

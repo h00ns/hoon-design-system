@@ -1,0 +1,55 @@
+/*
+ * Spinner
+ * <span class="hds-spinner" role="status" data-size="md">
+ *   <span class="hds-spinner__circle" aria-hidden="true"></span>
+ *   <span class="hds-visually-hidden">불러오는 중</span>
+ * </span>
+ */
+.hds-spinner {
+  --_size: 1.5rem;
+  --_thickness: 2px;
+
+  display: inline-flex;
+  flex-shrink: 0;
+  width: var(--_size);
+  height: var(--_size);
+  color: var(--hds-color-accent-solid);
+  vertical-align: middle;
+}
+
+.hds-spinner[data-size='sm'] {
+  --_size: 1rem;
+}
+
+.hds-spinner[data-size='lg'] {
+  --_size: 2.25rem;
+  --_thickness: 3px;
+}
+
+.hds-spinner__circle {
+  width: 100%;
+  height: 100%;
+  border: var(--_thickness) solid currentColor;
+  border-right-color: transparent;
+  border-radius: var(--hds-radius-full);
+  animation: hds-spin 0.7s linear infinite;
+}
+
+@keyframes hds-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hds-spinner__circle {
+    animation-duration: 1.6s;
+  }
+}
+
+@media (forced-colors: active) {
+  .hds-spinner__circle {
+    border-color: CanvasText;
+    border-right-color: transparent;
+  }
+}
