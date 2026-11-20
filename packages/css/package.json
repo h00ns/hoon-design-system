@@ -1,0 +1,28 @@
+{
+  "name": "@hoon-ds/css",
+  "version": "0.0.0",
+  "description": "Framework-agnostic component styles for hoon-design-system",
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    ".": "./dist/index.css",
+    "./index.css": "./dist/index.css",
+    "./base.css": "./dist/base.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "node build.js"
+  },
+  "peerDependencies": {
+    "@hoon-ds/tokens": "workspace:^"
+  },
+  "devDependencies": {
+    "browserslist": "^4.29.6",
+    "lightningcss": "^1.33.0"
+  }
+}

@@ -1,0 +1,45 @@
+/*
+ * 선택적 전역 베이스. 컴포넌트는 이 파일 없이도 동작해야 한다.
+ * 앱 전체를 이 디자인 시스템으로 그릴 때만 불러온다.
+ */
+@layer hds.base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--hds-color-bg-default);
+    color: var(--hds-color-fg-default);
+    font-family: var(--hds-font-family-sans);
+    font-size: var(--hds-font-size-md);
+    line-height: var(--hds-font-line-height-normal);
+    /* 한글 단어 중간 줄바꿈 방지 */
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: var(--hds-size-focus-ring-width) solid var(--hds-color-focus-ring);
+    outline-offset: var(--hds-size-focus-ring-offset);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

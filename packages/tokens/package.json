@@ -1,0 +1,31 @@
+{
+  "name": "@hoon-ds/tokens",
+  "version": "0.0.0",
+  "description": "Design tokens for hoon-design-system (CSS variables, JS, JSON)",
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/js/tokens.d.ts",
+      "default": "./dist/js/tokens.js"
+    },
+    "./css": "./dist/css/tokens.css",
+    "./json/light": "./dist/json/light.json",
+    "./json/dark": "./dist/json/dark.json",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "node build.js",
+    "test": "node build.js && vitest run",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "style-dictionary": "^5.8.0",
+    "vitest": "^5.1.1"
+  }
+}

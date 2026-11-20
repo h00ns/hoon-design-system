@@ -1,0 +1,61 @@
+{
+  "color": {
+    "$type": "color",
+    "bg": {
+      "default": { "$value": "{color.gray.0}" },
+      "subtle": { "$value": "{color.gray.50}" },
+      "muted": { "$value": "{color.gray.100}" },
+      "inverse": { "$value": "{color.gray.900}" },
+      "overlay": { "$value": "#111418a3", "$description": "모달 뒤 스크림" }
+    },
+    "fg": {
+      "default": { "$value": "{color.gray.900}" },
+      "muted": { "$value": "{color.gray.600}" },
+      "disabled": {
+        "$value": "{color.gray.400}",
+        "$description": "비활성 텍스트. WCAG 대비 예외 대상."
+      },
+      "inverse": { "$value": "{color.gray.0}" },
+      "on-accent": { "$value": "{color.white}" },
+      "on-warning": { "$value": "{color.gray.950}" }
+    },
+    "border": {
+      "default": { "$value": "{color.gray.200}", "$description": "장식용 구분선" },
+      "control": {
+        "$value": "{color.gray.500}",
+        "$description": "입력 컨트롤 경계. WCAG 1.4.11 3:1 이상."
+      }
+    },
+    "accent": {
+      "solid": { "$value": "{color.blue.600}" },
+      "solid-hover": { "$value": "{color.blue.700}" },
+      "solid-active": { "$value": "{color.blue.800}" },
+      "fg": { "$value": "{color.blue.700}" },
+      "subtle": { "$value": "{color.blue.50}" },
+      "subtle-hover": { "$value": "{color.blue.100}" }
+    },
+    "danger": {
+      "solid": { "$value": "{color.red.600}" },
+      "solid-hover": { "$value": "{color.red.700}" },
+      "solid-active": { "$value": "{color.red.800}" },
+      "fg": { "$value": "{color.red.700}" },
+      "subtle": { "$value": "{color.red.50}" }
+    },
+    "success": {
+      "solid": { "$value": "{color.green.700}" },
+      "fg": { "$value": "{color.green.700}" },
+      "subtle": { "$value": "{color.green.50}" }
+    },
+    "warning": {
+      "solid": { "$value": "{color.amber.400}" },
+      "fg": { "$value": "{color.amber.800}" },
+      "subtle": { "$value": "{color.amber.50}" }
+    },
+    "neutral": {
+      "subtle": { "$value": "{color.gray.100}" },
+      "subtle-hover": { "$value": "{color.gray.200}" },
+      "subtle-active": { "$value": "{color.gray.300}" }
+    },
+    "focus-ring": { "$value": "{color.blue.600}" }
+  }
+}
