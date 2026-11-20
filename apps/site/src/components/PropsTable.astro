@@ -1,0 +1,82 @@
+---
+/**
+ * @hoon-ds/react 타입에서 자동 생성된 Props 표.
+ * 데이터: src/generated/props.json (scripts/generate-props.mjs)
+ *
+ * <PropsTable of="Button" inherits="<button> 의 모든 HTML 속성" />
+ * <PropsTable of="Dialog.Content" inherits="Radix Dialog.Content" inheritsHref="https://www.radix-ui.com/primitives/docs/components/dialog#content" />
+ */
+import allProps from '../generated/props.json';
+
+interface Prop {
+  name: string;
+  type: string;
+  required: boolean;
+  defaultValue: string | null;
+  description: string;
+}
+
+interface Props {
+  /** 'Button' 또는 'Dialog.Content' 형식 */
+  of: string;
+  /** 이 외에 받는 props 의 출처 설명 */
+  inherits?: string;
+  inheritsHref?: string;
+}
+
+const { of, inherits, inheritsHref } = Astro.props;
+const props = (allProps as Record<string, Prop[]>)[of] ?? [];
+
+const escape = (s: string) =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+// 설명의 `code` 만 강조하고 나머지는 텍스트로
+const inline = (s: string) =>
+  escape(s)
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/\n+/g, ' ');
+---
+
+{
+  props.length > 0 && (
+    <table class="ds-props">
+      <thead>
+        <tr>
+          <th scope="col">Prop</th>
+          <th scope="col">타입</th>
+          <th scope="col">기본값</th>
+          <th scope="col">설명</th>
+        </tr>
+      </thead>
+      <tbody>
+        {props.map((p) => (
+          <tr>
+            <td>
+              <code>{p.name}</code>
+              {p.required && <span title="필수"> *</span>}
+            </td>
+            <td>
+              <code>{p.type}</code>
+            </td>
+            <td>{p.defaultValue !== null ? <code>{p.defaultValue}</code> : '—'}</td>
+            <td set:html={inline(p.description)} />
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )
+}
+{
+  inherits && (
+    <p class="ds-props__inherits">
+      이 외에{' '}
+      {inheritsHref ? (
+        <a href={inheritsHref} target="_blank" rel="noreferrer">
+          {inherits}
+        </a>
+      ) : (
+        inherits
+      )}
+      {props.length > 0 ? '을(를) 그대로 전달한다.' : '의 props 를 그대로 받는다.'}
+    </p>
+  )
+}

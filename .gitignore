@@ -8,3 +8,5 @@ coverage/
 !.env.example
 *.log
 .playwright-cli/
+apps/site/src/generated/
+.astro/

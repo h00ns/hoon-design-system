@@ -3,3 +3,5 @@ storybook-static
 coverage
 pnpm-lock.yaml
 CHANGELOG.md
+apps/site/src/generated
+.astro

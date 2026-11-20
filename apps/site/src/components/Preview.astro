@@ -1,0 +1,37 @@
+---
+/**
+ * 실제로 동작하는 예시 + 소스 코드.
+ *
+ * ```mdx
+ * import Variants from '../../../examples/button/Variants';
+ * import variantsCode from '../../../examples/button/Variants?raw';
+ *
+ * <Preview code={variantsCode}>
+ *   <Variants client:visible />
+ * </Preview>
+ * ```
+ */
+import { Code } from '@astrojs/starlight/components';
+
+interface Props {
+  /** 보여줄 소스 코드 (`?raw` import) */
+  code: string;
+  /** 캔버스 정렬. @default 'center' */
+  align?: 'center' | 'start' | 'stretch';
+  /** 캔버스 최소 높이 (오버레이 예시처럼 공간이 필요할 때) */
+  minHeight?: string;
+}
+
+const { code, align = 'center', minHeight } = Astro.props;
+// 예시 파일의 import 경로를 실제 패키지 이름 그대로 보여준다
+const source = code.trim();
+---
+
+<div class="ds-preview not-content">
+  <div class="ds-preview__canvas" data-align={align} style={minHeight ? { minHeight } : undefined}>
+    <slot />
+  </div>
+  <div class="ds-preview__code">
+    <Code code={source} lang="tsx" />
+  </div>
+</div>

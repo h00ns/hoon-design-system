@@ -1,0 +1,28 @@
+{
+  "name": "site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/generate-props.mjs && astro dev",
+    "build": "node scripts/generate-props.mjs && astro build",
+    "preview": "astro preview",
+    "typecheck": "node scripts/generate-props.mjs && astro check"
+  },
+  "dependencies": {
+    "@astrojs/react": "^7.1.9",
+    "@astrojs/starlight": "^0.43.1",
+    "@hoon-ds/css": "workspace:^",
+    "@hoon-ds/react": "workspace:^",
+    "@hoon-ds/tokens": "workspace:^",
+    "astro": "^7.4.13",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "react-docgen-typescript": "^2.4.0",
+    "typescript": "~6.0.3"
+  }
+}
