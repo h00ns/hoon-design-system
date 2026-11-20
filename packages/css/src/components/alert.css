@@ -1,0 +1,101 @@
+/*
+ * Alert
+ * <div class="hds-alert" data-tone="info|success|warning|danger">
+ *   <span class="hds-alert__icon" aria-hidden="true">…</span>
+ *   <div class="hds-alert__content">
+ *     <div class="hds-alert__title">…</div>
+ *     <div class="hds-alert__description">…</div>
+ *   </div>
+ *   <div class="hds-alert__actions">…</div>
+ * </div>
+ */
+.hds-alert {
+  --_bg: var(--hds-color-accent-subtle);
+  --_accent: var(--hds-color-accent-fg);
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--hds-space-3);
+  padding: var(--hds-space-4);
+  border: 1px solid color-mix(in srgb, var(--_accent) 35%, transparent);
+  border-radius: var(--hds-radius-lg);
+  background-color: var(--_bg);
+  color: var(--hds-color-fg-default);
+  font-size: var(--hds-font-size-sm);
+  line-height: var(--hds-font-line-height-normal);
+}
+
+.hds-alert[data-tone='success'] {
+  --_bg: var(--hds-color-success-subtle);
+  --_accent: var(--hds-color-success-fg);
+}
+
+.hds-alert[data-tone='warning'] {
+  --_bg: var(--hds-color-warning-subtle);
+  --_accent: var(--hds-color-warning-fg);
+}
+
+.hds-alert[data-tone='danger'] {
+  --_bg: var(--hds-color-danger-subtle);
+  --_accent: var(--hds-color-danger-fg);
+}
+
+.hds-alert__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--_accent);
+}
+
+.hds-alert__icon > svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  /* 첫 줄 텍스트와 높이를 맞춘다 */
+  margin-block: calc((1lh - 1.25rem) / 2);
+}
+
+.hds-alert__content {
+  display: flex;
+  flex: 1 1 16rem;
+  flex-direction: column;
+  gap: var(--hds-space-1);
+  min-width: 0;
+}
+
+.hds-alert__title {
+  font-weight: var(--hds-font-weight-semibold);
+}
+
+.hds-alert__description {
+  color: var(--hds-color-fg-default);
+}
+
+.hds-alert__description > :first-child {
+  margin-top: 0;
+}
+
+.hds-alert__description > :last-child {
+  margin-bottom: 0;
+}
+
+.hds-alert__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--hds-space-2);
+}
+
+.hds-alert__close {
+  margin-block: calc((1lh - var(--hds-size-control-sm)) / 2);
+  margin-inline-start: auto;
+}
+
+@media (forced-colors: active) {
+  .hds-alert {
+    border-color: CanvasText;
+  }
+
+  .hds-alert__icon {
+    color: CanvasText;
+  }
+}

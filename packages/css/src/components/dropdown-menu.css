@@ -1,0 +1,186 @@
+/*
+ * DropdownMenu
+ * .hds-menu (role=menu) > .hds-menu__item (role=menuitem / menuitemcheckbox / menuitemradio)
+ *  - data-variant="danger" : 되돌릴 수 없는 동작
+ *  - data-inset            : 아이콘 없는 항목을 아이콘 있는 항목과 정렬
+ */
+.hds-menu {
+  --_icon: 1rem;
+  --_px: var(--hds-space-2);
+  --_gap: var(--hds-space-2);
+
+  z-index: var(--hds-z-index-dropdown);
+  overflow-y: auto;
+  min-width: 10rem;
+  max-height: var(--radix-dropdown-menu-content-available-height);
+  padding: var(--hds-space-1);
+  border: 1px solid var(--hds-color-border-default);
+  border-radius: var(--hds-radius-lg);
+  background-color: var(--hds-color-bg-raised);
+  color: var(--hds-color-fg-default);
+  box-shadow: var(--hds-shadow-md);
+  font-size: var(--hds-font-size-md);
+  line-height: var(--hds-font-line-height-normal);
+  transform-origin: var(--radix-dropdown-menu-content-transform-origin);
+}
+
+.hds-menu[data-state='open'] {
+  animation: hds-menu-in var(--hds-duration-fast) var(--hds-easing-standard);
+}
+
+@keyframes hds-menu-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+
+/* ── Item ────────────────────────────────── */
+.hds-menu__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--_gap);
+  /* 터치 타깃 24px 이상 */
+  min-height: var(--hds-size-control-sm);
+  padding-block: var(--hds-space-1);
+  padding-inline: var(--_px);
+  border-radius: var(--hds-radius-sm);
+  cursor: default;
+  user-select: none;
+  outline: none;
+}
+
+.hds-menu__item[data-inset] {
+  padding-inline-start: calc(var(--_px) + var(--_icon) + var(--_gap));
+}
+
+.hds-menu__item > svg {
+  flex-shrink: 0;
+  width: var(--_icon);
+  height: var(--_icon);
+  color: var(--hds-color-fg-muted);
+}
+
+.hds-menu__item[data-highlighted] {
+  background-color: var(--hds-color-neutral-subtle);
+}
+
+.hds-menu__sub-trigger[data-state='open']:not([data-highlighted]) {
+  background-color: var(--hds-color-bg-muted);
+}
+
+.hds-menu__item[data-variant='danger'] {
+  color: var(--hds-color-danger-fg);
+}
+
+.hds-menu__item[data-variant='danger'] > svg {
+  color: currentColor;
+}
+
+.hds-menu__item[data-variant='danger'][data-highlighted] {
+  background-color: var(--hds-color-danger-subtle);
+}
+
+.hds-menu__item[data-disabled] {
+  color: var(--hds-color-fg-disabled);
+  pointer-events: none;
+}
+
+.hds-menu__item[data-disabled] > svg {
+  color: currentColor;
+}
+
+/* ── 체크·라디오 표시 ───────────────────── */
+.hds-menu__indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--_icon);
+  height: var(--_icon);
+  color: var(--hds-color-accent-fg);
+}
+
+.hds-menu__indicator svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ── 단축키 · 하위 메뉴 화살표 ──────────── */
+.hds-menu__shortcut {
+  margin-inline-start: auto;
+  padding-inline-start: var(--hds-space-4);
+  color: var(--hds-color-fg-muted);
+  font-size: var(--hds-font-size-xs);
+  letter-spacing: 0.05em;
+}
+
+.hds-menu__chevron {
+  display: inline-flex;
+  margin-inline-start: auto;
+  padding-inline-start: var(--hds-space-4);
+  color: var(--hds-color-fg-muted);
+}
+
+.hds-menu__chevron svg {
+  width: var(--_icon);
+  height: var(--_icon);
+}
+
+/* RTL 에서는 하위 메뉴가 왼쪽으로 열린다 */
+[dir='rtl'] .hds-menu__chevron svg {
+  transform: scaleX(-1);
+}
+
+/* ── Label · Separator ───────────────────── */
+.hds-menu__label {
+  padding: var(--hds-space-2) var(--_px) var(--hds-space-1);
+  color: var(--hds-color-fg-muted);
+  font-size: var(--hds-font-size-xs);
+  font-weight: var(--hds-font-weight-semibold);
+}
+
+.hds-menu__label[data-inset] {
+  padding-inline-start: calc(var(--_px) + var(--_icon) + var(--_gap));
+}
+
+.hds-menu__separator {
+  height: 1px;
+  margin: var(--hds-space-1) calc(var(--hds-space-1) * -1);
+  background-color: var(--hds-color-border-default);
+}
+
+/* ── 사용자 설정 ─────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .hds-menu[data-state='open'] {
+    animation: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .hds-menu {
+    border-color: CanvasText;
+  }
+
+  .hds-menu__item[data-highlighted] {
+    background-color: Highlight;
+    color: HighlightText;
+    forced-color-adjust: none;
+  }
+
+  .hds-menu__item[data-highlighted] > svg,
+  .hds-menu__item[data-highlighted] .hds-menu__indicator,
+  .hds-menu__item[data-highlighted] .hds-menu__shortcut,
+  .hds-menu__item[data-highlighted] .hds-menu__chevron {
+    color: HighlightText;
+  }
+
+  .hds-menu__item[data-disabled] {
+    color: GrayText;
+  }
+
+  .hds-menu__separator {
+    background-color: CanvasText;
+  }
+}

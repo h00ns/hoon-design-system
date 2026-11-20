@@ -1,0 +1,26 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { RadiusScale, ShadowScale } from '../blocks/tokens';
+
+<Meta title="Foundations/Radius & Shadow" />
+
+# Radius & Shadow
+
+## Radius
+
+컨트롤은 `md`, 카드·다이얼로그 같은 큰 표면은 `lg`~`xl`, 배지·아바타는 `full`. 중첩된 요소는 바깥보다 작은 radius 를 쓴다.
+
+<RadiusScale />
+
+## Shadow
+
+그림자는 **떠 있는 정도(elevation)** 를 나타낸다.
+
+| 토큰        | 용도                       |
+| ----------- | -------------------------- |
+| `shadow-sm` | 살짝 떠 있는 카드          |
+| `shadow-md` | Popover, Menu, Select 목록 |
+| `shadow-lg` | Dialog, Toast              |
+
+<ShadowScale />
+
+> 다크 모드에서는 그림자가 잘 보이지 않는다. 떠 있는 표면은 `bg-raised` 배경과 `border-default` 테두리를 함께 써서 구분한다. Windows 고대비 모드에서는 그림자가 사라지므로 테두리가 반드시 필요하다.

@@ -1,0 +1,134 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+import { Do, DoDont, Dont } from '../../blocks/DoDont';
+import * as SelectStories from './Select.stories';
+
+<Meta of={SelectStories} />
+
+# Select
+
+정해진 목록에서 **값 하나를 고르는** 폼 컨트롤. 네이티브 `<select>` 처럼 동작하면서 디자인을 맞출 수 있다.
+[WAI-ARIA Select-Only Combobox](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-select-only/) 패턴을 따른다.
+
+<Canvas of={SelectStories.Playground} />
+<Controls of={SelectStories.Playground} />
+
+## 사용법
+
+```tsx
+import { Field, Select } from '@hoon-ds/react';
+
+<Field.Root>
+  <Field.Label>과일</Field.Label>
+  <Select.Root name="fruit" defaultValue="apple" onValueChange={setFruit}>
+    <Select.Trigger>
+      <Select.Value placeholder="과일을 선택하세요" />
+    </Select.Trigger>
+    <Select.Content>
+      <Select.Item value="apple">사과</Select.Item>
+      <Select.Item value="banana">바나나</Select.Item>
+    </Select.Content>
+  </Select.Root>
+</Field.Root>;
+```
+
+| 부품                                                 | 역할                                                                                            |
+| ---------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `Select.Root`                                        | 값·열림 상태. `name` 이 있으면 폼 제출에 포함된다. Field 의 `disabled`·`required` 를 이어받는다 |
+| `Select.Trigger`                                     | 목록을 여는 버튼(`role="combobox"`). `size` 는 Input 과 같다                                    |
+| `Select.Value`                                       | 선택된 항목의 텍스트, 없으면 `placeholder`                                                      |
+| `Select.Content`                                     | 목록. 기본 `position="popper"` (트리거 아래), 넘치면 위아래 스크롤 버튼                         |
+| `Select.Item`                                        | 항목. 선택되면 체크 표시                                                                        |
+| `Select.Group` · `Select.Label` · `Select.Separator` | 항목 묶음과 제목, 구분선                                                                        |
+
+## 예시
+
+### 크기
+
+Input·Button 과 같은 높이(32 · 40 · 48px)라 한 줄에 나란히 놓아도 맞는다.
+
+<Canvas of={SelectStories.Sizes} />
+
+### Field 와 함께
+
+`Field.Root` 안에 두면 레이블·설명·오류가 트리거에 자동으로 연결된다. `invalid` 면 테두리가 바뀌고 오류 메시지를 읽어준다.
+
+<Canvas of={SelectStories.WithField} />
+
+### 그룹 · 구분선
+
+항목이 많고 성격이 나뉘면 그룹으로 묶는다. 그룹 제목은 선택할 수 없고, 그룹의 이름으로 읽힌다.
+
+<Canvas of={SelectStories.Groups} />
+
+### 비활성
+
+항목 하나만 막을 수도, 전체를 막을 수도 있다. 비활성 항목은 키보드 이동에서 건너뛴다.
+
+<Canvas of={SelectStories.DisabledItems} />
+
+### 긴 목록
+
+화면 높이를 넘으면 목록이 스크롤되고, 위아래에 스크롤 버튼이 나타난다. 목록이 길면 typeahead(글자 입력으로 이동)가 특히 유용하다.
+항목이 수십 개를 넘고 검색이 필요하면 Select 대신 검색 가능한 Combobox 를 고려한다.
+
+<Canvas of={SelectStories.LongList} />
+
+### item-aligned 위치
+
+`position="item-aligned"` 는 macOS 네이티브 select 처럼 선택된 항목이 트리거 위에 겹치도록 연다.
+
+<Canvas of={SelectStories.ItemAligned} />
+
+### 폼 제출
+
+`name` 을 주면 숨겨진 네이티브 `<select>` 가 함께 렌더링되어 `FormData`·서버 액션에서 그대로 값을 받을 수 있다.
+
+<Canvas of={SelectStories.InForm} />
+
+## 접근성
+
+### 키보드
+
+| 키                            | 동작                                               |
+| ----------------------------- | -------------------------------------------------- |
+| `Tab`                         | 트리거로 포커스 이동                               |
+| `Enter` / `Space` / `↓` / `↑` | 목록 열기 (선택된 항목, 없으면 첫 항목에 포커스)   |
+| `↓` / `↑`                     | 다음 / 이전 항목 (비활성 항목은 건너뜀)            |
+| `Home` / `End`                | 첫 / 마지막 항목                                   |
+| `Enter` / `Space`             | 항목 선택 후 닫기, 포커스는 트리거로               |
+| `Esc`                         | 값을 바꾸지 않고 닫기, 포커스는 트리거로           |
+| 글자 입력                     | 일치하는 항목으로 이동 (닫힌 상태에서는 바로 선택) |
+
+### 스크린리더
+
+- 트리거는 `role="combobox"` + `aria-expanded`, 목록은 `role="listbox"`, 항목은 `role="option"` + `aria-selected`.
+- Field 안에서는 `<label for>` 로 이름을, `aria-describedby` 로 설명·오류를, `aria-invalid`·`aria-required` 로 상태를 전달한다.
+- Field 없이 쓸 때는 트리거에 `aria-label` 이나 `aria-labelledby` 로 이름을 반드시 준다.
+- 목록이 열린 동안 바깥 콘텐츠는 보조기기에서 숨겨지고(`aria-hidden`), 스크롤이 잠긴다.
+
+### 사용자 설정
+
+- `prefers-reduced-motion` 이면 열림 애니메이션과 화살표 회전을 끈다.
+- Windows 고대비 모드에서 트리거 테두리, 강조 항목(`Highlight`), 구분선이 시스템 색으로 보인다.
+- 트리거 높이는 `min-height` 라 200% 확대에도 글자가 잘리지 않는다.
+
+## 가이드
+
+<DoDont>
+  <Do title="선택지가 5개 이상">선택지가 많거나 공간이 좁을 때 Select 를 쓴다.</Do>
+  <Dont title="선택지가 2~4개">선택지가 적으면 한눈에 보이는 RadioGroup 이 더 빠르다.</Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="값을 고르는 용도">폼에 들어갈 값을 고를 때 쓴다.</Do>
+  <Dont title="동작 실행·페이지 이동">
+    "편집 / 삭제" 같은 동작은 DropdownMenu, 페이지 이동은 링크나 내비게이션을 쓴다.
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="placeholder 는 안내">"과일을 선택하세요" 처럼 고르라는 안내를 쓴다.</Do>
+  <Dont title="placeholder 를 레이블로">
+    placeholder 는 값을 고르면 사라진다. 레이블은 항상 `Field.Label` 로 준다.
+  </Dont>
+</DoDont>

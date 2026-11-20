@@ -1,0 +1,144 @@
+/*
+ * Input
+ * <div class="hds-input" data-size="md" [data-invalid] [data-disabled] [data-readonly]>
+ *   <span class="hds-input__slot" data-position="start">…</span>
+ *   <input class="hds-input__control" />
+ *   <span class="hds-input__slot" data-position="end">…</span>
+ * </div>
+ * 테두리·포커스 링은 래퍼가 그린다 (:focus-within) → 슬롯이 있어도 하나의 입력처럼 보인다.
+ */
+.hds-input {
+  --_height: var(--hds-size-control-md);
+  --_px: var(--hds-space-3);
+  --_font-size: var(--hds-font-size-md);
+  --_border: var(--hds-color-border-control);
+
+  display: flex;
+  align-items: center;
+  gap: var(--hds-space-2);
+  width: 100%;
+  min-width: 0;
+  min-height: var(--_height);
+  padding-inline: var(--_px);
+  border: 1px solid var(--_border);
+  border-radius: var(--hds-radius-md);
+  background-color: var(--hds-color-bg-default);
+  color: var(--hds-color-fg-default);
+  font-size: var(--_font-size);
+  cursor: text;
+  transition-property: border-color, box-shadow;
+  transition-duration: var(--hds-duration-fast);
+  transition-timing-function: var(--hds-easing-standard);
+}
+
+.hds-input[data-size='sm'] {
+  --_height: var(--hds-size-control-sm);
+  --_px: var(--hds-space-2);
+  --_font-size: var(--hds-font-size-sm);
+}
+
+.hds-input[data-size='lg'] {
+  --_height: var(--hds-size-control-lg);
+  --_px: var(--hds-space-4);
+  --_font-size: var(--hds-font-size-lg);
+}
+
+@media (hover: hover) {
+  .hds-input:hover:not([data-disabled], [data-readonly], [data-invalid]) {
+    --_border: var(--hds-color-fg-muted);
+  }
+}
+
+.hds-input:focus-within {
+  outline: var(--hds-size-focus-ring-width) solid var(--hds-color-focus-ring);
+  outline-offset: -1px;
+  --_border: var(--hds-color-focus-ring);
+}
+
+.hds-input[data-invalid] {
+  --_border: var(--hds-color-danger-fg);
+}
+
+.hds-input[data-invalid]:focus-within {
+  outline-color: var(--hds-color-danger-fg);
+}
+
+.hds-input[data-readonly] {
+  background-color: var(--hds-color-bg-subtle);
+}
+
+.hds-input[data-disabled] {
+  --_border: var(--hds-color-border-default);
+  background-color: var(--hds-color-bg-muted);
+  color: var(--hds-color-fg-disabled);
+  cursor: not-allowed;
+}
+
+.hds-input__control {
+  flex: 1 1 auto;
+  min-width: 0;
+  /* 래퍼 높이를 채워 어디를 눌러도 입력에 닿게 한다 */
+  align-self: stretch;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  /* iOS 는 16px 미만 입력에 포커스하면 화면을 확대한다 — sm 에서도 확대를 피하려면 lg/md 사용 */
+  line-height: var(--hds-font-line-height-normal);
+}
+
+.hds-input__control::placeholder {
+  /* 플레이스홀더도 텍스트이므로 대비 4.5:1 을 지킨다 */
+  color: var(--hds-color-fg-muted);
+  opacity: 1;
+}
+
+.hds-input__control:disabled {
+  cursor: not-allowed;
+}
+
+.hds-input__control:disabled::placeholder {
+  color: var(--hds-color-fg-disabled);
+}
+
+.hds-input__slot {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  color: var(--hds-color-fg-muted);
+  white-space: nowrap;
+}
+
+.hds-input__slot svg {
+  width: 1.25em;
+  height: 1.25em;
+}
+
+/* 슬롯 안 버튼은 래퍼 높이에 맞춰 약간 안쪽으로 붙인다 */
+.hds-input__slot[data-position='end'] > .hds-button {
+  margin-inline-end: calc(var(--hds-space-1) - var(--_px));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hds-input {
+    transition-duration: 0s;
+  }
+}
+
+@media (forced-colors: active) {
+  .hds-input {
+    border-color: CanvasText;
+  }
+
+  .hds-input:focus-within {
+    outline-color: Highlight;
+  }
+
+  .hds-input[data-disabled] {
+    border-color: GrayText;
+    color: GrayText;
+  }
+}

@@ -1,0 +1,82 @@
+/*
+ * Badge
+ * <span class="hds-badge" data-tone="success" data-variant="subtle" data-size="md">완료</span>
+ */
+.hds-badge {
+  --_bg: var(--hds-color-neutral-subtle);
+  --_fg: var(--hds-color-fg-default);
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--hds-space-1);
+  max-width: 100%;
+  min-height: 1.5rem;
+  padding-inline: var(--hds-space-2);
+  border: 1px solid transparent;
+  border-radius: var(--hds-radius-full);
+  background-color: var(--_bg);
+  color: var(--_fg);
+  font-size: var(--hds-font-size-xs);
+  font-weight: var(--hds-font-weight-semibold);
+  line-height: var(--hds-font-line-height-tight);
+  white-space: nowrap;
+  vertical-align: middle;
+  font-variant-numeric: tabular-nums;
+}
+
+.hds-badge[data-size='sm'] {
+  min-height: 1.25rem;
+  padding-inline: var(--hds-space-1);
+}
+
+.hds-badge svg {
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+}
+
+/* subtle */
+.hds-badge[data-tone='accent'] {
+  --_bg: var(--hds-color-accent-subtle);
+  --_fg: var(--hds-color-accent-fg);
+}
+.hds-badge[data-tone='success'] {
+  --_bg: var(--hds-color-success-subtle);
+  --_fg: var(--hds-color-success-fg);
+}
+.hds-badge[data-tone='warning'] {
+  --_bg: var(--hds-color-warning-subtle);
+  --_fg: var(--hds-color-warning-fg);
+}
+.hds-badge[data-tone='danger'] {
+  --_bg: var(--hds-color-danger-subtle);
+  --_fg: var(--hds-color-danger-fg);
+}
+
+/* solid */
+.hds-badge[data-variant='solid'] {
+  --_bg: var(--hds-color-bg-inverse);
+  --_fg: var(--hds-color-fg-inverse);
+}
+.hds-badge[data-variant='solid'][data-tone='accent'] {
+  --_bg: var(--hds-color-accent-solid);
+  --_fg: var(--hds-color-fg-on-accent);
+}
+.hds-badge[data-variant='solid'][data-tone='success'] {
+  --_bg: var(--hds-color-success-solid);
+  --_fg: var(--hds-color-fg-on-accent);
+}
+.hds-badge[data-variant='solid'][data-tone='warning'] {
+  --_bg: var(--hds-color-warning-solid);
+  --_fg: var(--hds-color-fg-on-warning);
+}
+.hds-badge[data-variant='solid'][data-tone='danger'] {
+  --_bg: var(--hds-color-danger-solid);
+  --_fg: var(--hds-color-fg-on-accent);
+}
+
+@media (forced-colors: active) {
+  .hds-badge {
+    border-color: CanvasText;
+  }
+}

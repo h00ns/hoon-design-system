@@ -1,0 +1,74 @@
+/*
+ * Skeleton
+ * <span class="hds-skeleton" data-shape="rect|circle|text" aria-hidden="true"></span>
+ * 여러 줄: <span class="hds-skeleton-group"> 안에 data-shape="text" 들
+ */
+.hds-skeleton {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  width: 100%;
+  height: 1rem;
+  border-radius: var(--hds-radius-md);
+  background-color: var(--hds-color-bg-muted);
+}
+
+.hds-skeleton[data-shape='text'] {
+  height: 0.75em;
+  margin-block: 0.375em;
+  border-radius: var(--hds-radius-sm);
+}
+
+.hds-skeleton[data-shape='circle'] {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--hds-radius-full);
+}
+
+.hds-skeleton-group {
+  display: block;
+  width: 100%;
+}
+
+.hds-skeleton-group > .hds-skeleton[data-last] {
+  width: 60%;
+}
+
+/* 은은하게 지나가는 빛 */
+.hds-skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--hds-color-bg-default) 55%, transparent),
+    transparent
+  );
+  animation: hds-skeleton-shimmer 1.6s var(--hds-easing-standard) infinite;
+}
+
+@keyframes hds-skeleton-shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hds-skeleton::after {
+    animation: none;
+    display: none;
+  }
+}
+
+@media (forced-colors: active) {
+  /* 배경색이 시스템 색으로 덮이므로 테두리로 자리를 표시한다 */
+  .hds-skeleton {
+    border: 1px solid GrayText;
+  }
+
+  .hds-skeleton::after {
+    display: none;
+  }
+}

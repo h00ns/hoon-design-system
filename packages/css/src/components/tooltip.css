@@ -1,0 +1,86 @@
+/*
+ * Tooltip
+ * <div class="hds-tooltip" data-state="delayed-open" data-side="top">
+ *   짧은 설명
+ *   <svg class="hds-tooltip__arrow">…</svg>
+ * </div>
+ * Radix 는 data-state 로 closed | delayed-open | instant-open 을 준다.
+ */
+.hds-tooltip {
+  z-index: var(--hds-z-index-tooltip);
+  box-sizing: border-box;
+  max-width: min(20rem, var(--radix-tooltip-content-available-width, 100vw));
+  padding: var(--hds-space-1) var(--hds-space-2);
+  border-radius: var(--hds-radius-md);
+  background-color: var(--hds-color-bg-inverse);
+  color: var(--hds-color-fg-inverse);
+  box-shadow: var(--hds-shadow-sm);
+  font-family: var(--hds-font-family-sans);
+  font-size: var(--hds-font-size-xs);
+  font-weight: var(--hds-font-weight-medium);
+  line-height: var(--hds-font-line-height-normal);
+  /* 한국어 문장이 단어 중간에서 끊기지 않게 */
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  transform-origin: var(--radix-tooltip-content-transform-origin);
+}
+
+.hds-tooltip__arrow {
+  fill: var(--hds-color-bg-inverse);
+}
+
+/* ── 애니메이션 ─────────────────────────── */
+.hds-tooltip[data-state='delayed-open'] {
+  animation: hds-tooltip-in var(--hds-duration-fast) var(--hds-easing-standard);
+}
+
+/* 툴팁 사이를 빠르게 옮겨 다닐 때는 애니메이션 없이 바로 */
+.hds-tooltip[data-state='instant-open'] {
+  animation: none;
+}
+
+.hds-tooltip[data-state='closed'] {
+  animation: hds-tooltip-out var(--hds-duration-fast) var(--hds-easing-standard);
+}
+
+.hds-tooltip[data-side='top'] {
+  --_from: translateY(2px);
+}
+.hds-tooltip[data-side='bottom'] {
+  --_from: translateY(-2px);
+}
+.hds-tooltip[data-side='left'] {
+  --_from: translateX(2px);
+}
+.hds-tooltip[data-side='right'] {
+  --_from: translateX(-2px);
+}
+
+@keyframes hds-tooltip-in {
+  from {
+    opacity: 0;
+    transform: var(--_from, none);
+  }
+}
+
+@keyframes hds-tooltip-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hds-tooltip[data-state] {
+    --_from: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .hds-tooltip {
+    border: 1px solid CanvasText;
+  }
+
+  .hds-tooltip__arrow {
+    fill: CanvasText;
+  }
+}

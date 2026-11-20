@@ -1,0 +1,115 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { PrimitivePalette, SemanticColors } from '../blocks/tokens';
+
+<Meta title="Foundations/Colors" />
+
+# Colors
+
+색상은 두 단계로 나뉜다.
+
+1. **Primitive** — `gray-500`, `blue-600` 처럼 색 자체를 이름으로 가진 팔레트. 테마와 무관하다.
+2. **Semantic** — `fg-default`, `accent-solid` 처럼 **역할**을 이름으로 가진 토큰. 테마(light/dark)에 따라 다른 primitive 를 가리킨다.
+
+> 컴포넌트와 화면에서는 **항상 시맨틱 토큰만** 쓴다. primitive 를 직접 쓰면 다크 모드에서 깨진다.
+
+```css
+/* ✅ */
+color: var(--hds-color-fg-muted);
+/* ❌ 다크 모드에서 대비가 무너진다 */
+color: var(--hds-color-gray-600);
+```
+
+모든 전경/배경 조합의 대비는 `packages/tokens/test/contrast.test.ts` 가 **빌드 때마다 검증한다.** 텍스트 4.5:1, UI 경계·포커스 링 3:1 (WCAG 2.2 AA).
+
+## 배경 (bg)
+
+<SemanticColors
+  rows={[
+    { token: 'bg-default', usage: '페이지 기본 배경' },
+    { token: 'bg-subtle', usage: '구획을 살짝 구분하는 배경 (사이드바, 표 머리)' },
+    { token: 'bg-muted', usage: '눈에 띄지 않는 채움 (비활성 컨트롤, 스켈레톤)' },
+    { token: 'bg-raised', usage: '떠 있는 표면 (Dialog, Popover, Menu, Toast)' },
+    { token: 'bg-inverse', usage: '반전 표면 (Tooltip)' },
+    { token: 'bg-overlay', usage: '모달 뒤 스크림 (반투명)' },
+  ]}
+/>
+
+## 전경 (fg)
+
+<SemanticColors
+  rows={[
+    { token: 'fg-default', usage: '본문·제목 텍스트', on: 'bg-default' },
+    { token: 'fg-muted', usage: '보조 텍스트 (설명, 메타 정보)', on: 'bg-default' },
+    { token: 'fg-disabled', usage: '비활성 텍스트 — WCAG 대비 예외 대상', on: 'bg-default' },
+    { token: 'fg-inverse', usage: 'bg-inverse 위 텍스트', on: 'bg-inverse' },
+    { token: 'fg-on-accent', usage: 'accent·danger·success solid 위 텍스트', on: 'accent-solid' },
+    { token: 'fg-on-warning', usage: 'warning solid 위 텍스트', on: 'warning-solid' },
+  ]}
+/>
+
+## 테두리 (border)
+
+<SemanticColors
+  rows={[
+    { token: 'border-default', usage: '장식용 구분선, 카드 외곽 — 대비 요구 없음' },
+    {
+      token: 'border-control',
+      usage: '입력 컨트롤 경계 — WCAG 1.4.11 에 따라 3:1 이상',
+      on: 'bg-default',
+    },
+    { token: 'focus-ring', usage: '키보드 포커스 표시', on: 'bg-default' },
+  ]}
+/>
+
+## 의미 색상
+
+각 의미 색은 `solid`(채움), `fg`(텍스트), `subtle`(옅은 배경) 세트로 쓴다. **색만으로 의미를 전달하지 않는다** — 아이콘이나 텍스트를 함께 둔다 (WCAG 1.4.1).
+
+### Accent — 브랜드, 주요 동작, 링크, 선택 상태
+
+<SemanticColors
+  rows={[
+    { token: 'accent-solid', usage: 'Primary 버튼, 체크된 컨트롤' },
+    { token: 'accent-solid-hover', usage: 'hover' },
+    { token: 'accent-solid-active', usage: 'pressed' },
+    { token: 'accent-fg', usage: '링크, 강조 텍스트', on: 'bg-default' },
+    { token: 'accent-subtle', usage: '선택된 항목 배경, info 알림 배경' },
+  ]}
+/>
+
+### Danger — 오류, 파괴적 동작
+
+<SemanticColors
+  rows={[
+    { token: 'danger-solid', usage: '삭제 버튼' },
+    { token: 'danger-fg', usage: '오류 메시지 텍스트', on: 'bg-default' },
+    { token: 'danger-subtle', usage: '오류 알림 배경' },
+  ]}
+/>
+
+### Success · Warning
+
+<SemanticColors
+  rows={[
+    { token: 'success-solid', usage: '성공 배지' },
+    { token: 'success-fg', usage: '성공 텍스트', on: 'bg-default' },
+    { token: 'success-subtle', usage: '성공 알림 배경' },
+    { token: 'warning-solid', usage: '경고 배지 (어두운 텍스트와 함께)' },
+    { token: 'warning-fg', usage: '경고 텍스트', on: 'bg-default' },
+    { token: 'warning-subtle', usage: '경고 알림 배경' },
+  ]}
+/>
+
+### Neutral — 보조 버튼, hover 배경
+
+<SemanticColors
+  rows={[
+    { token: 'neutral-subtle', usage: 'Secondary 버튼, ghost hover' },
+    { token: 'neutral-subtle-hover', usage: 'hover' },
+    { token: 'neutral-subtle-active', usage: 'pressed' },
+  ]}
+/>
+
+## Primitive 팔레트
+
+<PrimitivePalette />

@@ -1,0 +1,175 @@
+/*
+ * Tabs
+ * .hds-tabs[data-variant=line|segmented][data-orientation]
+ *   > .hds-tabs__list (role=tablist) > .hds-tabs__trigger (role=tab, data-state=active|inactive)
+ *   > .hds-tabs__content (role=tabpanel)
+ */
+.hds-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hds-space-4);
+  min-width: 0;
+}
+
+.hds-tabs[data-orientation='vertical'] {
+  flex-direction: row;
+}
+
+/* ── List ────────────────────────────────── */
+.hds-tabs__list {
+  display: flex;
+  flex-shrink: 0;
+  /* 탭이 넘치면 가로 스크롤. 포커스된 탭은 브라우저가 보이는 곳으로 스크롤한다 */
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+}
+
+.hds-tabs__list[data-orientation='vertical'] {
+  flex-direction: column;
+  overflow-x: visible;
+}
+
+/* ── Trigger (공통) ──────────────────────── */
+.hds-tabs__trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--hds-space-2);
+  flex-shrink: 0;
+  min-height: var(--hds-size-control-md);
+  margin: 0;
+  padding-block: var(--hds-space-1);
+  padding-inline: var(--hds-space-4);
+  border: 0;
+  background: none;
+  color: var(--hds-color-fg-muted);
+  font-family: inherit;
+  font-size: var(--hds-font-size-md);
+  font-weight: var(--hds-font-weight-medium);
+  line-height: var(--hds-font-line-height-tight);
+  white-space: nowrap;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition-property: color, background-color, box-shadow;
+  transition-duration: var(--hds-duration-fast);
+  transition-timing-function: var(--hds-easing-standard);
+}
+
+.hds-tabs__trigger svg {
+  flex-shrink: 0;
+  width: 1.125em;
+  height: 1.125em;
+}
+
+@media (hover: hover) {
+  .hds-tabs__trigger:where(:hover):not(:disabled, [data-state='active']) {
+    color: var(--hds-color-fg-default);
+  }
+}
+
+.hds-tabs__trigger[data-state='active'] {
+  color: var(--hds-color-fg-default);
+  font-weight: var(--hds-font-weight-semibold);
+}
+
+.hds-tabs__trigger:focus-visible {
+  outline: var(--hds-size-focus-ring-width) solid var(--hds-color-focus-ring);
+  outline-offset: calc(var(--hds-size-focus-ring-width) * -1);
+  border-radius: var(--hds-radius-sm);
+}
+
+.hds-tabs__trigger:disabled {
+  color: var(--hds-color-fg-disabled);
+  cursor: not-allowed;
+}
+
+/* ── variant: line ───────────────────────── */
+.hds-tabs[data-variant='line'] > .hds-tabs__list {
+  /* 밑줄을 그리는 기준선 */
+  box-shadow: inset 0 -1px 0 var(--hds-color-border-default);
+}
+
+.hds-tabs[data-variant='line'] > .hds-tabs__list[data-orientation='vertical'] {
+  box-shadow: inset -1px 0 0 var(--hds-color-border-default);
+}
+
+.hds-tabs[data-variant='line'] .hds-tabs__trigger[data-state='active'] {
+  /* 색만이 아니라 두께 있는 선으로도 선택 상태를 보여준다 */
+  box-shadow: inset 0 -2px 0 var(--hds-color-accent-solid);
+}
+
+.hds-tabs[data-variant='line'] .hds-tabs__trigger[data-orientation='vertical'] {
+  justify-content: flex-start;
+}
+
+.hds-tabs[data-variant='line']
+  .hds-tabs__trigger[data-orientation='vertical'][data-state='active'] {
+  box-shadow: inset -2px 0 0 var(--hds-color-accent-solid);
+}
+
+/* ── variant: segmented ──────────────────── */
+.hds-tabs[data-variant='segmented'] > .hds-tabs__list {
+  gap: var(--hds-space-1);
+  align-self: flex-start;
+  max-width: 100%;
+  padding: var(--hds-space-1);
+  border-radius: var(--hds-radius-lg);
+  background-color: var(--hds-color-bg-muted);
+}
+
+.hds-tabs[data-variant='segmented'] .hds-tabs__trigger {
+  min-height: var(--hds-size-control-sm);
+  padding-inline: var(--hds-space-3);
+  border-radius: var(--hds-radius-md);
+  font-size: var(--hds-font-size-sm);
+}
+
+.hds-tabs[data-variant='segmented'] .hds-tabs__trigger[data-state='active'] {
+  background-color: var(--hds-color-bg-raised);
+  box-shadow: var(--hds-shadow-sm);
+}
+
+.hds-tabs[data-variant='segmented'] .hds-tabs__trigger:focus-visible {
+  outline-offset: 0;
+}
+
+/* ── Content ─────────────────────────────── */
+.hds-tabs__content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.hds-tabs__content:focus-visible {
+  outline: var(--hds-size-focus-ring-width) solid var(--hds-color-focus-ring);
+  outline-offset: var(--hds-size-focus-ring-offset);
+  border-radius: var(--hds-radius-sm);
+}
+
+/* ── 사용자 설정 ─────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .hds-tabs__trigger {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .hds-tabs__trigger[data-state='active'] {
+    /* box-shadow 는 강제 색상 모드에서 사라지므로 테두리로 선택 상태를 그린다 */
+    border-block-end: 2px solid Highlight;
+  }
+
+  .hds-tabs__trigger[data-orientation='vertical'][data-state='active'] {
+    border-block-end: 0;
+    border-inline-end: 2px solid Highlight;
+  }
+
+  .hds-tabs[data-variant='segmented'] .hds-tabs__trigger[data-state='active'] {
+    border: 2px solid Highlight;
+  }
+
+  .hds-tabs__trigger:disabled {
+    color: GrayText;
+  }
+}

@@ -1,0 +1,109 @@
+/*
+ * Textarea
+ * <textarea class="hds-textarea" rows="3" data-resize="vertical" [data-auto-resize] [data-invalid]>
+ * autoResize 는 CSS field-sizing 을 쓰고, 미지원 브라우저는 React 컴포넌트가 JS 로 높이를 맞춘다.
+ */
+.hds-textarea {
+  --_py: var(--hds-space-2);
+  --_px: var(--hds-space-3);
+  --_border: var(--hds-color-border-control);
+  --_line: calc(var(--hds-font-size-md) * var(--hds-font-line-height-normal));
+
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: var(--hds-size-control-md);
+  margin: 0;
+  padding: var(--_py) var(--_px);
+  border: 1px solid var(--_border);
+  border-radius: var(--hds-radius-md);
+  background-color: var(--hds-color-bg-default);
+  color: var(--hds-color-fg-default);
+  font-family: inherit;
+  font-size: var(--hds-font-size-md);
+  line-height: var(--hds-font-line-height-normal);
+  resize: vertical;
+  transition-property: border-color;
+  transition-duration: var(--hds-duration-fast);
+  transition-timing-function: var(--hds-easing-standard);
+}
+
+.hds-textarea::placeholder {
+  color: var(--hds-color-fg-muted);
+  opacity: 1;
+}
+
+.hds-textarea[data-resize='none'] {
+  resize: none;
+}
+
+.hds-textarea[data-resize='horizontal'] {
+  resize: horizontal;
+}
+
+.hds-textarea[data-resize='both'] {
+  resize: both;
+}
+
+.hds-textarea[data-auto-resize] {
+  field-sizing: content;
+  min-height: calc(var(--_min-rows, 3) * var(--_line) + 2 * var(--_py) + 2px);
+  overflow-y: auto;
+}
+
+.hds-textarea[data-auto-resize][style*='--_max-rows'] {
+  max-height: calc(var(--_max-rows) * var(--_line) + 2 * var(--_py) + 2px);
+}
+
+@media (hover: hover) {
+  .hds-textarea:hover:not(:disabled, [data-readonly], [data-invalid]) {
+    --_border: var(--hds-color-fg-muted);
+  }
+}
+
+.hds-textarea:focus-visible {
+  outline: var(--hds-size-focus-ring-width) solid var(--hds-color-focus-ring);
+  outline-offset: -1px;
+  --_border: var(--hds-color-focus-ring);
+}
+
+.hds-textarea[data-invalid] {
+  --_border: var(--hds-color-danger-fg);
+}
+
+.hds-textarea[data-invalid]:focus-visible {
+  outline-color: var(--hds-color-danger-fg);
+}
+
+.hds-textarea[data-readonly] {
+  background-color: var(--hds-color-bg-subtle);
+}
+
+.hds-textarea:disabled {
+  --_border: var(--hds-color-border-default);
+  background-color: var(--hds-color-bg-muted);
+  color: var(--hds-color-fg-disabled);
+  cursor: not-allowed;
+  resize: none;
+}
+
+.hds-textarea:disabled::placeholder {
+  color: var(--hds-color-fg-disabled);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hds-textarea {
+    transition-duration: 0s;
+  }
+}
+
+@media (forced-colors: active) {
+  .hds-textarea {
+    border-color: CanvasText;
+  }
+
+  .hds-textarea:disabled {
+    border-color: GrayText;
+    color: GrayText;
+  }
+}

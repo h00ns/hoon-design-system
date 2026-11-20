@@ -1,0 +1,69 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+import { Do, DoDont, Dont } from '../../blocks/DoDont';
+import * as SeparatorStories from './Separator.stories';
+
+<Meta of={SeparatorStories} />
+
+# Separator
+
+콘텐츠 묶음 사이를 **나누는 선**. 기본은 시각적인 장식이고, 문서 구조상 의미 있는 구분이면 의미를 갖게 할 수 있다.
+
+<Canvas of={SeparatorStories.Playground} />
+<Controls of={SeparatorStories.Playground} />
+
+## 사용법
+
+```tsx
+import { Separator } from '@hoon-ds/react';
+
+<Separator />;
+<Separator orientation="vertical" />;
+```
+
+## 예시
+
+### 가로
+
+<Canvas of={SeparatorStories.Horizontal} />
+
+### 세로
+
+툴바처럼 가로로 늘어선 항목을 묶을 때 쓴다. 부모의 높이를 채운다.
+
+<Canvas of={SeparatorStories.Vertical} />
+
+### 의미 있는 구분
+
+`decorative={false}` 면 `role="separator"` 가 붙어 스크린리더가 "구분선"이라고 알린다.
+
+<Canvas of={SeparatorStories.Semantic} />
+
+## 접근성
+
+### 키보드
+
+포커스를 받지 않는다.
+
+### 스크린리더
+
+- 기본(`decorative`)은 `role="none"` — 보조기기는 무시한다. 대부분의 선은 꾸밈이므로 이것이 맞다.
+- `decorative={false}` 면 `role="separator"` 와 세로일 때 `aria-orientation="vertical"` 을 노출한다.
+- 제목(`<h2>` 등)으로 이미 구역이 나뉜다면 선은 장식으로 둔다. 구조는 제목이 전달한다.
+
+### 사용자 설정
+
+- Windows 고대비 모드에서 시스템 텍스트 색으로 그려져 사라지지 않는다.
+
+## 가이드
+
+<DoDont>
+  <Do title="여백 먼저">묶음 사이 간격만으로 충분히 구분되면 선을 넣지 않는다.</Do>
+  <Dont title="선 남발">모든 항목 사이에 선을 넣으면 화면이 무거워지고 위계가 흐려진다.</Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="장식이 기본">시각적 구분은 기본값(`decorative`)으로 둔다.</Do>
+  <Dont title="모든 선을 의미 있게">
+    장식 선마다 "구분선"을 읽게 하면 스크린리더 사용자에게 소음이 된다.
+  </Dont>
+</DoDont>

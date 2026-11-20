@@ -1,0 +1,78 @@
+/*
+ * Avatar
+ * <span class="hds-avatar" data-size="md" data-shape="circle">
+ *   <img class="hds-avatar__image" alt="…">  또는
+ *   <span class="hds-avatar__fallback" role="img" aria-label="…"><span aria-hidden="true">길동</span></span>
+ * </span>
+ */
+.hds-avatar {
+  --_size: 2.5rem;
+
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: var(--_size);
+  height: var(--_size);
+  border-radius: var(--hds-radius-full);
+  background-color: var(--hds-color-neutral-subtle);
+  color: var(--hds-color-fg-default);
+  vertical-align: middle;
+  user-select: none;
+}
+
+.hds-avatar[data-size='xs'] {
+  --_size: 1.5rem;
+}
+.hds-avatar[data-size='sm'] {
+  --_size: 2rem;
+}
+.hds-avatar[data-size='lg'] {
+  --_size: 3rem;
+}
+.hds-avatar[data-size='xl'] {
+  --_size: 4rem;
+}
+
+.hds-avatar[data-shape='square'] {
+  border-radius: var(--hds-radius-lg);
+}
+
+.hds-avatar[data-shape='square'][data-size='xs'],
+.hds-avatar[data-shape='square'][data-size='sm'] {
+  border-radius: var(--hds-radius-md);
+}
+
+.hds-avatar__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hds-avatar__fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  /* 한글 두 글자가 들어가도 넘치지 않는 크기 */
+  font-size: calc(var(--_size) * 0.36);
+  font-weight: var(--hds-font-weight-semibold);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.hds-avatar__fallback svg {
+  width: 60%;
+  height: 60%;
+  color: var(--hds-color-fg-muted);
+}
+
+@media (forced-colors: active) {
+  .hds-avatar {
+    border: 1px solid CanvasText;
+  }
+}

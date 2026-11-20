@@ -1,0 +1,83 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+import { Do, DoDont, Dont } from '../../blocks/DoDont';
+import * as CheckboxStories from './Checkbox.stories';
+
+<Meta of={CheckboxStories} />
+
+# Checkbox
+
+여러 항목 중 **0개 이상**을 고르거나, 하나의 선택을 켜고 끈다. 선택 결과가 **제출 버튼을 눌러야 반영**될 때 쓴다.
+누르는 즉시 반영되는 설정이면 [Switch](?path=/docs/components-switch--docs), 하나만 골라야 하면 [RadioGroup](?path=/docs/components-radiogroup--docs).
+
+<Canvas of={CheckboxStories.Playground} />
+<Controls of={CheckboxStories.Playground} />
+
+## 사용법
+
+```tsx
+import { Checkbox } from '@hoon-ds/react';
+
+<Checkbox name="terms" required>
+  이용약관에 동의합니다
+</Checkbox>;
+```
+
+`children` 은 `<label>` 로 렌더링된다. `className` 은 바깥 래퍼에, 나머지 props 와 `ref` 는 체크박스(`button[role=checkbox]`)에 전달된다.
+`<form>` 안에 있으면 숨겨진 네이티브 체크박스가 함께 렌더링되어 `name`·`value` 가 그대로 제출된다 (`value` 기본값 `"on"`).
+
+## 예시
+
+### 상태
+
+<Canvas of={CheckboxStories.States} />
+
+### 전체 선택 (indeterminate)
+
+하위 항목 일부만 선택되면 상위 체크박스를 `'indeterminate'` 로 둔다. 스크린리더는 "일부 선택됨(mixed)"으로 읽는다.
+
+<Canvas of={CheckboxStories.SelectAll} />
+
+### Field 와 함께
+
+체크박스 하나에 설명·오류를 붙일 때는 Field 로 감싼다. `children` 레이블이 그대로 이름이 되고 설명·오류가 연결된다.
+
+<Canvas of={CheckboxStories.WithField} />
+
+### 긴 레이블
+
+<Canvas of={CheckboxStories.LongLabel} />
+
+## 접근성
+
+### 키보드
+
+| 키      | 동작                                      |
+| ------- | ----------------------------------------- |
+| `Tab`   | 체크박스로 포커스 이동                    |
+| `Space` | 선택/해제                                 |
+| `Enter` | 동작하지 않음 (APG 규칙 — 폼 제출과 구분) |
+
+### 스크린리더
+
+- `role="checkbox"` + `aria-checked` (`true` / `false` / `mixed`) 로 상태를 전달한다.
+- 레이블은 `<label for>` 로 연결되어 레이블을 눌러도 토글된다.
+- Field 안에서 설명·오류는 `aria-describedby`, 오류 상태는 `aria-invalid`, 필수는 `aria-required` 로 연결된다.
+- 여러 체크박스 묶음에는 `role="group"` + `aria-label`(또는 `<fieldset>`·`<legend>`)로 묶음의 이름을 준다.
+
+### 사용자 설정
+
+- 눈에 보이는 상자는 18px 이지만 누를 수 있는 영역은 26px 로 넓혀 두었다 (WCAG 2.5.8). 레이블을 눌러도 된다.
+- 체크 상태는 색뿐 아니라 체크·대시 **모양**으로 구분된다.
+- Windows 고대비 모드에서 선택 상태가 시스템 강조색으로 보인다.
+
+## 가이드
+
+<DoDont>
+  <Do title="긍정형 문장">"마케팅 정보를 받습니다" — 체크하면 무엇이 켜지는지 바로 알 수 있다.</Do>
+  <Dont title="부정형 문장">"마케팅 정보를 받지 않습니다" — 체크가 무엇을 뜻하는지 헷갈린다.</Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="제출 시 반영">약관 동의, 필터 선택처럼 확인 버튼과 함께 쓰는 선택.</Do>
+  <Dont title="즉시 반영 설정">"알림 받기"처럼 바로 적용되는 설정은 Switch 를 쓴다.</Dont>
+</DoDont>

@@ -1,0 +1,126 @@
+/*
+ * Checkbox
+ * <span class="hds-checkbox" [data-disabled]>
+ *   <button role="checkbox" class="hds-checkbox__control" data-state="checked|unchecked|indeterminate">
+ *     <span class="hds-checkbox__indicator" data-state="…"><svg data-icon="check|indeterminate"/></span>
+ *   </button>
+ *   <label class="hds-checkbox__label">…</label>
+ * </span>
+ */
+.hds-checkbox {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--hds-space-2);
+  color: var(--hds-color-fg-default);
+  font-size: var(--hds-font-size-md);
+  line-height: var(--hds-font-line-height-normal);
+  vertical-align: top;
+}
+
+.hds-checkbox__control {
+  --_size: 1.125rem;
+
+  all: unset;
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: var(--_size);
+  height: var(--_size);
+  /* 레이블 첫 줄 가운데에 맞춘다 */
+  margin-top: calc((1lh - var(--_size)) / 2);
+  border: 1.5px solid var(--hds-color-border-control);
+  border-radius: var(--hds-radius-sm);
+  background-color: var(--hds-color-bg-default);
+  color: var(--hds-color-fg-on-accent);
+  cursor: pointer;
+  transition-property: background-color, border-color;
+  transition-duration: var(--hds-duration-fast);
+  transition-timing-function: var(--hds-easing-standard);
+}
+
+/* 눈에 보이는 상자는 18px 이지만 누를 수 있는 영역은 24px 이상 (WCAG 2.5.8) */
+.hds-checkbox__control::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+}
+
+@media (hover: hover) {
+  .hds-checkbox__control:hover:not([data-disabled])[data-state='unchecked'] {
+    border-color: var(--hds-color-fg-muted);
+  }
+}
+
+.hds-checkbox__control:focus-visible {
+  outline: var(--hds-size-focus-ring-width) solid var(--hds-color-focus-ring);
+  outline-offset: var(--hds-size-focus-ring-offset);
+}
+
+.hds-checkbox__control:is([data-state='checked'], [data-state='indeterminate']) {
+  border-color: var(--hds-color-accent-solid);
+  background-color: var(--hds-color-accent-solid);
+}
+
+.hds-checkbox__control[aria-invalid='true']:not(
+    [data-state='checked'],
+    [data-state='indeterminate']
+  ) {
+  border-color: var(--hds-color-danger-fg);
+}
+
+.hds-checkbox__indicator {
+  display: inline-flex;
+}
+
+.hds-checkbox__icon {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.hds-checkbox__indicator[data-state='checked'] [data-icon='indeterminate'],
+.hds-checkbox__indicator[data-state='indeterminate'] [data-icon='check'] {
+  display: none;
+}
+
+.hds-checkbox__control[data-disabled] {
+  border-color: var(--hds-color-border-default);
+  background-color: var(--hds-color-bg-muted);
+  color: var(--hds-color-fg-disabled);
+  cursor: not-allowed;
+}
+
+.hds-checkbox__label {
+  cursor: pointer;
+  user-select: none;
+}
+
+.hds-checkbox[data-disabled] .hds-checkbox__label {
+  color: var(--hds-color-fg-disabled);
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hds-checkbox__control {
+    transition-duration: 0s;
+  }
+}
+
+@media (forced-colors: active) {
+  .hds-checkbox__control {
+    border-color: CanvasText;
+  }
+
+  .hds-checkbox__control:is([data-state='checked'], [data-state='indeterminate']) {
+    border-color: Highlight;
+    background-color: Highlight;
+    color: HighlightText;
+  }
+
+  .hds-checkbox__control[data-disabled] {
+    border-color: GrayText;
+    color: GrayText;
+  }
+}

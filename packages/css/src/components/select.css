@@ -1,0 +1,252 @@
+/*
+ * Select
+ * 트리거: <button class="hds-select__trigger" role="combobox" data-size="md" [data-placeholder]>
+ * 목록:   .hds-select__content > .hds-select__viewport > .hds-select__item
+ */
+
+/* ── Trigger ─────────────────────────────── */
+.hds-select__trigger {
+  --_height: var(--hds-size-control-md);
+  --_px: var(--hds-space-3);
+  --_font-size: var(--hds-font-size-md);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--hds-space-2);
+  width: 100%;
+  /* min-height: 200% 확대에도 잘리지 않도록 */
+  min-height: var(--_height);
+  margin: 0;
+  padding-block: var(--hds-space-1);
+  padding-inline: var(--_px);
+  border: 1px solid var(--hds-color-border-control);
+  border-radius: var(--hds-radius-md);
+  background-color: var(--hds-color-bg-default);
+  color: var(--hds-color-fg-default);
+  font-family: inherit;
+  font-size: var(--_font-size);
+  line-height: var(--hds-font-line-height-normal);
+  text-align: start;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition-property: border-color, background-color;
+  transition-duration: var(--hds-duration-fast);
+  transition-timing-function: var(--hds-easing-standard);
+}
+
+.hds-select__trigger[data-size='sm'] {
+  --_height: var(--hds-size-control-sm);
+  --_px: var(--hds-space-2);
+  --_font-size: var(--hds-font-size-sm);
+}
+
+.hds-select__trigger[data-size='lg'] {
+  --_height: var(--hds-size-control-lg);
+  --_px: var(--hds-space-4);
+  --_font-size: var(--hds-font-size-lg);
+}
+
+@media (hover: hover) {
+  .hds-select__trigger:where(:hover):not(:disabled) {
+    border-color: var(--hds-color-fg-muted);
+  }
+}
+
+.hds-select__trigger:focus-visible {
+  outline: var(--hds-size-focus-ring-width) solid var(--hds-color-focus-ring);
+  outline-offset: var(--hds-size-focus-ring-offset);
+}
+
+.hds-select__trigger[aria-invalid='true'] {
+  border-color: var(--hds-color-danger-solid);
+}
+
+.hds-select__trigger:disabled {
+  background-color: var(--hds-color-bg-muted);
+  border-color: var(--hds-color-border-default);
+  color: var(--hds-color-fg-disabled);
+  cursor: not-allowed;
+}
+
+.hds-select__value {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hds-select__trigger[data-placeholder] .hds-select__value {
+  color: var(--hds-color-fg-muted);
+}
+
+.hds-select__trigger:disabled .hds-select__value {
+  color: inherit;
+}
+
+.hds-select__icon {
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+  color: var(--hds-color-fg-muted);
+  transition: transform var(--hds-duration-fast) var(--hds-easing-standard);
+}
+
+.hds-select__trigger[data-state='open'] .hds-select__icon {
+  transform: rotate(180deg);
+}
+
+/* ── Content ─────────────────────────────── */
+.hds-select__content {
+  position: relative;
+  z-index: var(--hds-z-index-dropdown);
+  overflow: hidden;
+  min-width: 8rem;
+  border: 1px solid var(--hds-color-border-default);
+  border-radius: var(--hds-radius-lg);
+  background-color: var(--hds-color-bg-raised);
+  color: var(--hds-color-fg-default);
+  box-shadow: var(--hds-shadow-md);
+}
+
+.hds-select__content[data-position='popper'] {
+  /* 트리거와 같은 너비 이상, 화면 안에 들어가는 높이까지만 */
+  min-width: var(--radix-select-trigger-width);
+  max-height: min(24rem, var(--radix-select-content-available-height));
+  transform-origin: var(--radix-select-content-transform-origin);
+}
+
+.hds-select__content[data-state='open'] {
+  animation: hds-select-in var(--hds-duration-fast) var(--hds-easing-standard);
+}
+
+@keyframes hds-select-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+
+.hds-select__viewport {
+  padding: var(--hds-space-1);
+}
+
+.hds-select__content[data-position='popper'] .hds-select__viewport {
+  width: 100%;
+  min-width: var(--radix-select-trigger-width);
+}
+
+.hds-select__scroll-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--hds-space-6);
+  color: var(--hds-color-fg-muted);
+  background-color: var(--hds-color-bg-raised);
+  cursor: default;
+}
+
+.hds-select__scroll-button svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* ── Item ────────────────────────────────── */
+.hds-select__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--hds-space-2);
+  /* 터치 타깃 24px 이상 */
+  min-height: var(--hds-size-control-sm);
+  padding-block: var(--hds-space-1);
+  padding-inline: var(--hds-space-2) var(--hds-space-8);
+  border-radius: var(--hds-radius-sm);
+  font-size: var(--hds-font-size-md);
+  line-height: var(--hds-font-line-height-normal);
+  cursor: default;
+  user-select: none;
+  outline: none;
+}
+
+.hds-select__item[data-highlighted] {
+  background-color: var(--hds-color-neutral-subtle);
+}
+
+.hds-select__item[data-state='checked'] {
+  font-weight: var(--hds-font-weight-medium);
+}
+
+.hds-select__item[data-disabled] {
+  color: var(--hds-color-fg-disabled);
+  pointer-events: none;
+}
+
+.hds-select__item-indicator {
+  position: absolute;
+  inset-inline-end: var(--hds-space-2);
+  display: inline-flex;
+  color: var(--hds-color-accent-fg);
+}
+
+.hds-select__item-indicator svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.hds-select__label {
+  padding: var(--hds-space-2) var(--hds-space-2) var(--hds-space-1);
+  color: var(--hds-color-fg-muted);
+  font-size: var(--hds-font-size-xs);
+  font-weight: var(--hds-font-weight-semibold);
+  line-height: var(--hds-font-line-height-normal);
+}
+
+.hds-select__separator {
+  height: 1px;
+  margin: var(--hds-space-1) calc(var(--hds-space-1) * -1);
+  background-color: var(--hds-color-border-default);
+}
+
+/* ── 사용자 설정 ─────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .hds-select__content[data-state='open'] {
+    animation: none;
+  }
+
+  .hds-select__icon,
+  .hds-select__trigger {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .hds-select__trigger {
+    border-color: ButtonText;
+  }
+
+  .hds-select__trigger:disabled {
+    border-color: GrayText;
+    color: GrayText;
+  }
+
+  .hds-select__content {
+    border-color: CanvasText;
+  }
+
+  .hds-select__item[data-highlighted] {
+    background-color: Highlight;
+    color: HighlightText;
+    forced-color-adjust: none;
+  }
+
+  .hds-select__item[data-disabled] {
+    color: GrayText;
+  }
+
+  .hds-select__separator {
+    background-color: CanvasText;
+  }
+}

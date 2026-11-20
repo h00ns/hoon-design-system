@@ -1,0 +1,148 @@
+/*
+ * RadioGroup
+ * <div role="radiogroup" class="hds-radio-group" data-orientation="vertical|horizontal">
+ *   <span class="hds-radio">
+ *     <button role="radio" class="hds-radio__control" data-state="checked|unchecked">
+ *       <span class="hds-radio__indicator"></span>
+ *     </button>
+ *     <span class="hds-radio__text">
+ *       <label class="hds-radio__label">…</label>
+ *       <span class="hds-radio__description">…</span>
+ *     </span>
+ *   </span>
+ * </div>
+ */
+.hds-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hds-space-3);
+}
+
+.hds-radio-group[data-orientation='horizontal'] {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--hds-space-3) var(--hds-space-6);
+}
+
+.hds-radio {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--hds-space-2);
+  color: var(--hds-color-fg-default);
+  font-size: var(--hds-font-size-md);
+  line-height: var(--hds-font-line-height-normal);
+}
+
+.hds-radio__control {
+  --_size: 1.125rem;
+
+  all: unset;
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: var(--_size);
+  height: var(--_size);
+  margin-top: calc((1lh - var(--_size)) / 2);
+  border: 1.5px solid var(--hds-color-border-control);
+  border-radius: var(--hds-radius-full);
+  background-color: var(--hds-color-bg-default);
+  cursor: pointer;
+  transition-property: border-color;
+  transition-duration: var(--hds-duration-fast);
+  transition-timing-function: var(--hds-easing-standard);
+}
+
+.hds-radio__control::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: var(--hds-radius-full);
+}
+
+@media (hover: hover) {
+  .hds-radio__control:hover:not([data-disabled])[data-state='unchecked'] {
+    border-color: var(--hds-color-fg-muted);
+  }
+}
+
+.hds-radio__control:focus-visible {
+  outline: var(--hds-size-focus-ring-width) solid var(--hds-color-focus-ring);
+  outline-offset: var(--hds-size-focus-ring-offset);
+}
+
+.hds-radio__control[data-state='checked'] {
+  border-color: var(--hds-color-accent-solid);
+}
+
+.hds-radio-group[aria-invalid='true'] .hds-radio__control[data-state='unchecked'] {
+  border-color: var(--hds-color-danger-fg);
+}
+
+.hds-radio__indicator {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: var(--hds-radius-full);
+  background-color: var(--hds-color-accent-solid);
+}
+
+.hds-radio__control[data-disabled] {
+  border-color: var(--hds-color-border-default);
+  background-color: var(--hds-color-bg-muted);
+  cursor: not-allowed;
+}
+
+.hds-radio__control[data-disabled] .hds-radio__indicator {
+  background-color: var(--hds-color-fg-disabled);
+}
+
+.hds-radio__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hds-space-1);
+}
+
+.hds-radio__label {
+  cursor: pointer;
+  user-select: none;
+}
+
+.hds-radio__description {
+  color: var(--hds-color-fg-muted);
+  font-size: var(--hds-font-size-sm);
+}
+
+.hds-radio[data-disabled] :is(.hds-radio__label, .hds-radio__description) {
+  color: var(--hds-color-fg-disabled);
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hds-radio__control {
+    transition-duration: 0s;
+  }
+}
+
+@media (forced-colors: active) {
+  .hds-radio__control {
+    border-color: CanvasText;
+  }
+
+  .hds-radio__control[data-state='checked'] {
+    border-color: Highlight;
+  }
+
+  .hds-radio__indicator {
+    background-color: Highlight;
+  }
+
+  .hds-radio__control[data-disabled] {
+    border-color: GrayText;
+  }
+
+  .hds-radio__control[data-disabled] .hds-radio__indicator {
+    background-color: GrayText;
+  }
+}

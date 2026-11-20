@@ -1,0 +1,209 @@
+/*
+ * Toast
+ * <ol class="hds-toast-viewport" data-position="bottom-right">
+ *   <li class="hds-toast" data-tone="success" data-state="open|closed" data-swipe="…">
+ *     <span class="hds-toast__icon">…</span>
+ *     <div class="hds-toast__content"><div class="hds-toast__title"/><div class="hds-toast__description"/></div>
+ *     <button class="hds-toast__action">…</button>
+ *     <button class="hds-toast__close">…</button>
+ *   </li>
+ * </ol>
+ */
+.hds-toast-viewport {
+  --_gap: var(--hds-space-3);
+  --_inset: var(--hds-space-4);
+
+  position: fixed;
+  z-index: var(--hds-z-index-toast);
+  display: flex;
+  flex-direction: column;
+  gap: var(--_gap);
+  width: min(26rem, 100vw - 2 * var(--_inset));
+  max-height: 100dvh;
+  margin: 0;
+  padding: var(--_inset);
+  list-style: none;
+  outline: none;
+  box-sizing: content-box;
+  /* 비어 있을 때 아래 콘텐츠 클릭을 막지 않는다 */
+  pointer-events: none;
+}
+
+.hds-toast-viewport[data-position^='top'] {
+  top: 0;
+  flex-direction: column-reverse;
+}
+.hds-toast-viewport[data-position^='bottom'] {
+  bottom: 0;
+}
+.hds-toast-viewport[data-position$='left'] {
+  left: 0;
+}
+.hds-toast-viewport[data-position$='right'] {
+  right: 0;
+}
+.hds-toast-viewport[data-position$='center'] {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* F8 로 알림 영역에 들어왔을 때 위치를 보여준다 */
+.hds-toast-viewport:focus-visible {
+  outline: var(--hds-size-focus-ring-width) solid var(--hds-color-focus-ring);
+  outline-offset: calc(-1 * var(--_inset) / 2);
+  border-radius: var(--hds-radius-lg);
+}
+
+.hds-toast {
+  --_accent: var(--hds-color-fg-muted);
+  --_enter-y: 0.5rem;
+
+  display: flex;
+  align-items: flex-start;
+  gap: var(--hds-space-3);
+  padding: var(--hds-space-3) var(--hds-space-3) var(--hds-space-3) var(--hds-space-4);
+  border: 1px solid var(--hds-color-border-default);
+  border-radius: var(--hds-radius-lg);
+  background-color: var(--hds-color-bg-raised);
+  color: var(--hds-color-fg-default);
+  box-shadow: var(--hds-shadow-lg);
+  font-size: var(--hds-font-size-sm);
+  line-height: var(--hds-font-line-height-normal);
+  pointer-events: auto;
+}
+
+.hds-toast-viewport[data-position^='top'] .hds-toast {
+  --_enter-y: -0.5rem;
+}
+
+.hds-toast:focus-visible {
+  outline: var(--hds-size-focus-ring-width) solid var(--hds-color-focus-ring);
+  outline-offset: var(--hds-size-focus-ring-offset);
+}
+
+.hds-toast[data-tone='info'] {
+  --_accent: var(--hds-color-accent-fg);
+}
+.hds-toast[data-tone='success'] {
+  --_accent: var(--hds-color-success-fg);
+}
+.hds-toast[data-tone='warning'] {
+  --_accent: var(--hds-color-warning-fg);
+}
+.hds-toast[data-tone='danger'] {
+  --_accent: var(--hds-color-danger-fg);
+}
+
+.hds-toast__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--_accent);
+}
+
+.hds-toast__icon > svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-block: calc((1lh - 1.25rem) / 2);
+}
+
+.hds-toast__content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--hds-space-1);
+  min-width: 0;
+  /* 닫기 버튼(32px)과 첫 줄을 맞춘다 */
+  padding-block: calc((var(--hds-size-control-sm) - 1lh) / 2);
+}
+
+.hds-toast__title {
+  font-weight: var(--hds-font-weight-semibold);
+}
+
+.hds-toast__description {
+  color: var(--hds-color-fg-muted);
+}
+
+.hds-toast__action,
+.hds-toast__close {
+  flex-shrink: 0;
+}
+
+/* ── 애니메이션 ───────────────────────────── */
+.hds-toast[data-state='open'] {
+  animation: hds-toast-in var(--hds-duration-normal) var(--hds-easing-standard);
+}
+
+.hds-toast[data-state='closed'] {
+  animation: hds-toast-out var(--hds-duration-fast) ease-in forwards;
+}
+
+.hds-toast[data-swipe='move'] {
+  transform: translate(var(--radix-toast-swipe-move-x, 0), var(--radix-toast-swipe-move-y, 0));
+}
+
+.hds-toast[data-swipe='cancel'] {
+  transform: translate(0, 0);
+  transition: transform var(--hds-duration-normal) var(--hds-easing-standard);
+}
+
+.hds-toast[data-swipe='end'] {
+  animation: hds-toast-swipe-out var(--hds-duration-fast) ease-out forwards;
+}
+
+@keyframes hds-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--_enter-y));
+  }
+}
+
+@keyframes hds-toast-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes hds-toast-swipe-out {
+  from {
+    transform: translate(var(--radix-toast-swipe-end-x, 0), var(--radix-toast-swipe-end-y, 0));
+  }
+  to {
+    opacity: 0;
+    transform: translate(
+      calc(var(--radix-toast-swipe-end-x, 0px) * 2),
+      calc(var(--radix-toast-swipe-end-y, 0px) * 2)
+    );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* 움직임 없이 나타나고 사라지기만 한다 */
+  .hds-toast[data-state='open'] {
+    animation: hds-toast-fade-in var(--hds-duration-fast) linear;
+  }
+
+  .hds-toast[data-swipe='end'] {
+    animation: hds-toast-out var(--hds-duration-fast) linear forwards;
+  }
+
+  .hds-toast[data-swipe='cancel'] {
+    transition: none;
+  }
+}
+
+@keyframes hds-toast-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (forced-colors: active) {
+  .hds-toast {
+    border-color: CanvasText;
+  }
+
+  .hds-toast__icon {
+    color: CanvasText;
+  }
+}

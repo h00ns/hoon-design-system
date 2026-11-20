@@ -1,0 +1,94 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+import { Do, DoDont, Dont } from '../../blocks/DoDont';
+import * as RadioGroupStories from './RadioGroup.stories';
+
+<Meta of={RadioGroupStories} />
+
+# RadioGroup
+
+여러 선택지 중 **정확히 하나**를 고른다. 선택지가 2–6개이고 모두 한눈에 비교해야 할 때 쓴다.
+선택지가 많으면 Select, 여러 개를 고르면 [Checkbox](?path=/docs/components-checkbox--docs).
+
+<Canvas of={RadioGroupStories.Playground} />
+<Controls of={RadioGroupStories.Playground} />
+
+## 사용법
+
+```tsx
+import { Field, RadioGroup } from '@hoon-ds/react';
+
+<Field.Root>
+  <Field.Label>배송 방법</Field.Label>
+  <RadioGroup.Root name="shipping" defaultValue="normal">
+    <RadioGroup.Item value="normal">일반 배송</RadioGroup.Item>
+    <RadioGroup.Item value="fast" description="내일 도착">
+      빠른 배송
+    </RadioGroup.Item>
+  </RadioGroup.Root>
+</Field.Root>;
+```
+
+| 부품              | 역할                                                                               |
+| ----------------- | ---------------------------------------------------------------------------------- |
+| `RadioGroup.Root` | `role="radiogroup"`. `value`/`defaultValue`/`onValueChange`, `name`, `orientation` |
+| `RadioGroup.Item` | `role="radio"`. `children` 은 레이블, `description` 은 보조 설명                   |
+
+## 예시
+
+### Field 와 함께 · 항목 설명
+
+그룹 레이블은 `Field.Label` 로 준다 (`aria-labelledby` 로 연결). 항목의 `description` 은 해당 라디오에 `aria-describedby` 로 연결된다.
+
+<Canvas of={RadioGroupStories.WithField} />
+
+### 가로 배치
+
+`orientation="horizontal"` 은 배치만 바꾼다. 키보드는 방향과 관계없이 ←↑ / →↓ 모두 동작한다 (APG).
+
+<Canvas of={RadioGroupStories.Horizontal} />
+
+### 오류
+
+<Canvas of={RadioGroupStories.Invalid} />
+
+### 비활성
+
+<Canvas of={RadioGroupStories.Disabled} />
+
+## 접근성
+
+### 키보드
+
+| 키                  | 동작                                               |
+| ------------------- | -------------------------------------------------- |
+| `Tab`               | 그룹으로 포커스 (선택된 항목, 없으면 첫 항목)      |
+| `↓` / `→`           | 다음 항목으로 이동하며 선택 (끝에서 처음으로 순환) |
+| `↑` / `←`           | 이전 항목으로 이동하며 선택                        |
+| `Space`             | 포커스된 항목 선택 (선택된 게 없을 때)             |
+| `Tab` (그룹 안에서) | 그룹을 빠져나감 — 그룹 전체가 탭 정지 하나         |
+
+비활성 항목은 화살표 이동에서 건너뛴다.
+
+### 스크린리더
+
+- `role="radiogroup"` 안의 `role="radio"` + `aria-checked` 로 "3개 중 2번째, 선택됨"처럼 읽힌다.
+- 그룹 이름은 Field.Label(`aria-labelledby`) 또는 `aria-label` 로 반드시 준다.
+- 필수·오류·설명은 그룹 단위로 `aria-required`·`aria-invalid`·`aria-describedby` 가 걸린다.
+- `<form>` 안에서는 숨겨진 네이티브 라디오로 `name`=`value` 가 제출된다.
+
+### 사용자 설정
+
+- 라디오 원은 18px 이지만 누를 수 있는 영역은 26px 이상이고, 레이블을 눌러도 선택된다.
+- 선택 상태는 색뿐 아니라 가운데 점 **모양**으로 구분된다.
+- Windows 고대비 모드에서 선택 상태가 시스템 강조색으로 보인다.
+
+## 가이드
+
+<DoDont>
+  <Do title="기본값 제공">
+    대부분이 고를 선택지를 `defaultValue` 로 미리 선택해 둔다 (안전한 기본값일 때).
+  </Do>
+  <Dont title="선택 해제를 기대">
+    라디오는 한 번 선택하면 해제할 수 없다. "선택 안 함"이 필요하면 항목으로 추가한다.
+  </Dont>
+</DoDont>

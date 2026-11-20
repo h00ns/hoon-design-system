@@ -1,0 +1,84 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+import { Do, DoDont, Dont } from '../../blocks/DoDont';
+import * as BadgeStories from './Badge.stories';
+
+<Meta of={BadgeStories} />
+
+# Badge
+
+상태·분류·개수를 **짧게 표시하는 레이블**. 누를 수 없는 정보 표시용이다.
+클릭해서 무언가를 해야 한다면 [Button](?path=/docs/components-button--docs) 을 쓴다.
+
+<Canvas of={BadgeStories.Playground} />
+<Controls of={BadgeStories.Playground} />
+
+## 사용법
+
+```tsx
+import { Badge } from '@hoon-ds/react';
+
+<Badge tone="success">완료</Badge>;
+```
+
+## 예시
+
+### Tone · Variant
+
+`subtle` 이 기본이다. 목록처럼 배지가 많이 반복되는 곳은 `subtle`, 시선을 확실히 끌어야 할 한두 곳만 `solid` 를 쓴다.
+
+<Canvas of={BadgeStories.Tones} />
+
+### 크기
+
+`sm` 20px · `md` 24px. 글자를 키우면 높이도 함께 늘어난다.
+
+<Canvas of={BadgeStories.Sizes} />
+
+### 아이콘
+
+아이콘은 장식이다(`aria-hidden`). 의미는 항상 텍스트에 담는다.
+
+<Canvas of={BadgeStories.WithIcon} />
+
+### 개수
+
+숫자만 있는 배지는 맥락이 없다. `VisuallyHidden` 으로 "개의 새 알림" 같은 설명을 붙여 스크린리더가 "알림 3개의 새 알림"으로 읽게 한다.
+
+<Canvas of={BadgeStories.Count} />
+
+## 접근성
+
+### 키보드
+
+배지는 포커스를 받지 않는다. 키보드 동작이 필요하면 배지를 감싼 요소(버튼, 링크)가 담당한다.
+
+### 스크린리더
+
+- 일반 `<span>` 이라 텍스트가 주변 문장과 함께 읽힌다. 별도 역할(role)은 없다.
+- 색만으로 의미를 전달하지 않는다 (WCAG 1.4.1). "완료", "반려"처럼 텍스트 자체가 상태를 말해야 한다.
+- 숫자 배지는 숨김 텍스트로 단위와 대상을 붙인다.
+
+### 사용자 설정
+
+- 모든 tone · variant 조합은 텍스트 대비 4.5:1 이상이다 (토큰 대비 테스트로 보장).
+- Windows 고대비 모드에서는 배경 대신 테두리로 영역을 표시한다.
+
+## 가이드
+
+<DoDont>
+  <Do title="텍스트로 상태 표현">
+    `<Badge tone="danger">반려</Badge>` — 색을 못 봐도 의미가 같다.
+  </Do>
+  <Dont title="색 점만 표시">
+    빨간 점 하나로 "오류"를 나타내면 색각 이상 사용자와 스크린리더 사용자가 알 수 없다.
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="짧게">
+    한두 단어. 길어지면 문장으로 쓰고 [Alert](?path=/docs/components-alert--docs) 를 고려한다.
+  </Do>
+  <Dont title="버튼처럼 쓰기">
+    배지에 `onClick` 을 달면 키보드로 누를 수 없다. 필터 칩이 필요하면 버튼을 쓴다.
+  </Dont>
+</DoDont>

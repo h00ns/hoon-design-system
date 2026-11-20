@@ -1,0 +1,158 @@
+/*
+ * Switch
+ * <span class="hds-switch" data-size="md" data-label-position="end" [data-disabled]>
+ *   <button role="switch" class="hds-switch__control" data-state="checked|unchecked">
+ *     <span class="hds-switch__thumb" data-state="…"></span>
+ *   </button>
+ *   <label class="hds-switch__label">…</label>
+ * </span>
+ */
+.hds-switch {
+  --_track-w: 2.75rem;
+  --_track-h: 1.5rem;
+  --_pad: 2px;
+  --_thumb: calc(var(--_track-h) - 2 * var(--_pad));
+
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--hds-space-2);
+  color: var(--hds-color-fg-default);
+  font-size: var(--hds-font-size-md);
+  line-height: var(--hds-font-line-height-normal);
+}
+
+.hds-switch[data-size='sm'] {
+  --_track-w: 2.25rem;
+  --_track-h: 1.25rem;
+  font-size: var(--hds-font-size-sm);
+}
+
+.hds-switch[data-label-position='start'] {
+  flex-direction: row-reverse;
+}
+
+.hds-switch__control {
+  all: unset;
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  box-sizing: border-box;
+  width: var(--_track-w);
+  height: var(--_track-h);
+  margin-top: max(0px, calc((1lh - var(--_track-h)) / 2));
+  padding: var(--_pad);
+  border-radius: var(--hds-radius-full);
+  /* 꺼진 트랙도 배경과 3:1 대비가 나야 경계가 보인다 */
+  background-color: var(--hds-color-border-control);
+  cursor: pointer;
+  transition-property: background-color;
+  transition-duration: var(--hds-duration-normal);
+  transition-timing-function: var(--hds-easing-standard);
+}
+
+/* sm(20px)도 누를 수 있는 영역은 24px 이상 */
+.hds-switch__control::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: var(--hds-radius-full);
+}
+
+.hds-switch__control:focus-visible {
+  outline: var(--hds-size-focus-ring-width) solid var(--hds-color-focus-ring);
+  outline-offset: var(--hds-size-focus-ring-offset);
+}
+
+.hds-switch__control[data-state='checked'] {
+  background-color: var(--hds-color-accent-solid);
+}
+
+@media (hover: hover) {
+  .hds-switch__control:hover:not([data-disabled])[data-state='unchecked'] {
+    background-color: var(--hds-color-fg-muted);
+  }
+
+  .hds-switch__control:hover:not([data-disabled])[data-state='checked'] {
+    background-color: var(--hds-color-accent-solid-hover);
+  }
+}
+
+.hds-switch__control[aria-invalid='true'] {
+  outline: 1px solid var(--hds-color-danger-fg);
+  outline-offset: 1px;
+}
+
+.hds-switch__thumb {
+  display: block;
+  width: var(--_thumb);
+  height: var(--_thumb);
+  border-radius: var(--hds-radius-full);
+  background-color: var(--hds-color-white);
+  box-shadow: var(--hds-shadow-sm);
+  transition: translate var(--hds-duration-normal) var(--hds-easing-standard);
+}
+
+.hds-switch__thumb[data-state='checked'] {
+  translate: calc(var(--_track-w) - var(--_thumb) - 2 * var(--_pad)) 0;
+}
+
+/* RTL 에서는 반대 방향으로 움직인다 */
+:dir(rtl) .hds-switch__thumb[data-state='checked'] {
+  translate: calc(-1 * (var(--_track-w) - var(--_thumb) - 2 * var(--_pad))) 0;
+}
+
+.hds-switch__control[data-disabled] {
+  background-color: var(--hds-color-bg-muted);
+  cursor: not-allowed;
+}
+
+.hds-switch__control[data-disabled] .hds-switch__thumb {
+  background-color: var(--hds-color-border-default);
+  box-shadow: none;
+}
+
+.hds-switch__label {
+  cursor: pointer;
+  user-select: none;
+}
+
+.hds-switch[data-disabled] .hds-switch__label {
+  color: var(--hds-color-fg-disabled);
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hds-switch__control,
+  .hds-switch__thumb {
+    transition-duration: 0s;
+  }
+}
+
+@media (forced-colors: active) {
+  .hds-switch__control {
+    border: 1px solid CanvasText;
+    background-color: Canvas;
+  }
+
+  .hds-switch__control[data-state='checked'] {
+    border-color: Highlight;
+    background-color: Highlight;
+  }
+
+  .hds-switch__thumb {
+    background-color: CanvasText;
+  }
+
+  .hds-switch__control[data-state='checked'] .hds-switch__thumb {
+    background-color: HighlightText;
+  }
+
+  .hds-switch__control[data-disabled] {
+    border-color: GrayText;
+  }
+
+  .hds-switch__control[data-disabled] .hds-switch__thumb {
+    background-color: GrayText;
+  }
+}

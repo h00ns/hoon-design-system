@@ -1,0 +1,138 @@
+/*
+ * Accordion
+ * .hds-accordion > .hds-accordion__item[data-state]
+ *   > h3.hds-accordion__header > button.hds-accordion__trigger
+ *   > .hds-accordion__content (role=region) > .hds-accordion__content-inner
+ */
+.hds-accordion {
+  width: 100%;
+}
+
+.hds-accordion__item {
+  border-bottom: 1px solid var(--hds-color-border-default);
+}
+
+.hds-accordion__header {
+  display: flex;
+  margin: 0;
+  /* 제목 요소의 기본 글꼴 크기·굵기를 무시한다 (시맨틱만 쓰기 위해) */
+  font: inherit;
+}
+
+.hds-accordion__trigger {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--hds-space-4);
+  min-height: var(--hds-size-control-lg);
+  margin: 0;
+  padding-block: var(--hds-space-3);
+  padding-inline: var(--hds-space-1);
+  border: 0;
+  background: none;
+  color: var(--hds-color-fg-default);
+  font-family: inherit;
+  font-size: var(--hds-font-size-md);
+  font-weight: var(--hds-font-weight-semibold);
+  line-height: var(--hds-font-line-height-normal);
+  text-align: start;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) {
+  .hds-accordion__trigger:where(:hover):not(:disabled) .hds-accordion__title {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+}
+
+.hds-accordion__trigger:focus-visible {
+  outline: var(--hds-size-focus-ring-width) solid var(--hds-color-focus-ring);
+  outline-offset: calc(var(--hds-size-focus-ring-width) * -1);
+  border-radius: var(--hds-radius-sm);
+}
+
+.hds-accordion__trigger:disabled {
+  color: var(--hds-color-fg-disabled);
+  cursor: not-allowed;
+}
+
+.hds-accordion__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--hds-color-fg-muted);
+  transition: transform var(--hds-duration-normal) var(--hds-easing-standard);
+}
+
+.hds-accordion__icon svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.hds-accordion__trigger[data-state='open'] .hds-accordion__icon {
+  transform: rotate(180deg);
+}
+
+/* ── Content ─────────────────────────────── */
+.hds-accordion__content {
+  overflow: hidden;
+  color: var(--hds-color-fg-default);
+  font-size: var(--hds-font-size-md);
+  line-height: var(--hds-font-line-height-relaxed);
+}
+
+.hds-accordion__content[data-state='open'] {
+  animation: hds-accordion-down var(--hds-duration-normal) var(--hds-easing-standard);
+}
+
+.hds-accordion__content[data-state='closed'] {
+  animation: hds-accordion-up var(--hds-duration-normal) var(--hds-easing-standard);
+}
+
+.hds-accordion__content-inner {
+  padding-inline: var(--hds-space-1);
+  padding-block-end: var(--hds-space-4);
+}
+
+@keyframes hds-accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes hds-accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+/* ── 사용자 설정 ─────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .hds-accordion__content[data-state='open'],
+  .hds-accordion__content[data-state='closed'] {
+    animation: none;
+  }
+
+  .hds-accordion__icon {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .hds-accordion__item {
+    border-bottom-color: CanvasText;
+  }
+
+  .hds-accordion__trigger:disabled {
+    color: GrayText;
+  }
+}

@@ -1,0 +1,121 @@
+/*
+ * Popover
+ * <div class="hds-popover" role="dialog" data-state="open" data-side="bottom">
+ *   <h2 class="hds-popover__title">…</h2>
+ *   <p class="hds-popover__description">…</p>
+ *   <svg class="hds-popover__arrow">…</svg>
+ * </div>
+ */
+.hds-popover {
+  z-index: var(--hds-z-index-popover);
+  box-sizing: border-box;
+  width: max-content;
+  max-width: min(22rem, var(--radix-popover-content-available-width, 100vw));
+  max-height: var(--radix-popover-content-available-height, none);
+  overflow-y: auto;
+  padding: var(--hds-space-4);
+  border: 1px solid var(--hds-color-border-default);
+  border-radius: var(--hds-radius-lg);
+  background-color: var(--hds-color-bg-raised);
+  color: var(--hds-color-fg-default);
+  box-shadow: var(--hds-shadow-md);
+  font-family: var(--hds-font-family-sans);
+  font-size: var(--hds-font-size-sm);
+  line-height: var(--hds-font-line-height-normal);
+  transform-origin: var(--radix-popover-content-transform-origin);
+}
+
+/* 열릴 때 Radix 가 패널 자체로 포커스를 옮긴다. 패널은 조작 대상이 아니므로 링을 그리지 않는다
+   (안의 링크·버튼은 각자 포커스 링을 가진다). */
+.hds-popover:focus-visible {
+  outline: none;
+}
+
+.hds-popover__title {
+  margin: 0 0 var(--hds-space-1);
+  font-size: var(--hds-font-size-md);
+  font-weight: var(--hds-font-weight-semibold);
+  line-height: var(--hds-font-line-height-tight);
+}
+
+.hds-popover__description {
+  margin: 0;
+  color: var(--hds-color-fg-muted);
+}
+
+.hds-popover__arrow {
+  fill: var(--hds-color-bg-raised);
+  /* 테두리와 이어지도록 같은 색 외곽선 */
+  stroke: var(--hds-color-border-default);
+  stroke-width: 1px;
+  /* 표면과 겹치는 윗변은 가린다 */
+  clip-path: inset(1px 0 0 0);
+  margin-top: -1px;
+}
+
+/* ── 애니메이션 ─────────────────────────── */
+.hds-popover[data-state='open'] {
+  animation: hds-popover-in var(--hds-duration-fast) var(--hds-easing-standard);
+}
+
+.hds-popover[data-state='closed'] {
+  animation: hds-popover-out var(--hds-duration-fast) var(--hds-easing-standard);
+}
+
+.hds-popover[data-side='top'] {
+  --_from: translateY(4px);
+}
+.hds-popover[data-side='bottom'] {
+  --_from: translateY(-4px);
+}
+.hds-popover[data-side='left'] {
+  --_from: translateX(4px);
+}
+.hds-popover[data-side='right'] {
+  --_from: translateX(-4px);
+}
+
+@keyframes hds-popover-in {
+  from {
+    opacity: 0;
+    transform: var(--_from, none) scale(0.97);
+  }
+}
+
+@keyframes hds-popover-out {
+  to {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hds-popover[data-state] {
+    --_from: none;
+  }
+
+  .hds-popover[data-state='open'] {
+    animation: hds-popover-fade var(--hds-duration-fast) linear;
+  }
+
+  .hds-popover[data-state='closed'] {
+    animation: hds-popover-fade var(--hds-duration-fast) linear reverse;
+  }
+}
+
+@keyframes hds-popover-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (forced-colors: active) {
+  .hds-popover {
+    border: 1px solid CanvasText;
+  }
+
+  .hds-popover__arrow {
+    fill: Canvas;
+    stroke: CanvasText;
+  }
+}

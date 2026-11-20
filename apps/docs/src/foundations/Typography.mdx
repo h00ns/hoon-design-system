@@ -1,0 +1,40 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { FontWeights, LineHeights, TypeScale } from '../blocks/tokens';
+
+<Meta title="Foundations/Typography" />
+
+# Typography
+
+## 글꼴
+
+```css
+font-family: var(--hds-font-family-sans);
+/* Pretendard → 시스템 한글 글꼴(Apple SD Gothic Neo, Noto Sans KR, 맑은 고딕) 순서로 대체 */
+```
+
+Pretendard 는 번들에 포함하지 않는다. 쓰려면 앱에서 직접 불러온다.
+
+```html
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+/>
+```
+
+## 크기
+
+모든 크기는 `rem` 이다. 사용자가 브라우저 기본 글꼴 크기를 키우면 함께 커진다 (WCAG 1.4.4). 본문 최소 크기는 `md`(16px), 보조 텍스트는 `sm`(14px) 이상을 권장한다. `xs` 는 배지처럼 짧은 레이블에만 쓴다.
+
+<TypeScale />
+
+## 굵기
+
+<FontWeights />
+
+## 행간
+
+<LineHeights />
+
+## 한글 줄바꿈
+
+`@hoon-ds/css/base.css` 는 `word-break: keep-all` 을 적용한다. 한글 단어가 음절 단위로 쪼개지지 않고 어절 단위로 줄바꿈된다. 긴 URL 처럼 띄어쓰기가 없는 문자열은 `overflow-wrap: break-word` 가 넘치지 않게 막는다.

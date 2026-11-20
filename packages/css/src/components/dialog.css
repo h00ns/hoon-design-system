@@ -1,0 +1,232 @@
+/*
+ * Dialog (AlertDialog 도 같은 표면을 쓴다)
+ * <div class="hds-dialog__overlay" data-state="open"></div>
+ * <div class="hds-dialog" role="dialog" data-size="md" data-state="open">
+ *   <div class="hds-dialog__header">
+ *     <h2 class="hds-dialog__title">…</h2>
+ *     <p class="hds-dialog__description">…</p>
+ *   </div>
+ *   <div class="hds-dialog__body">…</div>
+ *   <div class="hds-dialog__footer">…</div>
+ *   <button class="hds-button hds-icon-button hds-dialog__close">…</button>
+ * </div>
+ */
+.hds-dialog__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--hds-z-index-modal);
+  background-color: var(--hds-color-bg-overlay);
+}
+
+.hds-dialog {
+  --_width: 32rem;
+  --_gutter: var(--hds-space-8);
+  --_pad: var(--hds-space-6);
+
+  position: fixed;
+  /* inset + margin:auto + fit-content 로 가운데 정렬 → transform 은 애니메이션 전용으로 남긴다 */
+  inset: 0;
+  z-index: var(--hds-z-index-modal);
+  display: flex;
+  flex-direction: column;
+  width: min(var(--_width), calc(100vw - var(--_gutter) * 2));
+  height: fit-content;
+  max-height: calc(100dvh - var(--_gutter) * 2);
+  margin: auto;
+  overflow: hidden;
+  border: 1px solid var(--hds-color-border-default);
+  border-radius: var(--hds-radius-xl);
+  background-color: var(--hds-color-bg-raised);
+  color: var(--hds-color-fg-default);
+  box-shadow: var(--hds-shadow-lg);
+  font-family: var(--hds-font-family-sans);
+  font-size: var(--hds-font-size-md);
+  line-height: var(--hds-font-line-height-normal);
+}
+
+.hds-dialog:focus {
+  outline: none;
+}
+
+.hds-dialog[data-size='sm'] {
+  --_width: 24rem;
+}
+
+.hds-dialog[data-size='lg'] {
+  --_width: 48rem;
+}
+
+.hds-dialog[data-size='full'] {
+  --_width: 100vw;
+  height: calc(100dvh - var(--_gutter) * 2);
+}
+
+/* ── 영역 ───────────────────────────────── */
+.hds-dialog__header {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: var(--hds-space-2);
+  padding: var(--_pad) var(--_pad) var(--hds-space-2);
+  /* 닫기 버튼과 겹치지 않게 */
+  padding-inline-end: calc(var(--_pad) + var(--hds-size-control-sm));
+}
+
+.hds-dialog__title {
+  margin: 0;
+  font-size: var(--hds-font-size-xl);
+  font-weight: var(--hds-font-weight-semibold);
+  line-height: var(--hds-font-line-height-tight);
+}
+
+.hds-dialog__description {
+  margin: 0;
+  color: var(--hds-color-fg-muted);
+  font-size: var(--hds-font-size-sm);
+}
+
+.hds-dialog__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: var(--hds-space-4) var(--_pad);
+  overflow-y: auto;
+  /* 본문 끝에서 페이지가 이어서 스크롤되지 않게 */
+  overscroll-behavior: contain;
+}
+
+.hds-dialog__body:focus-visible {
+  outline: var(--hds-size-focus-ring-width) solid var(--hds-color-focus-ring);
+  outline-offset: calc(var(--hds-size-focus-ring-width) * -1);
+}
+
+.hds-dialog__footer {
+  display: flex;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--hds-space-2);
+  padding: var(--hds-space-4) var(--_pad) var(--_pad);
+}
+
+.hds-dialog__close {
+  position: absolute;
+  inset-block-start: var(--hds-space-4);
+  inset-inline-end: var(--hds-space-4);
+}
+
+/* ── 애니메이션 ─────────────────────────── */
+.hds-dialog__overlay[data-state='open'] {
+  animation: hds-dialog-fade-in var(--hds-duration-normal) var(--hds-easing-standard);
+}
+
+.hds-dialog__overlay[data-state='closed'] {
+  animation: hds-dialog-fade-out var(--hds-duration-fast) var(--hds-easing-standard);
+}
+
+.hds-dialog[data-state='open'] {
+  animation: hds-dialog-zoom-in var(--hds-duration-normal) var(--hds-easing-standard);
+}
+
+.hds-dialog[data-state='closed'] {
+  animation: hds-dialog-zoom-out var(--hds-duration-fast) var(--hds-easing-standard);
+}
+
+@keyframes hds-dialog-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes hds-dialog-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes hds-dialog-zoom-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+}
+
+@keyframes hds-dialog-zoom-out {
+  to {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+
+@keyframes hds-dialog-slide-up {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes hds-dialog-slide-down {
+  to {
+    transform: translateY(100%);
+  }
+}
+
+/* ── 작은 화면: 하단 시트 ────────────────── */
+@media (max-width: 40rem) {
+  .hds-dialog {
+    --_pad: var(--hds-space-5);
+
+    inset: auto 0 0;
+    width: 100%;
+    max-height: calc(100dvh - var(--hds-space-8) - env(safe-area-inset-top, 0px));
+    margin: 0;
+    border-width: 1px 0 0;
+    border-radius: var(--hds-radius-xl) var(--hds-radius-xl) 0 0;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .hds-dialog[data-size='full'] {
+    inset: 0;
+    height: 100dvh;
+    max-height: 100dvh;
+    border-width: 0;
+    border-radius: 0;
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  .hds-dialog[data-state='open'] {
+    animation-name: hds-dialog-slide-up;
+  }
+
+  .hds-dialog[data-state='closed'] {
+    animation-name: hds-dialog-slide-down;
+  }
+
+  /* 엄지로 누르기 쉽게 버튼을 꽉 채워 세로로 쌓고, 주요 동작(마지막 버튼)을 위로 */
+  .hds-dialog__footer {
+    flex-direction: column-reverse;
+  }
+
+  .hds-dialog__footer > * {
+    width: 100%;
+  }
+}
+
+/* ── 사용자 설정 ────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  /* 움직임(이동·확대) 없이 짧은 페이드만 남긴다 */
+  .hds-dialog[data-state='open'],
+  .hds-dialog__overlay[data-state='open'] {
+    animation: hds-dialog-fade-in var(--hds-duration-fast) linear;
+  }
+
+  .hds-dialog[data-state='closed'],
+  .hds-dialog__overlay[data-state='closed'] {
+    animation: hds-dialog-fade-out var(--hds-duration-fast) linear;
+  }
+}
+
+@media (forced-colors: active) {
+  /* 그림자·배경색이 사라지므로 경계를 시스템 색으로 그린다 */
+  .hds-dialog {
+    border: 2px solid CanvasText;
+  }
+}

@@ -1,0 +1,74 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+import { Do, DoDont, Dont } from '../../blocks/DoDont';
+import * as IconButtonStories from './IconButton.stories';
+
+<Meta of={IconButtonStories} />
+
+# IconButton
+
+아이콘만 있는 정사각형 버튼. 닫기, 설정, 더보기처럼 **아이콘만으로 널리 통하는 동작**에 쓴다.
+[Button](?path=/docs/components-button--docs) 의 모든 기능(`loading`, `focusableWhenDisabled` …)을 그대로 가진다.
+
+<Canvas of={IconButtonStories.Playground} />
+<Controls of={IconButtonStories.Playground} />
+
+## 사용법
+
+```tsx
+import { IconButton } from '@hoon-ds/react';
+
+<IconButton aria-label="닫기" onClick={close}>
+  <XIcon />
+</IconButton>;
+```
+
+`aria-label` 은 **타입 단계에서 필수**다. 빠뜨리면 컴파일 오류가 난다.
+
+## 예시
+
+### Variant
+
+기본값은 `ghost` 다. 툴바처럼 아이콘 버튼이 모여 있을 때 시각적 소음을 줄인다.
+
+<Canvas of={IconButtonStories.Variants} />
+
+### 크기
+
+정사각형이며 크기는 Button 과 같다 (32 / 40 / 48px).
+
+<Canvas of={IconButtonStories.Sizes} />
+
+### 상태
+
+<Canvas of={IconButtonStories.States} />
+
+## 접근성
+
+### 키보드
+
+| 키                | 동작        |
+| ----------------- | ----------- |
+| `Tab`             | 포커스 이동 |
+| `Enter` / `Space` | 실행        |
+
+### 스크린리더
+
+- 접근 가능한 이름은 `aria-label` 하나로 정해진다. 아이콘은 자동으로 `aria-hidden` 처리된다.
+- 이름은 **동작**을 쓴다: "닫기", "삭제" (아이콘 모양인 "X", "휴지통" 이 아니다).
+- 시각 사용자도 의미를 알 수 있게 Tooltip 으로 같은 문구를 보여주는 것을 권장한다.
+
+### 사용자 설정
+
+Button 과 같다: 고대비 모드 테두리, 동작 줄이기, 터치 hover 처리.
+
+## 가이드
+
+<DoDont>
+  <Do title="동작을 이름으로">`aria-label="장바구니에서 삭제"`</Do>
+  <Dont title="아이콘 모양을 이름으로">`aria-label="휴지통 아이콘"`</Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="익숙한 아이콘">닫기(X), 검색(돋보기), 더보기(…)처럼 관례가 확립된 동작.</Do>
+  <Dont title="낯선 동작">의미가 모호하다면 텍스트가 있는 Button 을 쓴다.</Dont>
+</DoDont>

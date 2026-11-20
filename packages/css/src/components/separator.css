@@ -1,0 +1,24 @@
+/* Separator — Radix 가 data-orientation 을 붙인다 */
+.hds-separator {
+  flex-shrink: 0;
+  margin: 0;
+  border: 0;
+  background-color: var(--hds-color-border-default);
+}
+
+.hds-separator[data-orientation='horizontal'] {
+  width: 100%;
+  height: 1px;
+}
+
+.hds-separator[data-orientation='vertical'] {
+  align-self: stretch;
+  width: 1px;
+  min-height: 1em;
+}
+
+@media (forced-colors: active) {
+  .hds-separator {
+    background-color: CanvasText;
+  }
+}

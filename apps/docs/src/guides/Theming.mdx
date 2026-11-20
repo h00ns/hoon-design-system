@@ -1,0 +1,70 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="시작하기/테마" />
+
+# 테마
+
+## 다크 모드
+
+아무 설정도 하지 않으면 **OS 설정(`prefers-color-scheme`)을 자동으로 따른다.**
+사용자가 직접 고르게 하려면 `<html>` 에 `data-theme` 를 단다.
+
+| `data-theme` | 결과           |
+| ------------ | -------------- |
+| (없음)       | OS 설정을 따름 |
+| `"light"`    | 항상 라이트    |
+| `"dark"`     | 항상 다크      |
+
+```tsx
+function setTheme(theme: 'light' | 'dark' | 'system') {
+  const root = document.documentElement;
+  if (theme === 'system') root.removeAttribute('data-theme');
+  else root.setAttribute('data-theme', theme);
+  localStorage.setItem('theme', theme);
+}
+```
+
+### 첫 화면 깜빡임 막기
+
+저장된 테마를 React 가 그려진 뒤에 적용하면 잠깐 다른 테마가 보인다. `<head>` 에서 동기적으로 적용한다.
+
+```html
+<script>
+  try {
+    const t = localStorage.getItem('theme');
+    if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+  } catch {}
+</script>
+```
+
+토큰 CSS 는 테마에 맞춰 `color-scheme` 도 바꾸므로, 스크롤바와 폼 컨트롤 같은 브라우저 기본 UI 도 함께 어두워진다.
+
+## 부분 테마
+
+`data-theme` 는 어느 요소에나 달 수 있다. 라이트 페이지 안에 어두운 영역(예: 히어로 섹션)을 만들 때 쓴다.
+
+```html
+<section data-theme="dark">…</section>
+```
+
+## 브랜드 색 바꾸기
+
+시맨틱 토큰을 덮어쓰면 모든 컴포넌트에 반영된다.
+
+```css
+:root {
+  --hds-color-accent-solid: #7c3aed;
+  --hds-color-accent-solid-hover: #6d28d9;
+  --hds-color-accent-solid-active: #5b21b6;
+  --hds-color-accent-fg: #6d28d9;
+}
+```
+
+> 토큰을 바꾸면 **대비를 직접 확인해야 한다.** 디자인 시스템 저장소 안에서 바꾸는 경우엔 `packages/tokens/src` 의 JSON 을 고치고 `pnpm test` 를 돌리면 대비 테스트가 자동으로 검증한다.
+
+## Windows 고대비 모드
+
+고대비(forced colors) 모드에서는 브라우저가 색을 시스템 색으로 강제한다. 모든 컴포넌트는 이 모드에서도 경계·포커스·선택 상태가 보이도록 `@media (forced-colors: active)` 대응이 들어 있다. 직접 만든 UI 에서는 다음을 지킨다.
+
+- 경계는 `box-shadow` 가 아니라 `border` 나 `outline` 으로 그린다 (그림자는 사라진다).
+- 상태를 배경색만으로 표현하지 않는다.

@@ -1,0 +1,75 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+import { Do, DoDont, Dont } from '../../blocks/DoDont';
+import * as SkeletonStories from './Skeleton.stories';
+
+<Meta of={SkeletonStories} />
+
+# Skeleton
+
+콘텐츠가 로드되기 전 **자리와 모양을 미리 보여주는 플레이스홀더**. 레이아웃이 튀는 것(CLS)을 막고 무엇이 올지 예고한다.
+
+<Canvas of={SkeletonStories.Playground} />
+<Controls of={SkeletonStories.Playground} />
+
+## 사용법
+
+```tsx
+import { Skeleton } from '@hoon-ds/react';
+
+<section aria-busy={loading} aria-label="프로필">
+  {loading ? <Skeleton shape="text" lines={3} /> : <Profile />}
+</section>;
+```
+
+## 예시
+
+### 모양
+
+`rect`(기본) · `circle` · `text`. 숫자 크기는 px, 문자열은 그대로(`'50%'`, `'2rem'`) 쓴다. `circle` 은 한 변만 줘도 된다.
+
+<Canvas of={SkeletonStories.Shapes} />
+
+### 텍스트 줄
+
+`shape="text"` 는 글자 크기(`em`)를 따른다. 실제 텍스트와 같은 `font-size` 안에 두면 높이가 맞는다. `lines` 의 마지막 줄은 짧게 그린다.
+
+<Canvas of={SkeletonStories.TextLines} />
+
+### 로딩 영역과 함께
+
+스켈레톤 자체는 보조기기에서 숨겨진다. 대신 감싸는 영역에 `aria-busy`, 따로 둔 상태 메시지(`role="status"`)로 로딩 시작·끝을 알린다.
+
+<Canvas of={SkeletonStories.LoadingRegion} />
+
+## 접근성
+
+### 키보드
+
+포커스를 받지 않는다.
+
+### 스크린리더
+
+- 스켈레톤은 항상 `aria-hidden="true"` 다. 회색 상자를 하나하나 읽어주는 것은 의미가 없다.
+- 로딩 중인 영역에 `aria-busy="true"` 를 걸고, 끝나면 `false` 로 바꾼다.
+- "불러오는 중" / "불러왔습니다" 같은 상태 문구는 `role="status"` 영역으로 알린다. 이 영역은 **처음부터 DOM 에 있어야** 내용 변화가 낭독된다.
+
+### 사용자 설정
+
+- `prefers-reduced-motion: reduce` 면 빛이 지나가는 애니메이션을 끄고 정적인 회색 상자만 보여준다.
+- Windows 고대비 모드에서는 배경 대신 테두리로 자리를 표시한다.
+
+## 가이드
+
+<DoDont>
+  <Do title="실제 레이아웃과 같게">
+    로드될 콘텐츠와 크기·배치가 같아야 로드 후 화면이 튀지 않는다.
+  </Do>
+  <Dont title="모든 곳에 스켈레톤">
+    0.3초 안에 끝나는 로딩에 스켈레톤을 띄우면 오히려 깜빡임이 된다.
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="상태는 텍스트로 알리기">`role="status"` 로 "불러오는 중" 을 알린다.</Do>
+  <Dont title="스켈레톤에 aria-label">숨겨진 요소에 레이블을 달아도 읽히지 않는다.</Dont>
+</DoDont>
