@@ -9,7 +9,9 @@
   "scripts": {
     "build": "pnpm -r --filter \"./packages/*\" run build",
     "dev": "pnpm --filter @hoon-ds/tokens run build && pnpm --filter docs run dev",
+    "dev:site": "pnpm --filter @hoon-ds/tokens run build && pnpm --filter site run dev",
     "build:docs": "pnpm --filter docs run build",
+    "build:site": "pnpm --filter site run build",
     "lint": "eslint .",
     "typecheck": "pnpm -r run typecheck",
     "test": "pnpm -r run test",

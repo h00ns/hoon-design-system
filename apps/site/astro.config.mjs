@@ -4,6 +4,7 @@ import react from '@astrojs/react';
 import starlight from '@astrojs/starlight';
 import { defineConfig } from 'astro/config';
 
+/** @param {string} path */
 const fromRoot = (path) => fileURLToPath(new URL(`../../${path}`, import.meta.url));
 
 export default defineConfig({

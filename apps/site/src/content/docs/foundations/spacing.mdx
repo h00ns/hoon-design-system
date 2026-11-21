@@ -1,0 +1,28 @@
+---
+title: Spacing
+description: 4px 그리드 간격과 컨트롤 높이
+sidebar:
+  order: 3
+---
+
+import { ControlSizes, SpacingScale } from '../../../components/tokens';
+
+**4px 그리드.** 토큰 이름의 숫자 × 4px 이 값이다 (`space-4` = 16px). `rem` 단위라 글꼴 확대를 따라간다.
+
+<SpacingScale />
+
+## 사용 기준
+
+| 관계                                | 권장                  |
+| ----------------------------------- | --------------------- |
+| 아이콘 ↔ 텍스트                     | `space-1` ~ `space-2` |
+| 레이블 ↔ 컨트롤 ↔ 설명 (Field 내부) | `space-2`             |
+| 같은 그룹의 컨트롤 사이             | `space-3` ~ `space-4` |
+| 카드·다이얼로그 안쪽 여백           | `space-4` ~ `space-6` |
+| 섹션 사이                           | `space-8` 이상        |
+
+## 컨트롤 높이
+
+Button, Input, Select 등 인터랙티브 컨트롤이 공유한다. 한 줄에 놓인 컨트롤은 같은 크기를 써서 높이를 맞춘다. 모두 WCAG 2.5.8 최소 타깃(24×24px)을 넘는다.
+
+<ControlSizes />
