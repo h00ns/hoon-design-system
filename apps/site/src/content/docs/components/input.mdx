@@ -1,0 +1,138 @@
+---
+title: Input
+description: 이름, 이메일, 검색어처럼 짧은 한 줄 텍스트를 입력받는다.
+---
+
+import Preview from '../../../components/Preview.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import DoDont from '../../../components/DoDont.astro';
+import Do from '../../../components/Do.astro';
+import Dont from '../../../components/Dont.astro';
+
+import Basic from '../../../examples/input/Basic';
+import basicCode from '../../../examples/input/Basic?raw';
+import Sizes from '../../../examples/input/Sizes';
+import sizesCode from '../../../examples/input/Sizes?raw';
+import States from '../../../examples/input/States';
+import statesCode from '../../../examples/input/States?raw';
+import Slots from '../../../examples/input/Slots';
+import slotsCode from '../../../examples/input/Slots?raw';
+import Password from '../../../examples/input/Password';
+import passwordCode from '../../../examples/input/Password?raw';
+import Invalid from '../../../examples/input/Invalid';
+import invalidCode from '../../../examples/input/Invalid?raw';
+
+한 줄 텍스트를 입력받는다. 이름, 이메일, 검색어, 금액처럼 짧은 값에 쓴다. 여러 줄이면 [Textarea](/components/textarea/).
+레이블·설명·오류는 [Field](/components/field/) 로 감싸면 자동으로 연결된다.
+
+<Preview code={basicCode}>
+  <Basic client:visible />
+</Preview>
+
+## 사용법
+
+```tsx
+import { Field, Input } from '@hoon-ds/react';
+```
+
+`className`·`style` 은 테두리를 그리는 바깥 래퍼에, 나머지 props 와 `ref` 는 `<input>` 에 전달된다.
+
+## 예시
+
+### 크기
+
+Button 과 같은 높이 단계(`sm` 32 · `md` 40 · `lg` 48px)라 나란히 두면 높이가 맞는다.
+
+<Preview code={sizesCode}>
+  <Sizes client:visible />
+</Preview>
+
+### 상태
+
+오류는 테두리 색만이 아니라 **오류 메시지 텍스트**로도 알린다 (색만으로 정보를 전달하지 않기, WCAG 1.4.1).
+`readOnly` 는 값을 복사·포커스할 수 있고 폼으로 제출되지만, `disabled` 는 포커스도 제출도 되지 않는다.
+
+<Preview code={statesCode}>
+  <States client:visible />
+</Preview>
+
+### 슬롯
+
+`startSlot`·`endSlot` 으로 아이콘이나 단위를 붙인다. 슬롯의 빈 곳을 눌러도 입력으로 포커스가 간다.
+장식 아이콘은 `aria-hidden` 으로 숨기고, "원"·".com" 처럼 의미 있는 텍스트는 레이블에도 포함한다 (예: `금액 (원)`).
+
+<Preview code={slotsCode}>
+  <Slots client:visible />
+</Preview>
+
+### 비밀번호 보기
+
+슬롯에 넣은 버튼은 Tab 으로 도달할 수 있다. 토글 버튼에는 `aria-pressed` 로 상태를 알린다.
+
+<Preview code={passwordCode}>
+  <Password client:visible />
+</Preview>
+
+### 오류
+
+<Preview code={invalidCode}>
+  <Invalid client:visible />
+</Preview>
+
+## API
+
+<PropsTable of="Input" inherits="<input> 의 모든 HTML 속성" />
+
+## 접근성
+
+### 키보드
+
+| 키                  | 동작                                           |
+| ------------------- | ---------------------------------------------- |
+| `Tab` / `Shift+Tab` | 입력으로 포커스 이동 (슬롯 안 버튼도 순서대로) |
+| 문자 키             | 입력                                           |
+
+### 스크린리더
+
+- 네이티브 `<input>` 이라 역할·값·상태를 브라우저가 그대로 전달한다.
+- Field 안에서 레이블은 `<label for>`, 설명·오류는 `aria-describedby`, 오류 상태는 `aria-invalid`, 필수는 `required` 로 연결된다.
+- 필수 표시 `*` 는 시각용이고 스크린리더는 `required` 로 "필수"를 읽는다.
+- 플레이스홀더는 레이블이 아니다. 입력하면 사라지므로 형식 예시만 넣는다.
+- `type` 과 `autoComplete`, `inputMode` 를 정확히 지정하면 모바일 키보드와 자동완성이 맞게 뜬다 (WCAG 1.3.5).
+
+### 사용자 설정
+
+- 포커스 링은 래퍼 전체에 그려진다 (`:focus-within`) — 슬롯이 있어도 하나의 입력으로 보인다.
+- 플레이스홀더도 4.5:1 대비를 지킨다.
+- Windows 고대비 모드에서 테두리와 포커스가 시스템 색으로 보인다.
+- 높이는 `min-height` 라 글자를 200% 키워도 잘리지 않는다.
+
+### 한글 입력(IME)
+
+한글은 조합 중에 `keydown` 이 발생한다. Enter 로 검색·제출을 처리한다면 **조합 중 Enter 를 무시**해야 마지막 글자가 두 번 입력되거나 잘리지 않는다.
+
+```tsx
+<Input
+  onKeyDown={(e) => {
+    if (e.key === 'Enter' && !e.nativeEvent.isComposing) search();
+  }}
+/>
+```
+
+가능하면 `<form onSubmit>` 으로 감싸는 편이 IME 문제를 브라우저가 알아서 처리해 더 안전하다.
+
+## 가이드
+
+<DoDont>
+  <Do title="눈에 보이는 레이블">Field.Label 로 항상 보이는 레이블을 붙인다.</Do>
+  <Dont title="플레이스홀더를 레이블로">
+    입력을 시작하면 사라져 무엇을 입력하던 중인지 잊게 된다.
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="구체적인 오류 메시지">
+    "이메일 형식이 올바르지 않습니다. 예: name@company.com" 처럼 고치는 방법을 쓴다.
+  </Do>
+  <Dont title="빨간 테두리만">색을 구분하기 어려운 사용자는 오류를 알 수 없다.</Dont>
+</DoDont>

@@ -1,0 +1,171 @@
+---
+title: Field
+description: 폼 컨트롤에 레이블·설명·오류 메시지를 붙이고 접근성 연결을 자동으로 처리한다.
+---
+
+import Preview from '../../../components/Preview.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import DoDont from '../../../components/DoDont.astro';
+import Do from '../../../components/Do.astro';
+import Dont from '../../../components/Dont.astro';
+
+import Basic from '../../../examples/field/Basic';
+import basicCode from '../../../examples/field/Basic?raw';
+import Required from '../../../examples/field/Required';
+import requiredCode from '../../../examples/field/Required?raw';
+import Invalid from '../../../examples/field/Invalid';
+import invalidCode from '../../../examples/field/Invalid?raw';
+import Disabled from '../../../examples/field/Disabled';
+import disabledCode from '../../../examples/field/Disabled?raw';
+import MultipleControls from '../../../examples/field/MultipleControls';
+import multipleControlsCode from '../../../examples/field/MultipleControls?raw';
+import FormValidation from '../../../examples/field/FormValidation';
+import formValidationCode from '../../../examples/field/FormValidation?raw';
+
+폼 컨트롤에 **레이블·설명·오류 메시지**를 붙이고, 접근성 연결(`for`·`aria-describedby`·`aria-invalid`·`required`)을 자동으로 처리한다.
+[Input](/components/input/), [Textarea](/components/textarea/), [Checkbox](/components/checkbox/), [RadioGroup](/components/radio-group/), [Switch](/components/switch/), [Select](/components/select/) 가 Field 안에 있으면 별도 설정 없이 연결된다.
+
+<Preview code={basicCode}>
+  <Basic client:visible />
+</Preview>
+
+## 사용법
+
+```tsx
+import { Field, Input } from '@hoon-ds/react';
+```
+
+```tsx
+<Field.Root invalid={!!error} required>
+  <Field.Label>이메일</Field.Label>
+  <Input type="email" />
+  <Field.Description>로그인에 사용됩니다.</Field.Description>
+  <Field.ErrorMessage>{error}</Field.ErrorMessage>
+</Field.Root>
+```
+
+| 부품                 | 역할                                                                                   |
+| -------------------- | -------------------------------------------------------------------------------------- |
+| `Field.Root`         | `invalid`·`required`·`disabled` 상태를 안쪽 컨트롤에 전달한다                          |
+| `Field.Label`        | 컨트롤의 레이블. `required` 면 `*` 를 붙인다 (시각용, 스크린리더는 `required` 로 읽음) |
+| `Field.Description`  | 보조 설명. 컨트롤에 `aria-describedby` 로 연결                                         |
+| `Field.ErrorMessage` | 오류 메시지. `invalid` 일 때만 렌더링·연결된다 (`forceMount` 로 항상 렌더링)           |
+
+컨트롤이 직접 받은 `id`·`disabled`·`required`·`aria-describedby` 는 Field 값보다 우선하고, `aria-describedby` 는 합쳐진다.
+
+## 예시
+
+### 필수
+
+<Preview code={requiredCode}>
+  <Required client:visible />
+</Preview>
+
+### 오류
+
+오류 메시지에는 아이콘이 함께 붙어 색을 구분하기 어려운 사용자도 알아볼 수 있다.
+
+<Preview code={invalidCode}>
+  <Invalid client:visible />
+</Preview>
+
+### 비활성
+
+<Preview code={disabledCode}>
+  <Disabled client:visible />
+</Preview>
+
+### 여러 컨트롤
+
+RadioGroup 처럼 `<label for>` 로 연결할 수 없는 그룹은 `aria-labelledby` 로 레이블이 연결된다.
+Checkbox 는 자신의 `children` 레이블을 쓰고 설명·오류만 Field 에서 받는다.
+
+<Preview code={multipleControlsCode}>
+  <MultipleControls client:visible />
+</Preview>
+
+### 폼 검증
+
+제출할 때 검증하고 **첫 번째 오류 필드로 포커스를 옮긴다.** 스크린리더는 레이블, 오류 상태, 오류 메시지를 함께 읽는다.
+제출 결과는 `role="status"` 로 알린다.
+
+<Preview code={formValidationCode}>
+  <FormValidation client:visible />
+</Preview>
+
+## API
+
+### Field.Root
+
+<PropsTable of="Field.Root" inherits="<div> 의 모든 HTML 속성" />
+
+### Field.Label
+
+<PropsTable
+  of="Field.Label"
+  inherits="Radix Label.Root"
+  inheritsHref="https://www.radix-ui.com/primitives/docs/components/label#root"
+/>
+
+### Field.Description
+
+<PropsTable of="Field.Description" inherits="<p> 의 모든 HTML 속성" />
+
+### Field.ErrorMessage
+
+<PropsTable of="Field.ErrorMessage" inherits="<p> 의 모든 HTML 속성" />
+
+### useFieldControl
+
+직접 만든 컨트롤을 Field 에 연결할 때 쓰는 훅. Field 밖에서는 받은 props 를 그대로 돌려준다.
+
+```tsx
+import { useFieldControl } from '@hoon-ds/react';
+
+function MyInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
+  const control = useFieldControl(props);
+  return <input {...props} {...control} />;
+}
+```
+
+`<label for>` 로 연결할 수 없는 그룹 컨트롤은 `useFieldControl(props, { labelledBy: true })` 로 `aria-labelledby` 를 받는다.
+
+## 접근성
+
+### 키보드
+
+Field 자체는 포커스를 받지 않는다. `Field.Label` 을 누르면 연결된 컨트롤로 포커스가 이동한다(체크박스·스위치는 토글).
+
+| 키                  | 동작                                          |
+| ------------------- | --------------------------------------------- |
+| `Tab` / `Shift+Tab` | 안쪽 컨트롤로 포커스 이동 (Field 는 건너뛴다) |
+
+### 스크린리더
+
+- 레이블: `<label for>` (그룹 컨트롤은 `aria-labelledby`)
+- 설명·오류: `aria-describedby` — 설명 다음에 오류 순서로 읽는다.
+- 오류 상태: `aria-invalid="true"` — 오류가 사라지면 연결도 함께 끊긴다.
+- 필수: 네이티브 `required` 또는 `aria-required`. `*` 기호는 `aria-hidden`.
+- 오류 메시지는 live region 이 아니다. 입력할 때마다 읽히면 방해가 되므로, 제출 시 오류 필드로 **포커스를 옮겨** 알린다.
+
+### 사용자 설정
+
+- 오류는 빨간색 + 아이콘 + 텍스트로 전달한다 (WCAG 1.4.1).
+- 한글 줄바꿈은 단어 단위로 끊긴다(`word-break: keep-all`, base.css).
+
+## 가이드
+
+<DoDont>
+  <Do title="제출 시 검증">
+    제출할 때 검증하고 첫 오류로 포커스를 옮긴다. 이미 오류가 난 필드는 입력하면서 다시 검증해도
+    좋다.
+  </Do>
+  <Dont title="입력 도중 오류">
+    아직 다 쓰지도 않았는데 "형식이 올바르지 않습니다"를 띄우지 않는다.
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="해결 방법을 알려주는 오류">"이메일 형식이 올바르지 않습니다. 예: name@company.com"</Do>
+  <Dont title="원인만 말하는 오류">"잘못된 입력입니다."</Dont>
+</DoDont>

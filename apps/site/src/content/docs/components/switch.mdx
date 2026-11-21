@@ -1,0 +1,123 @@
+---
+title: Switch
+description: 누르는 즉시 반영되는 설정을 켜고 끈다.
+---
+
+import Preview from '../../../components/Preview.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import DoDont from '../../../components/DoDont.astro';
+import Do from '../../../components/Do.astro';
+import Dont from '../../../components/Dont.astro';
+
+import Basic from '../../../examples/switch/Basic';
+import basicCode from '../../../examples/switch/Basic?raw';
+import Sizes from '../../../examples/switch/Sizes';
+import sizesCode from '../../../examples/switch/Sizes?raw';
+import States from '../../../examples/switch/States';
+import statesCode from '../../../examples/switch/States?raw';
+import SettingsList from '../../../examples/switch/SettingsList';
+import settingsListCode from '../../../examples/switch/SettingsList?raw';
+import WithField from '../../../examples/switch/WithField';
+import withFieldCode from '../../../examples/switch/WithField?raw';
+
+켜고 끄는 **즉시 반영**되는 설정. 알림 받기, 다크 모드, 자동 저장처럼 누르는 순간 효과가 생길 때 쓴다.
+제출 버튼을 눌러야 반영되는 선택이면 [Checkbox](/components/checkbox/).
+
+<Preview code={basicCode}>
+  <Basic client:visible />
+</Preview>
+
+## 사용법
+
+```tsx
+import { Switch } from '@hoon-ds/react';
+```
+
+`children` 은 `<label>` 로 렌더링된다. `className`·`style` 은 바깥 래퍼에, 나머지 props 와 `ref` 는 `button[role=switch]` 에 전달된다.
+
+### Switch 와 Checkbox
+
+|            | Switch               | Checkbox                      |
+| ---------- | -------------------- | ----------------------------- |
+| 반영 시점  | 누르는 즉시          | 제출 버튼을 눌렀을 때         |
+| 예         | 알림 받기, 다크 모드 | 약관 동의, 필터 선택          |
+| 중간 상태  | 없음                 | `indeterminate` 가능          |
+| 스크린리더 | "스위치, 켬/끔"      | "체크박스, 선택됨/선택 안 됨" |
+
+## 예시
+
+### 크기
+
+`sm` 도 누를 수 있는 영역은 24px 이상이다.
+
+<Preview code={sizesCode}>
+  <Sizes client:visible />
+</Preview>
+
+### 상태
+
+<Preview code={statesCode}>
+  <States client:visible />
+</Preview>
+
+### 설정 목록
+
+`labelPosition="start"` 로 레이블을 앞에 두고 스위치를 오른쪽에 정렬한다.
+
+<Preview code={settingsListCode}>
+  <SettingsList client:visible />
+</Preview>
+
+### Field 와 함께
+
+<Preview code={withFieldCode}>
+  <WithField client:visible />
+</Preview>
+
+## API
+
+<PropsTable
+  of="Switch"
+  inherits="Radix Switch.Root"
+  inheritsHref="https://www.radix-ui.com/primitives/docs/components/switch#root"
+/>
+
+## 접근성
+
+### 키보드
+
+| 키                | 동작        |
+| ----------------- | ----------- |
+| `Tab`             | 포커스 이동 |
+| `Space` / `Enter` | 켜기/끄기   |
+
+### 스크린리더
+
+- `role="switch"` + `aria-checked` 로 "켬/끔" 상태를 전달한다.
+- 레이블은 `<label for>` 로 연결되어 레이블을 눌러도 토글된다.
+- 상태가 바뀌어 생긴 **결과**(예: "저장됨")는 [Toast](/components/toast/) 나 live region 으로 따로 알린다.
+
+### 사용자 설정
+
+- 켜짐/꺼짐은 색뿐 아니라 손잡이 **위치**로 구분된다. 꺼진 트랙도 배경과 3:1 이상 대비라 경계가 보인다.
+- `prefers-reduced-motion` 이면 손잡이가 미끄러지지 않고 바로 이동한다.
+- 오른쪽에서 왼쪽으로 쓰는 언어(RTL)에서는 손잡이 방향이 뒤집힌다.
+- Windows 고대비 모드에서 트랙 테두리와 켜짐 상태가 시스템 색으로 보인다.
+
+## 가이드
+
+<DoDont>
+  <Do title="무엇이 켜지는지 쓰기">
+    "알림 받기", "자동 저장" — 레이블은 켜졌을 때의 상태를 설명한다.
+  </Do>
+  <Dont title="제출이 필요한 폼">
+    저장 버튼을 눌러야 반영된다면 사용자는 이미 적용된 줄 안다. Checkbox 를 쓴다.
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="레이블은 고정">상태와 관계없이 같은 레이블을 쓴다.</Do>
+  <Dont title="상태에 따라 레이블 변경">
+    "켜짐"/"꺼짐"처럼 레이블이 바뀌면 지금 상태인지 누를 동작인지 헷갈린다.
+  </Dont>
+</DoDont>

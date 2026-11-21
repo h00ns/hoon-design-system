@@ -1,0 +1,99 @@
+---
+title: Textarea
+description: 문의 내용, 리뷰, 메모처럼 여러 줄 텍스트를 입력받는다.
+---
+
+import Preview from '../../../components/Preview.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import DoDont from '../../../components/DoDont.astro';
+import Do from '../../../components/Do.astro';
+import Dont from '../../../components/Dont.astro';
+
+import Basic from '../../../examples/textarea/Basic';
+import basicCode from '../../../examples/textarea/Basic?raw';
+import AutoResize from '../../../examples/textarea/AutoResize';
+import autoResizeCode from '../../../examples/textarea/AutoResize?raw';
+import CharacterCount from '../../../examples/textarea/CharacterCount';
+import characterCountCode from '../../../examples/textarea/CharacterCount?raw';
+import States from '../../../examples/textarea/States';
+import statesCode from '../../../examples/textarea/States?raw';
+
+여러 줄 텍스트를 입력받는다. 문의 내용, 리뷰, 메모처럼 길이가 정해지지 않은 글에 쓴다.
+한 줄 값이면 [Input](/components/input/). 레이블·설명·오류는 [Field](/components/field/) 로 감싸면 자동으로 연결된다.
+
+<Preview code={basicCode}>
+  <Basic client:visible />
+</Preview>
+
+## 사용법
+
+```tsx
+import { Field, Textarea } from '@hoon-ds/react';
+```
+
+```tsx
+<Field.Root>
+  <Field.Label>문의 내용</Field.Label>
+  <Textarea autoResize minRows={3} maxRows={10} />
+</Field.Root>
+```
+
+## 예시
+
+### 자동 높이
+
+`autoResize` 이면 내용에 맞춰 `minRows` 부터 `maxRows` 까지 늘어나고, 그 이상은 스크롤된다.
+CSS [`field-sizing: content`](https://developer.mozilla.org/docs/Web/CSS/field-sizing) 를 쓰고, 지원하지 않는 브라우저(구형 Safari·Firefox)에서는 입력할 때마다 JS 로 높이를 맞춘다.
+
+<Preview code={autoResizeCode}>
+  <AutoResize client:visible />
+</Preview>
+
+### 글자 수 표시
+
+글자 수는 설명(`Field.Description`)으로 연결해 스크린리더도 읽게 한다. 넘치면 입력을 막기보다 오류로 알려 붙여넣은 내용을 잃지 않게 한다.
+
+<Preview code={characterCountCode}>
+  <CharacterCount client:visible />
+</Preview>
+
+### 상태
+
+<Preview code={statesCode}>
+  <States client:visible />
+</Preview>
+
+## API
+
+<PropsTable of="Textarea" inherits="<textarea> 의 모든 HTML 속성" />
+
+## 접근성
+
+### 키보드
+
+| 키                  | 동작                        |
+| ------------------- | --------------------------- |
+| `Tab` / `Shift+Tab` | 포커스 이동                 |
+| `Enter`             | 줄바꿈 (폼을 제출하지 않음) |
+
+### 스크린리더
+
+- 네이티브 `<textarea>` 라 여러 줄 입력임을 브라우저가 전달한다.
+- Field 안에서 레이블·설명·오류·필수·비활성이 자동으로 연결된다.
+
+### 사용자 설정
+
+- 기본은 세로 크기 조절(`resize: vertical`)이 가능하다 — 긴 글을 쓰는 사용자가 넓혀서 볼 수 있다. `autoResize` 이면 크기 조절 손잡이를 숨긴다.
+- `prefers-reduced-motion` 이면 테두리 전환 효과를 끈다.
+- Windows 고대비 모드에서 테두리와 포커스가 보인다.
+
+## 가이드
+
+<DoDont>
+  <Do title="예상 길이에 맞는 높이">
+    짧은 메모는 2–3줄, 리뷰는 5줄 이상으로 시작해 입력할 양을 짐작하게 한다.
+  </Do>
+  <Dont title="maxLength 로 조용히 자르기">
+    붙여넣은 내용이 말없이 잘린다. 글자 수와 오류로 알린다.
+  </Dont>
+</DoDont>
