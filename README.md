@@ -28,7 +28,7 @@ packages/tokens  ──▶  packages/css  ──▶  packages/react
 | 구조·표시 | Tabs, Accordion, Badge, Avatar, Separator, VisuallyHidden    |
 
 모든 컴포넌트는 키보드(WAI-ARIA APG), 스크린리더, 다크 모드, 동작 줄이기, Windows 고대비 모드를 지원하고
-동작·접근성(axe) 테스트를 갖는다. 문서는 Storybook 에 있다 (`pnpm dev`).
+동작·접근성(axe) 테스트를 갖는다. 문서는 문서 사이트에 있다 (`pnpm dev:site`).
 
 ## 사용법
 
@@ -58,7 +58,8 @@ React 가 아닌 환경에서도 스타일은 그대로 쓸 수 있다.
 
 ```bash
 pnpm install
-pnpm dev          # 토큰 빌드 후 Storybook (http://localhost:6006)
+pnpm dev:site     # 문서 사이트 (http://localhost:4321)
+pnpm dev          # Storybook (http://localhost:6006)
 pnpm test         # 토큰 대비 테스트 + 컴포넌트 테스트
 pnpm lint         # ESLint (jsx-a11y strict 포함)
 pnpm typecheck
