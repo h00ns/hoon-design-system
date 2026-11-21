@@ -1,0 +1,146 @@
+---
+title: Avatar
+description: 사람이나 조직을 나타내는 이미지. 이미지가 없으면 이니셜로 대체한다.
+---
+
+import Preview from '../../../components/Preview.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import DoDont from '../../../components/DoDont.astro';
+import Do from '../../../components/Do.astro';
+import Dont from '../../../components/Dont.astro';
+
+import Basic from '../../../examples/avatar/Basic';
+import basicCode from '../../../examples/avatar/Basic?raw';
+import Sizes from '../../../examples/avatar/Sizes';
+import sizesCode from '../../../examples/avatar/Sizes?raw';
+import Initials from '../../../examples/avatar/Initials';
+import initialsCode from '../../../examples/avatar/Initials?raw';
+import BrokenImage from '../../../examples/avatar/BrokenImage';
+import brokenImageCode from '../../../examples/avatar/BrokenImage?raw';
+import Shapes from '../../../examples/avatar/Shapes';
+import shapesCode from '../../../examples/avatar/Shapes?raw';
+import NextToName from '../../../examples/avatar/NextToName';
+import nextToNameCode from '../../../examples/avatar/NextToName?raw';
+
+**사람이나 조직을 나타내는 이미지**. 이미지가 없거나 로드에 실패하면 이름의 이니셜, 이름도 없으면 기본 아이콘으로 대체한다.
+
+<Preview code={basicCode}>
+  <Basic client:visible />
+</Preview>
+
+## 사용법
+
+```tsx
+import { Avatar } from '@hoon-ds/react';
+
+<Avatar src={user.photoUrl} name={user.name} />;
+```
+
+## 예시
+
+### 크기
+
+`xs` 24px · `sm` 32px · `md` 40px · `lg` 48px · `xl` 64px.
+
+<Preview code={sizesCode}>
+  <Sizes />
+</Preview>
+
+### 이니셜
+
+`name` 에서 이니셜을 만든다. 직접 만들려면 `getInitials(name)` 를 쓰거나 `fallback` 으로 내용을 바꾼다.
+
+| 이름             | 이니셜     | 규칙                                                |
+| ---------------- | ---------- | --------------------------------------------------- |
+| 홍길동, 남궁민수 | 길동, 민수 | 한글 3자 이상: 성을 뺀 마지막 두 글자 (부르는 이름) |
+| 이산             | 이산       | 한글 2자 이하: 그대로                               |
+| Jane Doe         | JD         | 여러 단어: 첫 단어와 마지막 단어의 첫 글자          |
+| hoon             | H          | 한 단어: 첫 글자                                    |
+| (없음)           | 아이콘     | 기본 사람 아이콘                                    |
+
+<Preview code={initialsCode}>
+  <Initials />
+</Preview>
+
+### 이미지 로드 실패
+
+로드에 실패하면 자동으로 이니셜을 보여준다. 이미지가 빨리 뜨는 경우의 깜빡임을 막기 위해 대체 내용은 600ms 뒤에 나타난다.
+
+<Preview code={brokenImageCode}>
+  <BrokenImage client:visible />
+</Preview>
+
+### 모양
+
+사람은 `circle`, 조직·서비스·팀은 `square`.
+
+<Preview code={shapesCode}>
+  <Shapes />
+</Preview>
+
+### 이름 옆에 쓰기
+
+바로 옆에 이름이 텍스트로 있으면 아바타는 장식이다. `alt=""` 로 같은 이름이 두 번 읽히지 않게 한다.
+
+<Preview code={nextToNameCode}>
+  <NextToName client:visible />
+</Preview>
+
+## API
+
+<PropsTable
+  of="Avatar"
+  inherits="Radix Avatar.Root"
+  inheritsHref="https://www.radix-ui.com/primitives/docs/components/avatar#root"
+/>
+
+### getInitials
+
+```ts
+import { getInitials } from '@hoon-ds/react';
+
+getInitials('홍길동'); // '길동'
+getInitials('Jane Doe'); // 'JD'
+```
+
+Avatar 가 이니셜을 만들 때 쓰는 함수. 같은 규칙으로 다른 곳에 이니셜을 표시할 때 쓴다.
+
+## 접근성
+
+### 키보드
+
+포커스를 받지 않는다. 프로필로 이동하는 아바타라면 링크나 버튼으로 감싼다.
+
+### 스크린리더
+
+대체 텍스트는 이렇게 정해진다.
+
+| 상황                            | 설정                  | 결과                                                |
+| ------------------------------- | --------------------- | --------------------------------------------------- |
+| 아바타만 단독으로 사람을 나타냄 | `name` (alt 생략)     | 이미지·이니셜 모두 "홍길동"으로 읽힘                |
+| 대체 텍스트를 다르게            | `alt="홍길동 프로필"` | `alt` 가 우선                                       |
+| 바로 옆에 이름이 텍스트로 있음  | `alt=""`              | 장식 — 읽지 않음 (같은 이름이 두 번 읽히는 것 방지) |
+| 이름을 모름                     | 둘 다 생략            | 장식 — 기본 아이콘은 읽지 않음                      |
+
+- 이니셜("길동")은 그대로 읽으면 의미가 없으므로 숨기고, 대신 전체 이름을 `role="img"` 의 레이블로 노출한다.
+
+### 사용자 설정
+
+- 이니셜 글자 크기는 아바타 크기에 비례해 한글 두 글자도 넘치지 않는다.
+- Windows 고대비 모드에서 테두리로 영역을 표시한다.
+
+## 가이드
+
+<DoDont>
+  <Do title="중복이면 장식">목록에서 이름 텍스트 옆에 있는 아바타는 `alt=""`.</Do>
+  <Dont title="파일명 alt">
+    `alt="profile_123.jpg"`, `alt="아바타"` 는 아무 정보도 주지 않는다.
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="그룹은 square">조직·팀·서비스는 `shape="square"` 로 사람과 구분한다.</Do>
+  <Dont title="장식 이미지로 사람 구분">
+    여러 사람을 아바타만으로 구분해야 하면 대체 텍스트를 반드시 둔다.
+  </Dont>
+</DoDont>

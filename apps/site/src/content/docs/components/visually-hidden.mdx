@@ -1,0 +1,81 @@
+---
+title: VisuallyHidden
+description: 화면에는 보이지 않지만 스크린리더는 읽는 콘텐츠.
+---
+
+import Preview from '../../../components/Preview.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import DoDont from '../../../components/DoDont.astro';
+import Do from '../../../components/Do.astro';
+import Dont from '../../../components/Dont.astro';
+
+import Basic from '../../../examples/visually-hidden/Basic';
+import basicCode from '../../../examples/visually-hidden/Basic?raw';
+import CountContext from '../../../examples/visually-hidden/CountContext';
+import countContextCode from '../../../examples/visually-hidden/CountContext?raw';
+import SkipLink from '../../../examples/visually-hidden/SkipLink';
+import skipLinkCode from '../../../examples/visually-hidden/SkipLink?raw';
+
+화면에는 보이지 않지만 **스크린리더는 읽는** 콘텐츠. 시각적으로는 맥락이 분명하지만 텍스트로는 부족한 정보를 보충할 때 쓴다.
+
+<Preview code={basicCode}>
+  <Basic />
+</Preview>
+
+## 사용법
+
+```tsx
+import { VisuallyHidden } from '@hoon-ds/react';
+
+<p>
+  장바구니 3<VisuallyHidden>개 상품</VisuallyHidden>
+</p>;
+```
+
+## 예시
+
+### 숫자에 맥락 더하기
+
+시각적으로는 아이콘이나 위치로 의미가 전달되지만, 스크린리더는 "3"만 읽게 되는 경우.
+
+<Preview code={countContextCode}>
+  <CountContext />
+</Preview>
+
+### 본문 바로가기
+
+`focusable` 이면 키보드 포커스를 받을 때 화면에 드러난다. 반복되는 내비게이션을 건너뛰는 링크에 쓴다 (WCAG 2.4.1).
+
+<Preview code={skipLinkCode}>
+  <SkipLink />
+</Preview>
+
+## API
+
+<PropsTable of="VisuallyHidden" inherits="<span> 의 모든 HTML 속성" />
+
+## 접근성
+
+### 스크린리더
+
+- `display: none` 이나 `visibility: hidden` 과 달리 **접근성 트리에 남는다.**
+- `clip-path` 기법으로 숨겨서 레이아웃에 영향을 주지 않는다.
+- React 를 쓰지 않는 환경에서는 `.hds-visually-hidden` 클래스만 붙여도 같은 효과다.
+
+## 가이드
+
+<DoDont>
+  <Do title="보충 정보">화면의 맥락을 텍스트로 옮긴다: "개 상품", "(새 창)".</Do>
+  <Dont title="숨긴 콘텐츠로 SEO">
+    검색 노출을 위해 키워드를 숨겨 넣지 않는다. 스크린리더 사용자에게는 소음이다.
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="버튼 이름에는 aria-label">
+    아이콘 버튼의 이름은 [IconButton](/components/icon-button/) 의 `aria-label` 로 준다.
+  </Do>
+  <Dont title="포커스 가능한 요소를 숨기기">
+    `focusable` 없이 링크·버튼을 숨기면 보이지 않는 곳에 포커스가 간다.
+  </Dont>
+</DoDont>
