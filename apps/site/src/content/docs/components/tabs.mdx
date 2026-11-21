@@ -1,0 +1,155 @@
+---
+title: Tabs
+description: 같은 맥락의 콘텐츠를 여러 패널로 나눠 한 번에 하나만 보여준다.
+---
+
+import Preview from '../../../components/Preview.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import DoDont from '../../../components/DoDont.astro';
+import Do from '../../../components/Do.astro';
+import Dont from '../../../components/Dont.astro';
+
+import Basic from '../../../examples/tabs/Basic';
+import basicCode from '../../../examples/tabs/Basic?raw';
+import Segmented from '../../../examples/tabs/Segmented';
+import segmentedCode from '../../../examples/tabs/Segmented?raw';
+import Vertical from '../../../examples/tabs/Vertical';
+import verticalCode from '../../../examples/tabs/Vertical?raw';
+import ManualActivation from '../../../examples/tabs/ManualActivation';
+import manualActivationCode from '../../../examples/tabs/ManualActivation?raw';
+import DisabledTab from '../../../examples/tabs/DisabledTab';
+import disabledTabCode from '../../../examples/tabs/DisabledTab?raw';
+import Overflow from '../../../examples/tabs/Overflow';
+import overflowCode from '../../../examples/tabs/Overflow?raw';
+
+같은 맥락의 콘텐츠를 **여러 패널로 나눠 한 번에 하나만** 보여준다.
+[WAI-ARIA Tabs](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/) 패턴을 따른다.
+
+<Preview code={basicCode}>
+  <Basic client:visible />
+</Preview>
+
+## 사용법
+
+```tsx
+import { Tabs } from '@hoon-ds/react';
+
+<Tabs.Root defaultValue="account">
+  <Tabs.List aria-label="계정 설정">
+    <Tabs.Trigger value="account">계정</Tabs.Trigger>
+    <Tabs.Trigger value="password">비밀번호</Tabs.Trigger>
+  </Tabs.List>
+  <Tabs.Content value="account">…</Tabs.Content>
+  <Tabs.Content value="password">…</Tabs.Content>
+</Tabs.Root>;
+```
+
+| 부품           | 역할                                                          |
+| -------------- | ------------------------------------------------------------- |
+| `Tabs.Root`    | 선택 상태. `variant`, `orientation`, `activationMode`         |
+| `Tabs.List`    | 탭 목록(`tablist`). 화면에 제목이 없다면 `aria-label` 을 준다 |
+| `Tabs.Trigger` | 탭(`tab`). `value` 로 패널과 짝지어진다                       |
+| `Tabs.Content` | 패널(`tabpanel`). 탭 이름이 패널 이름이 된다                  |
+
+## 예시
+
+### Segmented
+
+설정 화면의 보기 전환처럼 탭 수가 적고(2~4개) 짧을 때 어울린다.
+
+<Preview code={segmentedCode}>
+  <Segmented client:visible />
+</Preview>
+
+### 세로 방향
+
+탭이 많거나 이름이 길 때. 키보드 이동이 `↑`/`↓` 로 바뀌고 `aria-orientation="vertical"` 이 붙는다.
+
+<Preview code={verticalCode}>
+  <Vertical client:visible />
+</Preview>
+
+### 활성화 방식
+
+- **automatic** (기본): 화살표로 포커스를 옮기는 즉시 패널이 바뀐다. 패널이 가볍게 그려질 때 가장 빠르다.
+- **manual**: 화살표로는 이동만 하고 `Enter`/`Space` 로 고른다. 패널을 그릴 때 데이터를 불러오는 등 **전환 비용이 크면** manual 을 쓴다 — 키보드 사용자가 원하지 않는 탭을 거치며 요청을 쏟아내지 않는다.
+
+<Preview code={manualActivationCode}>
+  <ManualActivation client:visible />
+</Preview>
+
+### 비활성 탭
+
+비활성 탭은 키보드 이동에서 건너뛴다. 왜 비활성인지 탭 이름이나 주변 텍스트로 알려준다.
+
+<Preview code={disabledTabCode}>
+  <DisabledTab client:visible />
+</Preview>
+
+### 넘치는 탭
+
+탭이 너비를 넘으면 목록이 가로로 스크롤된다. 키보드로 이동하면 포커스된 탭이 자동으로 보이는 곳으로 스크롤된다.
+탭이 7개를 넘는다면 세로 탭이나 [Select](/components/select/) 로 바꾸는 것을 먼저 고려한다.
+
+<Preview code={overflowCode}>
+  <Overflow client:visible />
+</Preview>
+
+## API
+
+### Root
+
+<PropsTable
+  of="Tabs.Root"
+  inherits="Radix Tabs.Root"
+  inheritsHref="https://www.radix-ui.com/primitives/docs/components/tabs#root"
+/>
+
+### 그 외 부품
+
+자체 props 없이 Radix 부품을 그대로 쓴다.
+
+| 부품      | Radix 문서                                                                       |
+| --------- | -------------------------------------------------------------------------------- |
+| `List`    | [Tabs.List](https://www.radix-ui.com/primitives/docs/components/tabs#list)       |
+| `Trigger` | [Tabs.Trigger](https://www.radix-ui.com/primitives/docs/components/tabs#trigger) |
+| `Content` | [Tabs.Content](https://www.radix-ui.com/primitives/docs/components/tabs#content) |
+
+## 접근성
+
+### 키보드
+
+| 키                          | 동작                                                      |
+| --------------------------- | --------------------------------------------------------- |
+| `Tab`                       | 선택된 탭으로 들어가고, 다음 `Tab` 은 패널로 간다         |
+| `←` / `→` (세로: `↑` / `↓`) | 이전 / 다음 탭 (끝에서 처음으로 순환, 비활성 탭은 건너뜀) |
+| `Home` / `End`              | 첫 / 마지막 탭                                            |
+| `Enter` / `Space`           | manual 모드에서 포커스된 탭 선택                          |
+
+### 스크린리더
+
+- 목록은 `role="tablist"`, 탭은 `role="tab"` + `aria-selected` + `aria-controls`, 패널은 `role="tabpanel"` + `aria-labelledby`.
+- 탭 목록 안에서는 화살표로 이동하므로(roving tabindex) `Tab` 키 한 번으로 목록을 지나갈 수 있다.
+- 패널은 `tabIndex=0` 이라 안에 포커스 가능한 요소가 없어도 `Tab` 으로 내용에 도달한다.
+
+### 사용자 설정
+
+- 선택 표시는 색뿐 아니라 굵은 글씨와 두께 있는 선으로도 구분된다.
+- Windows 고대비 모드에서는 그림자 대신 `Highlight` 테두리로 선택 탭을 그린다.
+- RTL 에서는 `←`/`→` 방향이 자동으로 바뀐다 (`dir` 속성).
+
+## 가이드
+
+<DoDont>
+  <Do title="같은 수준의 콘텐츠">"계정 / 비밀번호 / 알림"처럼 서로 대등한 내용을 나눈다.</Do>
+  <Dont title="순서가 있는 단계">
+    1단계 → 2단계처럼 순서대로 진행해야 하면 Stepper 나 별도 페이지를 쓴다.
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="짧은 이름">탭 이름은 한두 단어로, 패널 내용을 예측할 수 있게 쓴다.</Do>
+  <Dont title="페이지 이동에 쓰기">
+    URL 이 바뀌는 내비게이션이라면 탭 모양이어도 링크(`<nav>` + `<a aria-current>`)로 만든다.
+  </Dont>
+</DoDont>

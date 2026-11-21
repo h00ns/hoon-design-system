@@ -1,0 +1,142 @@
+---
+title: Accordion
+description: 제목을 눌러 내용을 펼치고 접는 섹션 묶음.
+---
+
+import Preview from '../../../components/Preview.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import DoDont from '../../../components/DoDont.astro';
+import Do from '../../../components/Do.astro';
+import Dont from '../../../components/Dont.astro';
+
+import Basic from '../../../examples/accordion/Basic';
+import basicCode from '../../../examples/accordion/Basic?raw';
+import Multiple from '../../../examples/accordion/Multiple';
+import multipleCode from '../../../examples/accordion/Multiple?raw';
+import NotCollapsible from '../../../examples/accordion/NotCollapsible';
+import notCollapsibleCode from '../../../examples/accordion/NotCollapsible?raw';
+import DisabledItem from '../../../examples/accordion/DisabledItem';
+import disabledItemCode from '../../../examples/accordion/DisabledItem?raw';
+import HeadingLevel from '../../../examples/accordion/HeadingLevel';
+import headingLevelCode from '../../../examples/accordion/HeadingLevel?raw';
+
+제목을 눌러 **내용을 펼치고 접는** 섹션 묶음. FAQ, 긴 설정 화면처럼 한 페이지에 많은 내용을 담으면서 훑어보기 쉽게 만든다.
+[WAI-ARIA Accordion](https://www.w3.org/WAI/ARIA/apg/patterns/accordion/) 패턴을 따른다.
+
+<Preview code={basicCode}>
+  <Basic client:visible />
+</Preview>
+
+## 사용법
+
+```tsx
+import { Accordion } from '@hoon-ds/react';
+
+<Accordion.Root type="single" collapsible>
+  <Accordion.Item value="shipping">
+    <Accordion.Trigger>배송은 얼마나 걸리나요?</Accordion.Trigger>
+    <Accordion.Content>영업일 기준 2~3일</Accordion.Content>
+  </Accordion.Item>
+</Accordion.Root>;
+```
+
+| 부품                | 역할                                                                                                        |
+| ------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `Accordion.Root`    | `type="single"`(하나만) 또는 `"multiple"`(여러 개). `collapsible` 은 single 에서 열린 항목을 다시 닫게 한다 |
+| `Accordion.Item`    | 섹션 하나. `value` 로 식별, `disabled` 가능                                                                 |
+| `Accordion.Trigger` | 제목 요소(`h3` 기본) 안의 버튼. `headingLevel` 로 레벨 변경                                                 |
+| `Accordion.Content` | 펼쳐지는 내용(`region`). 높이 애니메이션 포함                                                               |
+
+## 예시
+
+### 여러 개 열기
+
+비교하며 볼 내용이라면 `type="multiple"` 로 여러 섹션을 동시에 연다.
+
+<Preview code={multipleCode}>
+  <Multiple client:visible />
+</Preview>
+
+### 항상 하나는 열림
+
+`type="single"` 에 `collapsible` 을 주지 않으면 열린 섹션을 다시 눌러도 닫히지 않는다. 이때 열린 트리거는 `aria-disabled` 로 "더 이상 닫을 수 없음"을 알린다.
+
+<Preview code={notCollapsibleCode}>
+  <NotCollapsible client:visible />
+</Preview>
+
+### 비활성 항목
+
+<Preview code={disabledItemCode}>
+  <DisabledItem client:visible />
+</Preview>
+
+### 제목 레벨
+
+트리거는 제목 요소로 감싸져 있어 스크린리더 사용자가 **제목 단위로 건너뛰며** 훑어볼 수 있다.
+페이지 제목 구조가 끊기지 않도록 상위 섹션 제목보다 한 단계 아래로 `headingLevel` 을 맞춘다. 글자 크기는 레벨과 무관하게 같다.
+
+<Preview code={headingLevelCode}>
+  <HeadingLevel client:visible />
+</Preview>
+
+## API
+
+### Trigger
+
+<PropsTable
+  of="Accordion.Trigger"
+  inherits="Radix Accordion.Trigger"
+  inheritsHref="https://www.radix-ui.com/primitives/docs/components/accordion#trigger"
+/>
+
+### 그 외 부품
+
+자체 props 없이 Radix 부품을 그대로 쓴다.
+
+| 부품      | Radix 문서                                                                                 |
+| --------- | ------------------------------------------------------------------------------------------ |
+| `Root`    | [Accordion.Root](https://www.radix-ui.com/primitives/docs/components/accordion#root)       |
+| `Item`    | [Accordion.Item](https://www.radix-ui.com/primitives/docs/components/accordion#item)       |
+| `Content` | [Accordion.Content](https://www.radix-ui.com/primitives/docs/components/accordion#content) |
+
+## 접근성
+
+### 키보드
+
+| 키                | 동작                                       |
+| ----------------- | ------------------------------------------ |
+| `Tab`             | 다음 트리거(또는 열린 내용 속 요소)로 이동 |
+| `Enter` / `Space` | 펼치기 / 접기                              |
+| `↓` / `↑`         | 다음 / 이전 트리거 (끝에서 처음으로 순환)  |
+| `Home` / `End`    | 첫 / 마지막 트리거                         |
+
+### 스크린리더
+
+- 트리거는 제목(`h3` 기본) 안의 `<button>` + `aria-expanded` + `aria-controls`.
+- 내용은 `role="region"` 이고 트리거 텍스트가 이름이 된다.
+- 접힌 내용은 DOM 에서 빠져 있어 읽히지도, 포커스되지도 않는다.
+
+### 사용자 설정
+
+- `prefers-reduced-motion` 이면 높이 애니메이션과 화살표 회전을 끄고 즉시 펼친다.
+- 높이 애니메이션은 실제 내용 높이(`--radix-accordion-content-height`)를 쓰므로 글자를 키워도 내용이 잘리지 않는다.
+- Windows 고대비 모드에서 구분선이 시스템 색으로 보인다.
+
+## 가이드
+
+<DoDont>
+  <Do title="훑어볼 수 있는 제목">
+    제목만 읽어도 내용을 예측할 수 있게 쓴다. FAQ 는 질문 그대로 쓴다.
+  </Do>
+  <Dont title="핵심 정보 숨기기">
+    모든 사용자가 꼭 봐야 하는 내용(가격, 필수 안내)은 접어두지 않는다.
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="독립적인 섹션">각 섹션이 따로 읽혀도 이해되도록 나눈다.</Do>
+  <Dont title="아코디언 안의 아코디언">
+    중첩하면 위치를 잃기 쉽다. 내용을 별도 페이지로 나눈다.
+  </Dont>
+</DoDont>

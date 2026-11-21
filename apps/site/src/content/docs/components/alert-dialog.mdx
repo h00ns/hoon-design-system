@@ -1,0 +1,159 @@
+---
+title: AlertDialog
+description: 되돌릴 수 없거나 중요한 결정을 내리기 전에 확인을 받는 다이얼로그.
+---
+
+import Preview from '../../../components/Preview.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import DoDont from '../../../components/DoDont.astro';
+import Do from '../../../components/Do.astro';
+import Dont from '../../../components/Dont.astro';
+
+import Basic from '../../../examples/alert-dialog/Basic';
+import basicCode from '../../../examples/alert-dialog/Basic?raw';
+import Confirm from '../../../examples/alert-dialog/Confirm';
+import confirmCode from '../../../examples/alert-dialog/Confirm?raw';
+import Async from '../../../examples/alert-dialog/Async';
+import asyncCode from '../../../examples/alert-dialog/Async?raw';
+
+**되돌릴 수 없거나 중요한 결정을 내리기 전에** 사용자의 확인을 받는 중단형 다이얼로그.
+삭제, 결제, 작성 중인 내용 버리기처럼 실수하면 손해가 큰 동작 앞에 둔다.
+일반적인 입력·정보 표시는 [Dialog](/components/dialog/) 를 쓴다.
+
+<Preview code={basicCode}>
+  <Basic client:visible />
+</Preview>
+
+## 사용법
+
+```tsx
+import { AlertDialog, Button } from '@hoon-ds/react';
+
+<AlertDialog.Root>
+  <AlertDialog.Trigger asChild>
+    <Button variant="danger">계정 삭제</Button>
+  </AlertDialog.Trigger>
+  <AlertDialog.Content>
+    <AlertDialog.Title>계정을 삭제할까요?</AlertDialog.Title>
+    <AlertDialog.Description>삭제한 계정은 복구할 수 없습니다.</AlertDialog.Description>
+    <AlertDialog.Footer>
+      <AlertDialog.Cancel>취소</AlertDialog.Cancel>
+      <AlertDialog.Action variant="danger" onClick={deleteAccount}>
+        삭제
+      </AlertDialog.Action>
+    </AlertDialog.Footer>
+  </AlertDialog.Content>
+</AlertDialog.Root>;
+```
+
+| 부품          | 역할                                                                     |
+| ------------- | ------------------------------------------------------------------------ |
+| `Root`        | 열림 상태. `open`/`onOpenChange` 또는 `defaultOpen`                      |
+| `Trigger`     | 여는 요소. `asChild` 로 Button 을 감싼다                                 |
+| `Content`     | 포털 · 오버레이 · 포커스 트랩을 포함한 본체. 바깥 클릭으로 닫히지 않는다 |
+| `Title`       | **필수.** 무엇을 확인하는지 묻는 질문                                    |
+| `Description` | **필수.** 결과를 설명하는 문장                                           |
+| `Footer`      | 버튼 영역                                                                |
+| `Cancel`      | 취소 버튼 (Button, 기본 `secondary`). 열릴 때 포커스를 받는다            |
+| `Action`      | 확인 버튼 (Button, 기본 `primary`). 누르면 `onClick` 후 닫힌다           |
+
+## 예시
+
+### 일반 확인
+
+파괴적이지 않은 확인은 `Action` 의 기본 `primary` 를 그대로 쓴다.
+
+<Preview code={confirmCode}>
+  <Confirm client:visible />
+</Preview>
+
+### 비동기 동작
+
+서버 요청이 끝날 때까지 열어 두려면 `Action` 의 `onClick` 에서 `event.preventDefault()` 를 호출하고 `open` 을 직접 제어한다.
+`loading` 동안 Action 은 눌리지 않지만 포커스는 유지된다. 요청 중에는 `onOpenChange` 를 무시해 Esc 로 닫히지 않게 하고,
+결과는 live region(`role="status"`)이나 [Toast](/components/toast/) 로 알린다.
+
+<Preview code={asyncCode}>
+  <Async client:visible />
+</Preview>
+
+## API
+
+### Content
+
+<PropsTable
+  of="AlertDialog.Content"
+  inherits="Radix AlertDialog.Content"
+  inheritsHref="https://www.radix-ui.com/primitives/docs/components/alert-dialog#content"
+/>
+
+### Cancel
+
+[Button](/components/button/) 의 스타일 props 를 받는다. 기본 `variant` 는 `secondary`.
+
+<PropsTable
+  of="AlertDialog.Cancel"
+  inherits="Radix AlertDialog.Cancel"
+  inheritsHref="https://www.radix-ui.com/primitives/docs/components/alert-dialog#cancel"
+/>
+
+### Action
+
+[Button](/components/button/) 의 스타일 props 를 받는다. 기본 `variant` 는 `primary`.
+
+<PropsTable
+  of="AlertDialog.Action"
+  inherits="Radix AlertDialog.Action"
+  inheritsHref="https://www.radix-ui.com/primitives/docs/components/alert-dialog#action"
+/>
+
+### 그 외 부품
+
+| 부품          | 설명                                                                                                          |
+| ------------- | ------------------------------------------------------------------------------------------------------------- |
+| `Root`        | [Radix AlertDialog.Root](https://www.radix-ui.com/primitives/docs/components/alert-dialog#root)               |
+| `Trigger`     | [Radix AlertDialog.Trigger](https://www.radix-ui.com/primitives/docs/components/alert-dialog#trigger)         |
+| `Title`       | [Radix AlertDialog.Title](https://www.radix-ui.com/primitives/docs/components/alert-dialog#title)             |
+| `Description` | [Radix AlertDialog.Description](https://www.radix-ui.com/primitives/docs/components/alert-dialog#description) |
+| `Footer`      | `<div>` 의 HTML 속성                                                                                          |
+
+## 접근성
+
+[WAI-ARIA APG Alert Dialog 패턴](https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/)을 따른다.
+
+### 키보드
+
+| 키                | 동작                                                           |
+| ----------------- | -------------------------------------------------------------- |
+| `Enter` / `Space` | 트리거에서 열기 · 포커스된 버튼 실행                           |
+| `Tab`             | Cancel 과 Action 사이를 오간다 (다이얼로그 밖으로 나가지 않음) |
+| `Esc`             | 취소하고 닫는다. 포커스는 트리거로 돌아간다                    |
+
+### 스크린리더
+
+- `role="alertdialog"` 라 열리는 즉시 제목과 설명을 읽어 사용자가 상황을 바로 파악한다.
+- 열리면 포커스가 **가장 안전한 동작인 Cancel** 로 간다. Enter 를 연타해도 실수로 삭제되지 않는다.
+- 바깥(오버레이) 클릭으로는 닫히지 않는다. 결정을 명시적으로 내리게 하기 위해서다.
+- 닫히면 포커스가 트리거로 돌아간다.
+
+### 사용자 설정
+
+[Dialog](/components/dialog/) 와 같은 표면을 써서 reduced-motion, 고대비 모드, 작은 화면(하단 시트·버튼 세로 배치)에 똑같이 대응한다.
+
+## 가이드
+
+<DoDont>
+  <Do title="질문형 제목, 구체적인 버튼">
+    "계정을 삭제할까요?" — 버튼은 "삭제" / "취소" 처럼 결과를 그대로 쓴다.
+  </Do>
+  <Dont title="예 / 아니요">
+    "정말 진행하시겠습니까?" + "예 / 아니요" 는 무엇에 동의하는지 다시 읽어야 한다.
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="정말 중요할 때만">
+    되돌릴 수 없는 동작에만 쓴다. 되돌릴 수 있다면 바로 실행하고 Toast 로 "실행 취소"를 제공한다.
+  </Do>
+  <Dont title="모든 동작에 확인 받기">확인 창이 잦으면 사용자는 읽지 않고 누르게 된다.</Dont>
+</DoDont>

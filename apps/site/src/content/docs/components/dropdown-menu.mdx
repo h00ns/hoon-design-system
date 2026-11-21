@@ -1,0 +1,205 @@
+---
+title: DropdownMenu
+description: 버튼을 눌러 여는 동작 목록.
+---
+
+import Preview from '../../../components/Preview.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import DoDont from '../../../components/DoDont.astro';
+import Do from '../../../components/Do.astro';
+import Dont from '../../../components/Dont.astro';
+
+import Basic from '../../../examples/dropdown-menu/Basic';
+import basicCode from '../../../examples/dropdown-menu/Basic?raw';
+import IconTrigger from '../../../examples/dropdown-menu/IconTrigger';
+import iconTriggerCode from '../../../examples/dropdown-menu/IconTrigger?raw';
+import CheckboxAndRadio from '../../../examples/dropdown-menu/CheckboxAndRadio';
+import checkboxAndRadioCode from '../../../examples/dropdown-menu/CheckboxAndRadio?raw';
+import Submenu from '../../../examples/dropdown-menu/Submenu';
+import submenuCode from '../../../examples/dropdown-menu/Submenu?raw';
+import Inset from '../../../examples/dropdown-menu/Inset';
+import insetCode from '../../../examples/dropdown-menu/Inset?raw';
+
+버튼을 눌러 여는 **동작 목록**. 편집·복제·삭제처럼 공간이 부족해 모두 펼쳐 둘 수 없는 동작을 모은다.
+[WAI-ARIA Menu Button](https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/) 패턴을 따른다.
+
+<Preview code={basicCode} minHeight="20rem">
+  <Basic client:visible />
+</Preview>
+
+## 사용법
+
+```tsx
+import { Button, DropdownMenu } from '@hoon-ds/react';
+
+<DropdownMenu.Root>
+  <DropdownMenu.Trigger asChild>
+    <Button variant="secondary">옵션</Button>
+  </DropdownMenu.Trigger>
+  <DropdownMenu.Content>
+    <DropdownMenu.Item onSelect={edit}>편집</DropdownMenu.Item>
+    <DropdownMenu.Separator />
+    <DropdownMenu.Item variant="danger" onSelect={remove}>
+      삭제
+    </DropdownMenu.Item>
+  </DropdownMenu.Content>
+</DropdownMenu.Root>;
+```
+
+| 부품                                        | 역할                                                            |
+| ------------------------------------------- | --------------------------------------------------------------- |
+| `Root`                                      | 열림 상태. 기본 `modal` — 열린 동안 바깥을 보조기기에서 숨긴다  |
+| `Trigger`                                   | 여는 버튼. `asChild` 로 Button·IconButton 을 감싼다             |
+| `Content`                                   | 메뉴. `side`·`align` 으로 위치, 화면 끝에서는 자동으로 뒤집힌다 |
+| `Item`                                      | 동작. `onSelect` 로 실행, `variant="danger"`, `inset`           |
+| `CheckboxItem` · `RadioGroup` · `RadioItem` | 켜고 끄는 설정, 하나만 고르는 설정                              |
+| `Label` · `Group` · `Separator`             | 묶음 제목, 묶음, 구분선                                         |
+| `Sub` · `SubTrigger` · `SubContent`         | 하위 메뉴                                                       |
+| `Shortcut`                                  | 단축키 표시(시각 전용)                                          |
+
+## 예시
+
+### 아이콘 버튼 트리거
+
+목록·카드의 "더보기(⋯)" 처럼 공간이 좁을 때. [IconButton](/components/icon-button/) 의 `aria-label` 이 트리거의 이름이 된다.
+
+<Preview code={iconTriggerCode} minHeight="14rem">
+  <IconTrigger client:visible />
+</Preview>
+
+### 체크 · 라디오 항목
+
+메뉴를 닫아도 상태가 유지되는 설정. 체크는 독립적으로 켜고 끄고, 라디오는 그룹에서 하나만 고른다.
+그룹 제목(`Label`)은 `aria-labelledby` 로 그룹에 연결하면 그룹 이름으로 읽힌다.
+
+<Preview code={checkboxAndRadioCode} minHeight="22rem">
+  <CheckboxAndRadio client:visible />
+</Preview>
+
+### 하위 메뉴
+
+깊이는 한 단계까지만 권장한다. 마우스는 올리면, 키보드는 `→` 로 연다.
+
+<Preview code={submenuCode} minHeight="16rem">
+  <Submenu client:visible />
+</Preview>
+
+### 아이콘 정렬
+
+아이콘이 있는 항목과 없는 항목이 섞이면 `inset` 으로 텍스트를 맞춘다.
+
+<Preview code={insetCode} minHeight="14rem">
+  <Inset client:visible />
+</Preview>
+
+## 메뉴 · Select · 내비게이션 고르기
+
+| 하려는 일                        | 컴포넌트                                    |
+| -------------------------------- | ------------------------------------------- |
+| 동작 실행 (편집, 삭제, 내보내기) | **DropdownMenu**                            |
+| 폼 값 고르기 (국가, 과일)        | [Select](/components/select/)               |
+| 다른 페이지로 이동               | 링크 목록 (`<nav>` + `<a>`) — 메뉴가 아니다 |
+
+ARIA `menu` 는 데스크톱 앱 메뉴를 흉내 내는 역할이라, 링크를 넣으면 스크린리더가 "메뉴 항목"으로 읽고 링크 기능(새 탭 열기 등)을 기대하기 어렵다.
+사이트 내비게이션 드롭다운은 disclosure 패턴(버튼 + 링크 목록)으로 만든다.
+
+## API
+
+### Content
+
+<PropsTable
+  of="DropdownMenu.Content"
+  inherits="Radix DropdownMenu.Content"
+  inheritsHref="https://www.radix-ui.com/primitives/docs/components/dropdown-menu#content"
+/>
+
+### Item
+
+<PropsTable
+  of="DropdownMenu.Item"
+  inherits="Radix DropdownMenu.Item"
+  inheritsHref="https://www.radix-ui.com/primitives/docs/components/dropdown-menu#item"
+/>
+
+### Label
+
+<PropsTable
+  of="DropdownMenu.Label"
+  inherits="Radix DropdownMenu.Label"
+  inheritsHref="https://www.radix-ui.com/primitives/docs/components/dropdown-menu#label"
+/>
+
+### SubTrigger
+
+<PropsTable
+  of="DropdownMenu.SubTrigger"
+  inherits="Radix DropdownMenu.SubTrigger"
+  inheritsHref="https://www.radix-ui.com/primitives/docs/components/dropdown-menu#subtrigger"
+/>
+
+### SubContent
+
+<PropsTable
+  of="DropdownMenu.SubContent"
+  inherits="Radix DropdownMenu.SubContent"
+  inheritsHref="https://www.radix-ui.com/primitives/docs/components/dropdown-menu#subcontent"
+/>
+
+### 그 외 부품
+
+자체 props 없이 Radix 부품을 그대로 쓴다.
+
+| 부품                       | Radix 문서                                                                                                  |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `Root`                     | [DropdownMenu.Root](https://www.radix-ui.com/primitives/docs/components/dropdown-menu#root)                 |
+| `Trigger`                  | [DropdownMenu.Trigger](https://www.radix-ui.com/primitives/docs/components/dropdown-menu#trigger)           |
+| `Group`                    | [DropdownMenu.Group](https://www.radix-ui.com/primitives/docs/components/dropdown-menu#group)               |
+| `CheckboxItem`             | [DropdownMenu.CheckboxItem](https://www.radix-ui.com/primitives/docs/components/dropdown-menu#checkboxitem) |
+| `RadioGroup` · `RadioItem` | [DropdownMenu.RadioGroup](https://www.radix-ui.com/primitives/docs/components/dropdown-menu#radiogroup)     |
+| `Separator`                | [DropdownMenu.Separator](https://www.radix-ui.com/primitives/docs/components/dropdown-menu#separator)       |
+| `Sub`                      | [DropdownMenu.Sub](https://www.radix-ui.com/primitives/docs/components/dropdown-menu#sub)                   |
+| `Shortcut`                 | `<span>` 의 HTML 속성 (`aria-hidden` 고정)                                                                  |
+
+## 접근성
+
+### 키보드
+
+| 키                      | 동작                                                      |
+| ----------------------- | --------------------------------------------------------- |
+| `Enter` / `Space` / `↓` | 트리거에서 메뉴 열기, 첫 항목에 포커스                    |
+| `↓` / `↑`               | 다음 / 이전 항목 (비활성 항목은 건너뜀)                   |
+| `Home` / `End`          | 첫 / 마지막 항목                                          |
+| `Enter` / `Space`       | 항목 실행 후 닫기, 포커스는 트리거로 (체크·라디오는 토글) |
+| `→` / `←`               | 하위 메뉴 열기 / 닫기                                     |
+| `Esc`                   | 닫기, 포커스는 트리거로                                   |
+| 글자 입력               | 일치하는 항목으로 이동                                    |
+
+### 스크린리더
+
+- 트리거는 `aria-haspopup="menu"` + `aria-expanded`, 메뉴는 `role="menu"`.
+- 항목은 `menuitem` / `menuitemcheckbox` / `menuitemradio` + `aria-checked`, 비활성은 `aria-disabled`.
+- `Shortcut` 은 시각적 힌트라 `aria-hidden` 이다. 단축키를 보조기기에 알리려면 Item 에 `aria-keyshortcuts="Meta+E"` 를 준다.
+- 아이콘은 장식이므로 `aria-hidden` 으로 둔다. 항목의 이름은 텍스트에서 나온다.
+
+### 사용자 설정
+
+- `prefers-reduced-motion` 이면 열림 애니메이션을 끈다.
+- Windows 고대비 모드에서 강조 항목이 `Highlight` 시스템 색으로 보인다.
+- RTL 레이아웃에서 하위 메뉴 화살표가 뒤집힌다.
+
+## 가이드
+
+<DoDont>
+  <Do title="동사로 시작">"편집", "복제", "삭제"처럼 실행될 동작을 쓴다.</Do>
+  <Dont title="자주 쓰는 동작을 숨기기">
+    주요 동작 하나는 메뉴 밖에 버튼으로 둔다. 메뉴는 보조 동작을 모으는 곳이다.
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="위험한 동작은 마지막에">
+    `variant="danger"` 항목은 구분선 뒤 맨 아래에 두고, 실행 전
+    [AlertDialog](/components/alert-dialog/) 로 확인한다.
+  </Do>
+  <Dont title="깊은 하위 메뉴">하위 메뉴 안의 하위 메뉴는 찾기도, 조작하기도 어렵다.</Dont>
+</DoDont>
