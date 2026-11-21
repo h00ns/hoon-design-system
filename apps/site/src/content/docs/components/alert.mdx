@@ -1,0 +1,131 @@
+---
+title: Alert
+description: 페이지 안에 자리를 차지하고 머무는 상태 메시지.
+---
+
+import Preview from '../../../components/Preview.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import DoDont from '../../../components/DoDont.astro';
+import Do from '../../../components/Do.astro';
+import Dont from '../../../components/Dont.astro';
+
+import Basic from '../../../examples/alert/Basic';
+import basicCode from '../../../examples/alert/Basic?raw';
+import Tones from '../../../examples/alert/Tones';
+import tonesCode from '../../../examples/alert/Tones?raw';
+import TitleOrDescription from '../../../examples/alert/TitleOrDescription';
+import titleOrDescriptionCode from '../../../examples/alert/TitleOrDescription?raw';
+import WithActions from '../../../examples/alert/WithActions';
+import withActionsCode from '../../../examples/alert/WithActions?raw';
+import Dismissible from '../../../examples/alert/Dismissible';
+import dismissibleCode from '../../../examples/alert/Dismissible?raw';
+import LiveAssertive from '../../../examples/alert/LiveAssertive';
+import liveAssertiveCode from '../../../examples/alert/LiveAssertive?raw';
+
+페이지 안에 **자리를 차지하고 머무는 상태 메시지**. 점검 안내, 폼 전체 오류, 결제 결과처럼 사용자가 읽고 판단해야 하는 내용을 보여준다.
+잠깐 떴다 사라지는 피드백은 [Toast](/components/toast/) 를 쓴다.
+
+<Preview code={basicCode}>
+  <Basic client:visible />
+</Preview>
+
+## 사용법
+
+```tsx
+import { Alert } from '@hoon-ds/react';
+
+<Alert tone="warning" title="저장 공간이 부족합니다">
+  오래된 파일을 정리해 주세요.
+</Alert>;
+```
+
+## 예시
+
+### Tone
+
+`info`(기본) · `success` · `warning` · `danger`. 톤마다 아이콘 모양이 달라 색을 구분하지 못해도 알아볼 수 있다.
+
+<Preview code={tonesCode}>
+  <Tones client:visible />
+</Preview>
+
+### 제목 또는 설명만
+
+<Preview code={titleOrDescriptionCode}>
+  <TitleOrDescription client:visible />
+</Preview>
+
+### 동작
+
+`actions` 에 버튼을 넣는다. 좁은 화면에서는 내용 아래로 내려간다.
+
+<Preview code={withActionsCode}>
+  <WithActions client:visible />
+</Preview>
+
+### 닫기
+
+`onClose` 를 주면 "닫기" 버튼이 생긴다. Alert 가 사라지면 포커스가 갈 곳이 없어지므로, 닫은 뒤 다음 의미 있는 요소로 포커스를 옮기는 것을 고려한다.
+
+<Preview code={dismissibleCode}>
+  <Dismissible client:visible />
+</Preview>
+
+### 즉시 알리기
+
+사용자 행동의 결과로 **나중에 나타나는** 오류는 `live="assertive"` 로 스크린리더가 바로 읽게 한다.
+
+<Preview code={liveAssertiveCode}>
+  <LiveAssertive client:visible />
+</Preview>
+
+## API
+
+<PropsTable of="Alert" inherits="<div> 의 HTML 속성 (title 제외)" />
+
+## 접근성
+
+### 키보드
+
+| 키                | 동작                                   |
+| ----------------- | -------------------------------------- |
+| `Tab`             | 안에 있는 동작 버튼·닫기 버튼으로 이동 |
+| `Enter` / `Space` | 포커스된 버튼 실행                     |
+
+### 스크린리더
+
+`live` 로 알림 방식을 고른다.
+
+| `live`         | 역할            | 언제                                                                |
+| -------------- | --------------- | ------------------------------------------------------------------- |
+| `'off'` (기본) | 없음            | 페이지를 열 때부터 있는 정적인 안내. 사용자가 읽어 내려가며 만난다. |
+| `'polite'`     | `role="status"` | 나중에 나타나는 일반 안내. 하던 낭독이 끝난 뒤 읽는다.              |
+| `'assertive'`  | `role="alert"`  | 즉시 알아야 하는 오류. 하던 낭독을 끊고 읽는다. 남발하지 않는다.    |
+
+- 처음부터 있는 Alert 에 `role="alert"` 를 달면 페이지를 열자마자 낭독이 끊긴다. 정적인 안내는 `'off'` 로 둔다.
+- `status` 영역은 내용이 **바뀔 때** 읽힌다. 확실히 읽히게 하려면 Alert 를 조건부로 렌더링하기보다 컨테이너를 미리 두고 내용을 바꾼다. `role="alert"` 는 새로 삽입돼도 대부분의 스크린리더가 읽는다.
+- 내용 앞에 숨김 텍스트로 톤 이름("안내:", "성공:", "주의:", "오류:")을 붙인다. `toneLabel` 로 바꾸거나 `false` 로 끈다.
+- 아이콘은 장식이다(`aria-hidden`).
+
+### 사용자 설정
+
+- 텍스트와 배경 대비는 모든 톤·테마에서 4.5:1 이상이다.
+- Windows 고대비 모드에서 테두리와 아이콘이 시스템 텍스트 색으로 보인다.
+- 글자를 200% 키워도 아이콘이 첫 줄에 맞춰지고 버튼은 아래로 줄바꿈된다.
+
+## 가이드
+
+<DoDont>
+  <Do title="해결 방법까지">
+    "결제에 실패했습니다. 카드 한도를 확인하거나 다른 결제 수단을 선택해 주세요."
+  </Do>
+  <Dont title="원인만">"오류가 발생했습니다." — 무엇을 해야 하는지 알 수 없다.</Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="폼 오류 요약">
+    제출 실패 시 폼 위에 `live="assertive"` Alert 로 오류 개수를 알리고, 각 필드에는
+    [Field](/components/field/) 오류 메시지를 둔다.
+  </Do>
+  <Dont title="모든 Alert 를 assertive 로">계속 낭독을 끊으면 사용자는 흐름을 잃는다.</Dont>
+</DoDont>

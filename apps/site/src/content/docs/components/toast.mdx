@@ -1,0 +1,182 @@
+---
+title: Toast
+description: 사용자 행동의 결과나 백그라운드 작업 상태를 잠깐 알려주고 사라지는 메시지.
+---
+
+import Preview from '../../../components/Preview.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import DoDont from '../../../components/DoDont.astro';
+import Do from '../../../components/Do.astro';
+import Dont from '../../../components/Dont.astro';
+
+import ToasterIsland from '../../../examples/toast/ToasterIsland';
+import Basic from '../../../examples/toast/Basic';
+import basicCode from '../../../examples/toast/Basic?raw';
+import Tones from '../../../examples/toast/Tones';
+import tonesCode from '../../../examples/toast/Tones?raw';
+import WithAction from '../../../examples/toast/WithAction';
+import withActionCode from '../../../examples/toast/WithAction?raw';
+import UpdateById from '../../../examples/toast/UpdateById';
+import updateByIdCode from '../../../examples/toast/UpdateById?raw';
+import Persistent from '../../../examples/toast/Persistent';
+import persistentCode from '../../../examples/toast/Persistent?raw';
+import Stacking from '../../../examples/toast/Stacking';
+import stackingCode from '../../../examples/toast/Stacking?raw';
+
+{/* 이 페이지의 모든 예시가 공유하는 Toaster (한 번만 마운트) */}
+
+<ToasterIsland client:load />
+
+사용자 행동의 결과나 백그라운드 작업 상태를 **잠깐 알려주고 사라지는 메시지**. 화면 흐름을 막지 않는다.
+사용자가 읽고 판단해야 하는 내용이나 오래 남아야 하는 정보는 [Alert](/components/alert/), 반드시 응답이 필요하면 [AlertDialog](/components/alert-dialog/) 를 쓴다.
+
+<Preview code={basicCode}>
+  <Basic client:visible />
+</Preview>
+
+## 사용법
+
+`<Toaster />` 를 앱 최상단에 **한 번만** 두고, 어디서든 `toast()` 를 호출한다.
+
+```tsx
+import { Toaster, toast } from '@hoon-ds/react';
+
+function App() {
+  return (
+    <>
+      <Routes />
+      <Toaster />
+    </>
+  );
+}
+
+// 어디서든
+toast('링크를 복사했습니다');
+toast.success('저장했습니다');
+toast.error('업로드에 실패했습니다', { description: '파일이 10MB를 넘습니다.' });
+toast({
+  title: '메일을 삭제했습니다',
+  action: { label: '되돌리기', altText: '휴지통에서 되돌릴 수 있습니다', onClick: undo },
+});
+toast.dismiss(id); // id 생략 시 모두 닫기
+```
+
+## 예시
+
+### Tone
+
+`toast()`(neutral) · `toast.info` · `toast.success` · `toast.warning` · `toast.error`.
+
+<Preview code={tonesCode}>
+  <Tones client:visible />
+</Preview>
+
+### 동작 (되돌리기)
+
+`action` 은 하나만 둔다. `altText` 는 **필수**다 — 스크린리더 사용자는 토스트로 포커스를 옮기지 않은 채 낭독만 들으므로, 같은 일을 할 수 있는 다른 경로를 알려줘야 한다.
+동작이 있는 토스트는 기본으로 **자동으로 닫히지 않는다** (WCAG 2.2.1 시간 조절).
+
+<Preview code={withActionCode}>
+  <WithAction client:visible />
+</Preview>
+
+### 진행 → 결과로 바꾸기
+
+같은 `id` 로 다시 호출하면 새 토스트를 띄우지 않고 내용을 바꾼다.
+
+<Preview code={updateByIdCode}>
+  <UpdateById client:visible />
+</Preview>
+
+### 닫을 때까지 유지
+
+`duration: Infinity`. 상태가 끝나면 `toast.dismiss(id)` 로 닫는다.
+
+<Preview code={persistentCode}>
+  <Persistent client:visible />
+</Preview>
+
+### 여러 개
+
+`limit`(기본 3)을 넘으면 앞의 토스트가 닫힐 때까지 **순서대로 대기**한다. 단, **오류(`toast.error`)는 대기하지 않고 바로 나타난다** — 덜 중요한 알림 때문에 오류 전달이 늦어지면 안 되기 때문이다.
+
+<Preview code={stackingCode}>
+  <Stacking client:visible />
+</Preview>
+
+## API
+
+### toast()
+
+| 호출                                        | 설명                                             |
+| ------------------------------------------- | ------------------------------------------------ |
+| `toast(title, options?)` / `toast(options)` | neutral 토스트를 띄우고 `id` 를 돌려준다         |
+| `toast.info` · `success` · `warning`        | 해당 톤으로 띄운다 (`title, options?`)           |
+| `toast.error(title, options?)`              | danger 톤. 기본 `type="foreground"`, 대기열 없음 |
+| `toast.dismiss(id?)`                        | 해당 토스트를 닫는다. `id` 가 없으면 모두 닫는다 |
+
+### 옵션
+
+| 옵션          | 타입                                                        | 기본값                                      |
+| ------------- | ----------------------------------------------------------- | ------------------------------------------- |
+| `title`       | `ReactNode`                                                 |                                             |
+| `description` | `ReactNode`                                                 |                                             |
+| `tone`        | `'neutral' \| 'info' \| 'success' \| 'warning' \| 'danger'` | `'neutral'`                                 |
+| `duration`    | `number` (ms, `Infinity` = 유지)                            | action 있으면 `Infinity`, 아니면 Toaster 값 |
+| `action`      | `{ label, altText, onClick }`                               |                                             |
+| `type`        | `'foreground' \| 'background'`                              | danger 면 `'foreground'`                    |
+| `id`          | `string`                                                    | 자동                                        |
+| `onDismiss`   | `() => void`                                                |                                             |
+
+### Toaster
+
+<PropsTable of="Toaster" />
+
+## 접근성
+
+### 키보드
+
+| 키                    | 동작                                              |
+| --------------------- | ------------------------------------------------- |
+| `F8`                  | 알림 영역으로 포커스 이동 (`hotkey` 로 변경 가능) |
+| `Tab` / `Shift + Tab` | 토스트와 그 안의 버튼 사이 이동                   |
+| `Esc`                 | 포커스된 토스트 닫기                              |
+| `Enter` / `Space`     | 포커스된 버튼(되돌리기, 닫기) 실행                |
+
+### 스크린리더
+
+- 토스트가 뜨면 **"알림 성공: 저장했습니다"** 처럼 Toaster 의 `toastLabel`("알림")과 톤 이름을 붙여 읽는다. 톤 이름은 `toneLabels` 로 바꾼다.
+- `type` 으로 우선순위를 고른다.
+  - `'foreground'` — 하던 낭독을 끊고 즉시 읽는다 (`aria-live="assertive"`). 사용자가 방금 한 행동의 결과, 특히 오류.
+  - `'background'` — 하던 낭독이 끝난 뒤 읽는다 (`aria-live="polite"`). 백그라운드 작업 완료처럼 급하지 않은 알림.
+- 알림 영역의 이름은 "알림 (F8)" — 단축키를 함께 알려준다. `label` 로 바꾼다.
+- 낭독 문구에서 동작 버튼은 `altText` 로 대체되고, 닫기 버튼은 빠진다.
+
+### 사용자 설정
+
+- 포인터를 올리거나, 토스트에 포커스가 있거나, 창이 비활성이면 **타이머가 멈춘다**.
+- 터치 기기에서 화면 바깥쪽으로 밀어 닫을 수 있다 (방향은 `position` 에 맞춰 자동).
+- `prefers-reduced-motion: reduce` 면 미끄러지는 움직임 없이 나타나고 사라지기만 한다.
+- Windows 고대비 모드에서 테두리와 아이콘이 시스템 색으로 보인다.
+- 빈 알림 영역은 아래 콘텐츠의 클릭을 막지 않는다.
+
+## 가이드
+
+<DoDont>
+  <Do title="짧고 구체적으로">"메일 1통을 삭제했습니다" — 무엇이 일어났는지 한 문장으로.</Do>
+  <Dont title="중요한 정보만 토스트로">
+    사라지는 메시지에 계좌번호, 인증 코드처럼 다시 봐야 하는 정보를 담지 않는다.
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="되돌리기 제공">삭제처럼 실수하기 쉬운 동작 뒤에는 되돌리기 action 을 둔다.</Do>
+  <Dont title="확인이 필요한 질문">
+    "정말 삭제할까요?" 는 응답이 필수이므로 [AlertDialog](/components/alert-dialog/) 를 쓴다.
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="폼 오류는 필드에">입력 오류는 해당 필드의 오류 메시지로 보여준다.</Do>
+  <Dont title="오류를 토스트로만">토스트가 사라지면 무엇이 틀렸는지 다시 볼 수 없다.</Dont>
+</DoDont>

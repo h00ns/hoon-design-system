@@ -1,0 +1,159 @@
+---
+title: Popover
+description: 트리거 옆에 떠서 부가 정보나 간단한 입력을 보여주는 비모달 패널.
+---
+
+import Preview from '../../../components/Preview.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import DoDont from '../../../components/DoDont.astro';
+import Do from '../../../components/Do.astro';
+import Dont from '../../../components/Dont.astro';
+
+import Basic from '../../../examples/popover/Basic';
+import basicCode from '../../../examples/popover/Basic?raw';
+import WithArrow from '../../../examples/popover/WithArrow';
+import withArrowCode from '../../../examples/popover/WithArrow?raw';
+import Sides from '../../../examples/popover/Sides';
+import sidesCode from '../../../examples/popover/Sides?raw';
+import WithAnchor from '../../../examples/popover/WithAnchor';
+import withAnchorCode from '../../../examples/popover/WithAnchor?raw';
+
+트리거 옆에 떠서 **부가 정보나 간단한 입력**을 보여주는 비모달 패널. 페이지를 가리지 않고, 열려 있는 동안에도 바깥과 상호작용할 수 있다.
+
+<Preview code={basicCode} minHeight="14rem">
+  <Basic client:visible />
+</Preview>
+
+### Popover · Dialog · Tooltip 중 무엇을 쓸까
+
+|                 | [Tooltip](/components/tooltip/) | Popover                    | [Dialog](/components/dialog/)   |
+| --------------- | ------------------------------- | -------------------------- | ------------------------------- |
+| 여는 방법       | hover · 키보드 포커스           | 클릭 · Enter/Space         | 클릭 · Enter/Space              |
+| 내용            | 짧은 텍스트 한 줄               | 텍스트, 링크, 간단한 폼    | 폼, 상세 정보, 여러 단계의 작업 |
+| 인터랙티브 요소 | ❌ 넣을 수 없다                 | ✅                         | ✅                              |
+| 바깥과 상호작용 | ✅                              | ✅ (비모달)                | ❌ (모달 — 바깥은 잠긴다)       |
+| 포커스          | 트리거에 남는다                 | 내용으로 이동, 닫히면 복귀 | 내용 안에 갇힘, 닫히면 복귀     |
+| 터치 기기       | 열리지 않는다                   | ✅                         | ✅                              |
+
+## 사용법
+
+```tsx
+import { Popover } from '@hoon-ds/react';
+```
+
+```tsx
+<Popover.Root>
+  <Popover.Trigger asChild>
+    <Button variant="secondary">배송지 메모</Button>
+  </Popover.Trigger>
+  <Popover.Content>
+    <Popover.Title>배송지 메모</Popover.Title>
+    <Popover.Description>배송 기사님께 전달됩니다.</Popover.Description>
+    {/* 내용 */}
+  </Popover.Content>
+</Popover.Root>
+```
+
+| 부품          | 역할                                                                     |
+| ------------- | ------------------------------------------------------------------------ |
+| `Root`        | 열림 상태. `open`/`onOpenChange` 또는 `defaultOpen`. 기본 비모달         |
+| `Trigger`     | 여는 요소. `asChild` 로 Button 을 감싼다                                 |
+| `Anchor`      | 트리거가 아닌 다른 요소를 기준으로 위치시킬 때                           |
+| `Content`     | 포털에 렌더링되는 패널. 화면 끝에 닿으면 자동으로 방향을 바꾼다          |
+| `Title`       | 패널의 접근 가능한 이름. 제목이 없다면 `Content` 에 `aria-label` 을 준다 |
+| `Description` | 패널의 접근 가능한 설명                                                  |
+| `Close`       | 닫는 요소                                                                |
+
+## 예시
+
+### 화살표
+
+`arrow` 로 트리거를 가리키는 화살표를 그린다. 트리거와 패널의 관계가 덜 분명할 때 (예: 작은 아이콘 버튼) 도움이 된다.
+
+<Preview code={withArrowCode} minHeight="12rem">
+  <WithArrow client:visible />
+</Preview>
+
+### 방향
+
+`side` · `align` · `sideOffset` 으로 위치를 정한다. 공간이 부족하면 반대쪽으로 뒤집히고 화면 안쪽으로 밀린다 (`collisionPadding` 8px).
+
+<Preview code={sidesCode} minHeight="12rem">
+  <Sides client:visible />
+</Preview>
+
+### Anchor
+
+트리거가 작은 버튼이지만 패널은 더 큰 영역에 맞춰 붙이고 싶을 때 `Popover.Anchor` 로 기준 요소를 따로 지정한다.
+
+<Preview code={withAnchorCode} minHeight="12rem">
+  <WithAnchor client:visible />
+</Preview>
+
+## API
+
+### Content
+
+<PropsTable
+  of="Popover.Content"
+  inherits="Radix Popover.Content"
+  inheritsHref="https://www.radix-ui.com/primitives/docs/components/popover#content"
+/>
+
+`sideOffset` 기본값은 8, `collisionPadding` 은 8, `align` 은 `'center'` 다.
+
+### 그 밖의 부품
+
+자체 props 없이 Radix 부품을 그대로 쓴다.
+
+| 부품          | Radix 문서                                                                             |
+| ------------- | -------------------------------------------------------------------------------------- |
+| `Root`        | [Popover.Root](https://www.radix-ui.com/primitives/docs/components/popover#root)       |
+| `Trigger`     | [Popover.Trigger](https://www.radix-ui.com/primitives/docs/components/popover#trigger) |
+| `Anchor`      | [Popover.Anchor](https://www.radix-ui.com/primitives/docs/components/popover#anchor)   |
+| `Close`       | [Popover.Close](https://www.radix-ui.com/primitives/docs/components/popover#close)     |
+| `Title`       | `<h2>` 속성 — 패널의 `aria-labelledby` 로 자동 연결                                    |
+| `Description` | `<p>` 속성 — 패널의 `aria-describedby` 로 자동 연결                                    |
+
+## 접근성
+
+[WAI-ARIA APG Dialog 패턴](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/)의 비모달 형태다.
+
+### 키보드
+
+| 키                | 동작                                                     |
+| ----------------- | -------------------------------------------------------- |
+| `Enter` / `Space` | 트리거에서 열고 닫는다                                   |
+| `Tab`             | 패널 안 요소를 순서대로 이동. 패널 밖으로도 나갈 수 있다 |
+| `Esc`             | 닫고 트리거로 포커스를 돌려준다                          |
+
+### 스크린리더
+
+- 트리거는 `aria-haspopup="dialog"`, `aria-expanded`, `aria-controls` 로 패널과 연결된다.
+- 패널은 `role="dialog"`. `Popover.Title` 을 쓰면 이름이, `Popover.Description` 을 쓰면 설명이 자동 연결된다.
+  제목이 없다면 `Content` 에 `aria-label` 을 준다.
+- 열리면 포커스가 패널 안으로 이동하고, Esc 나 Close 로 닫히면 트리거로 돌아온다.
+- 비모달이라 바깥 콘텐츠를 숨기지 않는다. 바깥을 클릭하면 닫힌다.
+
+### 사용자 설정
+
+- `prefers-reduced-motion` 이면 이동 없이 짧은 페이드만 남는다.
+- Windows 고대비 모드에서 시스템 색 테두리로 경계가 보인다.
+- 패널 높이는 화면에 남은 공간을 넘지 않고, 넘치면 패널 안에서 스크롤된다.
+
+## 가이드
+
+<DoDont>
+  <Do title="짧고 관련된 내용">트리거와 직접 관련된 정보나 한두 개의 입력만 담는다.</Do>
+  <Dont title="긴 폼, 여러 단계">
+    내용이 길어지면 [Dialog](/components/dialog/) 나 별도 페이지로 옮긴다.
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="클릭으로 열기">사용자가 명시적으로 열고 닫는다.</Do>
+  <Dont title="hover 로 열기">
+    hover 로 열리는 인터랙티브 패널은 키보드·터치 사용자가 쓰기 어렵다. 짧은 설명이라면
+    [Tooltip](/components/tooltip/) 을 쓴다.
+  </Dont>
+</DoDont>

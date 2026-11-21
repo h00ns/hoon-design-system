@@ -1,0 +1,185 @@
+---
+title: Tooltip
+description: 마우스를 올리거나 키보드로 포커스했을 때 짧은 보조 설명을 보여준다.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import Preview from '../../../components/Preview.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import DoDont from '../../../components/DoDont.astro';
+import Do from '../../../components/Do.astro';
+import Dont from '../../../components/Dont.astro';
+
+import Basic from '../../../examples/tooltip/Basic';
+import basicCode from '../../../examples/tooltip/Basic?raw';
+import IconToolbar from '../../../examples/tooltip/IconToolbar';
+import iconToolbarCode from '../../../examples/tooltip/IconToolbar?raw';
+import Sides from '../../../examples/tooltip/Sides';
+import sidesCode from '../../../examples/tooltip/Sides?raw';
+import Shortcut from '../../../examples/tooltip/Shortcut';
+import shortcutCode from '../../../examples/tooltip/Shortcut?raw';
+import DisabledButton from '../../../examples/tooltip/DisabledButton';
+import disabledButtonCode from '../../../examples/tooltip/DisabledButton?raw';
+import Composition from '../../../examples/tooltip/Composition';
+import compositionCode from '../../../examples/tooltip/Composition?raw';
+
+요소에 마우스를 올리거나 키보드로 포커스했을 때 **짧은 보조 설명**을 보여준다.
+아이콘 버튼의 이름, 단축키, 비활성 이유처럼 _없어도 기능을 쓸 수 있지만 있으면 도움이 되는_ 정보에 쓴다.
+
+<Preview code={basicCode}>
+  <Basic client:visible />
+</Preview>
+
+<Aside type="caution">
+  **툴팁은 터치 기기에서 열리지 않고, 화면 확대 사용자는 놓치기 쉽다.** 꼭 알아야 하는 정보(오류,
+  필수 조건, 가격)는 툴팁에 숨기지 말고 화면에 직접 보여준다.
+</Aside>
+
+## 사용법
+
+대부분은 한 줄짜리 `SimpleTooltip` 으로 충분하다.
+
+```tsx
+import { SimpleTooltip } from '@hoon-ds/react';
+
+<SimpleTooltip content="설정">
+  <IconButton aria-label="설정">
+    <GearIcon />
+  </IconButton>
+</SimpleTooltip>;
+```
+
+세밀하게 조정하려면 조립형 API 를 쓴다.
+
+```tsx
+import { Tooltip } from '@hoon-ds/react';
+
+<Tooltip.Root>
+  <Tooltip.Trigger asChild>
+    <Button>저장</Button>
+  </Tooltip.Trigger>
+  <Tooltip.Content side="bottom">저장 (⌘S)</Tooltip.Content>
+</Tooltip.Root>;
+```
+
+| 부품               | 역할                                                                       |
+| ------------------ | -------------------------------------------------------------------------- |
+| `Tooltip.Provider` | 여러 툴팁의 지연 시간 공유. 앱 최상단에 한 번 두는 것을 권장 (없어도 동작) |
+| `Tooltip.Root`     | 툴팁 하나의 상태. `open`/`onOpenChange`, `delayDuration`                   |
+| `Tooltip.Trigger`  | 툴팁을 띄우는 요소. **포커스 가능한 요소**를 `asChild` 로 감싼다           |
+| `Tooltip.Content`  | 툴팁 내용. 포털에 렌더링되고 화살표(`arrow`, 기본 켜짐)를 그린다           |
+| `SimpleTooltip`    | 위 네 부품을 합친 축약형. `content` 와 자식 요소 하나만 넘긴다             |
+
+## 예시
+
+### 아이콘 툴바
+
+아이콘만 있는 버튼은 `aria-label` 로 이름을 주고, 같은 문구를 툴팁으로 보여 시각 사용자도 의미를 알 수 있게 한다.
+`Tooltip.Provider` 로 감싸면 첫 툴팁 이후 옆 버튼으로 옮겨갈 때 지연 없이 바로 열린다.
+
+<Preview code={iconToolbarCode}>
+  <IconToolbar client:visible />
+</Preview>
+
+### 방향
+
+기본은 `top`. 공간이 부족하면 자동으로 반대쪽으로 뒤집힌다.
+
+<Preview code={sidesCode}>
+  <Sides client:visible />
+</Preview>
+
+### 단축키 안내
+
+<Preview code={shortcutCode}>
+  <Shortcut client:visible />
+</Preview>
+
+### 비활성 버튼의 이유
+
+네이티브 `disabled` 버튼은 포커스도, 마우스 이벤트도 받지 못해 툴팁이 열리지 않는다.
+비활성 이유를 툴팁으로 알려주려면 [Button](/components/button/) 의 `focusableWhenDisabled` 를 쓴다.
+
+<Preview code={disabledButtonCode}>
+  <DisabledButton client:visible />
+</Preview>
+
+### 조립형 API
+
+<Preview code={compositionCode}>
+  <Composition client:visible />
+</Preview>
+
+## API
+
+### SimpleTooltip
+
+<PropsTable of="Tooltip.SimpleTooltip" />
+
+이 외에 `open` · `defaultOpen` · `onOpenChange` · `delayDuration` · `disableHoverableContent`([Tooltip.Root](https://www.radix-ui.com/primitives/docs/components/tooltip#root))와
+`side` · `align` · `sideOffset`([Tooltip.Content](https://www.radix-ui.com/primitives/docs/components/tooltip#content))을 받는다.
+
+### Tooltip.Content
+
+<PropsTable
+  of="Tooltip.Content"
+  inherits="Radix Tooltip.Content"
+  inheritsHref="https://www.radix-ui.com/primitives/docs/components/tooltip#content"
+/>
+
+### 그 밖의 부품
+
+| 부품               | Radix 문서                                                                                                                     |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
+| `Tooltip.Provider` | [Tooltip.Provider](https://www.radix-ui.com/primitives/docs/components/tooltip#provider) — 기본 `delayDuration` 300ms          |
+| `Tooltip.Root`     | [Tooltip.Root](https://www.radix-ui.com/primitives/docs/components/tooltip#root) — Provider 밖에서는 스스로 Provider 를 만든다 |
+| `Tooltip.Trigger`  | [Tooltip.Trigger](https://www.radix-ui.com/primitives/docs/components/tooltip#trigger)                                         |
+
+## 접근성
+
+[WAI-ARIA APG Tooltip 패턴](https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/)과 WCAG 1.4.13(호버·포커스 시 나타나는 콘텐츠)을 따른다.
+
+### 키보드
+
+| 키    | 동작                                           |
+| ----- | ---------------------------------------------- |
+| `Tab` | 트리거에 포커스가 오면 툴팁이 열린다           |
+| `Esc` | 툴팁을 닫는다. 포커스는 트리거에 그대로 남는다 |
+
+### 스크린리더
+
+- 열린 툴팁은 `role="tooltip"` 이고, 트리거의 `aria-describedby` 로 연결되어 **설명**으로 읽힌다 (이름이 아니다).
+  그래서 아이콘 버튼은 툴팁과 별개로 반드시 `aria-label` 이 있어야 한다.
+- 툴팁에는 포커스가 가지 않는다. 링크·버튼 같은 인터랙티브 요소를 넣으면 키보드로 닿을 수 없으므로 [Popover](/components/popover/) 를 쓴다.
+
+### 사용자 설정
+
+- **dismissible**: Esc 로 닫을 수 있다.
+- **hoverable**: 툴팁 위로 마우스를 옮겨도 닫히지 않아 확대 사용자가 내용을 읽을 수 있다.
+- **persistent**: 사용자가 포인터·포커스를 옮기거나 Esc 를 누를 때까지 사라지지 않는다.
+- 기본 300ms 지연으로 커서가 스쳐 지나갈 때 깜빡이지 않는다. 클릭으로 포커스될 때는 열리지 않는다.
+- `prefers-reduced-motion` 이면 이동 없이 페이드만 남는다. Windows 고대비 모드에서는 시스템 색 테두리를 그린다.
+- 터치 기기에서는 열리지 않는다 (Radix 의 의도된 동작). 터치 사용자에게도 필요한 정보라면 화면에 보이게 둔다.
+
+## 가이드
+
+<DoDont>
+  <Do title="짧은 보조 설명">"설정", "저장 (⌘S)" 처럼 한 줄로 끝나는 텍스트.</Do>
+  <Dont title="필수 정보 숨기기">
+    오류 메시지, 입력 조건, 가격처럼 꼭 알아야 하는 내용은 툴팁에 넣지 않는다.
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="포커스 가능한 트리거">Button, IconButton, 링크처럼 키보드로 닿는 요소에 붙인다.</Do>
+  <Dont title="텍스트·아이콘에 바로 붙이기">
+    `<span>` 이나 장식 아이콘은 포커스를 받지 못해 키보드 사용자는 툴팁을 볼 수 없다.
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="텍스트만">툴팁 안에는 텍스트만 넣는다.</Do>
+  <Dont title="링크·버튼 넣기">
+    툴팁 안의 인터랙티브 요소에는 키보드로 닿을 수 없다. [Popover](/components/popover/) 를 쓴다.
+  </Dont>
+</DoDont>
