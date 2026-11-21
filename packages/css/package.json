@@ -1,7 +1,23 @@
 {
   "name": "@hoon-ds/css",
   "version": "0.0.0",
-  "description": "Framework-agnostic component styles for hoon-design-system",
+  "description": "Framework-agnostic component styles for hoon-design-system (cascade layers)",
+  "keywords": [
+    "css",
+    "design-system",
+    "components",
+    "accessibility"
+  ],
+  "license": "MIT",
+  "homepage": "https://h00ns.github.io/hoon-design-system/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/h00ns/hoon-design-system.git",
+    "directory": "packages/css"
+  },
+  "bugs": {
+    "url": "https://github.com/h00ns/hoon-design-system/issues"
+  },
   "type": "module",
   "sideEffects": [
     "*.css"
@@ -24,5 +40,9 @@
   "devDependencies": {
     "browserslist": "^4.29.6",
     "lightningcss": "^1.33.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
   }
 }

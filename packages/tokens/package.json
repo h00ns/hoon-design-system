@@ -1,7 +1,23 @@
 {
   "name": "@hoon-ds/tokens",
   "version": "0.0.0",
-  "description": "Design tokens for hoon-design-system (CSS variables, JS, JSON)",
+  "description": "Design tokens for hoon-design-system — CSS variables, JS, JSON (light/dark)",
+  "keywords": [
+    "design-tokens",
+    "css-variables",
+    "design-system",
+    "dark-mode"
+  ],
+  "license": "MIT",
+  "homepage": "https://h00ns.github.io/hoon-design-system/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/h00ns/hoon-design-system.git",
+    "directory": "packages/tokens"
+  },
+  "bugs": {
+    "url": "https://github.com/h00ns/hoon-design-system/issues"
+  },
   "type": "module",
   "sideEffects": [
     "*.css"
@@ -27,5 +43,9 @@
   "devDependencies": {
     "style-dictionary": "^5.8.0",
     "vitest": "^5.1.1"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
   }
 }

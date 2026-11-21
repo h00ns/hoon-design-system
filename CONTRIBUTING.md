@@ -50,3 +50,9 @@
 - [ ] `expectNoA11yViolations` 로 axe 검사
 - [ ] Storybook 에 모든 variant·상태 스토리, a11y 패널에 위반 없음
 - [ ] 사용자에게 보이는 변경이면 `pnpm changeset`
+
+## 릴리스
+
+1. 사용자에게 보이는 변경이 있으면 PR 에 `pnpm changeset` 으로 변경 기록을 추가한다 (patch / minor / major 선택).
+2. main 에 머지되면 Release 워크플로가 **"chore: release" PR** 을 자동으로 만든다 (버전 · CHANGELOG 갱신).
+3. 그 PR 을 머지하면 npm 에 배포된다. (저장소 Secret `NPM_TOKEN` 필요)
