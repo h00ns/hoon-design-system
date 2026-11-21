@@ -1,5 +1,7 @@
 # hoon-design-system
 
+📘 **문서: https://h00ns.github.io/hoon-design-system/**
+
 접근성과 사용성을 기본값으로 갖춘 React 디자인 시스템.
 토큰과 스타일은 프레임워크와 무관하게 만들고, 동작은 [Radix](https://www.radix-ui.com/) 위에 React 로 구현한다.
 
@@ -58,7 +60,7 @@ React 가 아닌 환경에서도 스타일은 그대로 쓸 수 있다.
 
 ```bash
 pnpm install
-pnpm dev:site     # 문서 사이트 (http://localhost:4321)
+pnpm dev:site     # 문서 사이트 (http://localhost:4321/hoon-design-system/)
 pnpm dev          # Storybook (http://localhost:6006)
 pnpm test         # 토큰 대비 테스트 + 컴포넌트 테스트
 pnpm lint         # ESLint (jsx-a11y strict 포함)

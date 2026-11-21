@@ -3,12 +3,21 @@ import { fileURLToPath } from 'node:url';
 import react from '@astrojs/react';
 import starlight from '@astrojs/starlight';
 import { defineConfig } from 'astro/config';
+import rehypeBaseLinks from './plugins/rehype-base-links.mjs';
 
 /** @param {string} path */
 const fromRoot = (path) => fileURLToPath(new URL(`../../${path}`, import.meta.url));
 
+// GitHub Pages: https://h00ns.github.io/hoon-design-system/
+const BASE = '/hoon-design-system';
+
 export default defineConfig({
-  site: 'https://hoon-design-system.example.com',
+  site: 'https://h00ns.github.io',
+  base: BASE,
+  trailingSlash: 'always',
+  markdown: {
+    rehypePlugins: [[rehypeBaseLinks, { base: BASE }]],
+  },
   integrations: [
     starlight({
       title: 'hoon-design-system',
@@ -30,6 +39,7 @@ export default defineConfig({
         { label: 'Components', items: [{ autogenerate: { directory: 'components' } }] },
       ],
       lastUpdated: false,
+      favicon: '/favicon.svg',
     }),
     react(),
   ],

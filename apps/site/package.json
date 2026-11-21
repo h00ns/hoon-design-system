@@ -9,6 +9,7 @@
     "typecheck": "node scripts/generate-props.mjs && astro check"
   },
   "dependencies": {
+    "@astrojs/markdown-remark": "^7.3.10",
     "@astrojs/react": "^7.1.9",
     "@astrojs/starlight": "^0.43.1",
     "@hoon-ds/css": "workspace:^",
