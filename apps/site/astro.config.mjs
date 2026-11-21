@@ -18,7 +18,12 @@ export default defineConfig({
       social: [
         { icon: 'github', label: 'GitHub', href: 'https://github.com/h00ns/hoon-design-system' },
       ],
-      customCss: ['@hoon-ds/tokens/css', '@hoon-ds/css', './src/styles/site.css'],
+      customCss: [
+        './src/styles/layer-order.css',
+        '@hoon-ds/tokens/css',
+        '@hoon-ds/css',
+        './src/styles/site.css',
+      ],
       sidebar: [
         { label: '시작하기', items: [{ autogenerate: { directory: 'getting-started' } }] },
         { label: 'Foundations', items: [{ autogenerate: { directory: 'foundations' } }] },

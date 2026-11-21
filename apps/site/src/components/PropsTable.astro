@@ -68,7 +68,7 @@ const inline = (s: string) =>
 {
   inherits && (
     <p class="ds-props__inherits">
-      이 외에{' '}
+      {props.length > 0 ? '이 외에 ' : ''}
       {inheritsHref ? (
         <a href={inheritsHref} target="_blank" rel="noreferrer">
           {inherits}
