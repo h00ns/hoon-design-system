@@ -1,0 +1,105 @@
+---
+title: Collapsible
+description: 버튼 하나로 접고 펴는 영역.
+---
+
+import Preview from '../../../components/Preview.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import DoDont from '../../../components/DoDont.astro';
+import Do from '../../../components/Do.astro';
+import Dont from '../../../components/Dont.astro';
+
+import Basic from '../../../examples/collapsible/Basic';
+import basicCode from '../../../examples/collapsible/Basic?raw';
+import WithButton from '../../../examples/collapsible/WithButton';
+import withButtonCode from '../../../examples/collapsible/WithButton?raw';
+
+버튼 하나로 **영역 하나를 접고 펴는** 컴포넌트. "상세 보기", "고급 설정"처럼 평소에는 숨겨 두어도 되는 내용에 쓴다.
+
+<Preview code={basicCode}>
+  <Basic client:visible />
+</Preview>
+
+## 사용법
+
+```tsx
+import { Collapsible } from '@hoon-ds/react';
+
+<Collapsible.Root>
+  <Collapsible.Trigger>상세 보기</Collapsible.Trigger>
+  <Collapsible.Content>{/* 접히는 내용 */}</Collapsible.Content>
+</Collapsible.Root>;
+```
+
+| 부품      | 역할                                                                             |
+| --------- | -------------------------------------------------------------------------------- |
+| `Root`    | 열림 상태. `open`/`onOpenChange`(제어) 또는 `defaultOpen`(비제어), `disabled`    |
+| `Trigger` | 여닫는 버튼. 그대로 쓰면 텍스트 버튼 모양, `asChild` 로 Button 을 감쌀 수도 있다 |
+| `Content` | 접히는 내용. 높이 애니메이션과 함께 열리고 닫힌다                                |
+
+### Collapsible 과 Accordion
+
+|        | Collapsible              | [Accordion](/components/accordion/)          |
+| ------ | ------------------------ | -------------------------------------------- |
+| 개수   | 영역 하나                | 같은 모양의 항목 여러 개                     |
+| 구조   | 자유롭게 배치            | 제목(heading) + 버튼 + 패널로 고정           |
+| 키보드 | Tab, Enter, Space        | 여기에 더해 항목 사이를 이동하는 규칙이 있다 |
+| 예     | "상세 보기", "고급 설정" | FAQ, 설정 카테고리 목록                      |
+
+## 예시
+
+### Button 을 트리거로
+
+`asChild` 로 [Button](/components/button/) 을 트리거로 쓴다. 이때 기본 트리거 스타일은 붙지 않는다.
+
+<Preview code={withButtonCode}>
+  <WithButton client:visible />
+</Preview>
+
+## API
+
+### Content
+
+`forceMount` 를 주면 닫혀 있어도 DOM 에 남는다 (브라우저의 페이지 내 검색에 걸려야 할 때 등). 이때도 화면과 보조기기에서는 숨겨진다.
+그 외는 [Radix Collapsible.Content](https://www.radix-ui.com/primitives/docs/components/collapsible#content) 를 따른다.
+
+### 그 외 부품
+
+| 부품      | 설명                                                                                                 |
+| --------- | ---------------------------------------------------------------------------------------------------- |
+| `Root`    | [Radix Collapsible.Root](https://www.radix-ui.com/primitives/docs/components/collapsible#root)       |
+| `Trigger` | [Radix Collapsible.Trigger](https://www.radix-ui.com/primitives/docs/components/collapsible#trigger) |
+
+## 접근성
+
+[WAI-ARIA APG Disclosure 패턴](https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/)을 따른다.
+
+### 키보드
+
+| 키                | 동작                   |
+| ----------------- | ---------------------- |
+| `Tab`             | 트리거로 포커스 이동   |
+| `Enter` / `Space` | 영역을 펼치거나 접는다 |
+
+### 스크린리더
+
+- 트리거는 `aria-expanded` 로 열림 상태를, `aria-controls` 로 내용 영역을 알린다.
+- 트리거 문구는 무엇을 펼치는지 알 수 있게 쓴다. 열림 상태는 `aria-expanded` 가 전하므로 "펼치기/접기"처럼 문구를 바꿀 필요는 없다.
+- 닫힌 내용은 보조기기에서도 숨겨진다.
+
+### 사용자 설정
+
+- `prefers-reduced-motion` 이면 높이 애니메이션 없이 바로 열고 닫는다. 화살표 아이콘 회전도 멈춘다.
+- Windows 고대비 모드에서 트리거는 시스템 링크 색으로 보인다.
+
+## 가이드
+
+<DoDont>
+  <Do title="부가 정보 숨기기">대부분의 사용자에게 필요 없는 세부 내용을 접어 둔다.</Do>
+  <Dont title="핵심 정보 숨기기">가격, 오류처럼 모두가 봐야 하는 정보는 접지 않는다.</Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="트리거 가까이">펼쳐지는 내용을 트리거 바로 아래에 둔다.</Do>
+  <Dont title="여러 개를 나란히">같은 모양의 접는 영역이 여러 개라면 Accordion 이 맞다.</Dont>
+</DoDont>

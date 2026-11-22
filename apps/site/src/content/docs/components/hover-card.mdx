@@ -1,0 +1,121 @@
+---
+title: HoverCard
+description: 링크에 포인터를 올리거나 포커스했을 때 보여주는 미리보기 카드.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import Preview from '../../../components/Preview.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import DoDont from '../../../components/DoDont.astro';
+import Do from '../../../components/Do.astro';
+import Dont from '../../../components/Dont.astro';
+
+import Basic from '../../../examples/hover-card/Basic';
+import basicCode from '../../../examples/hover-card/Basic?raw';
+import WithArrow from '../../../examples/hover-card/WithArrow';
+import withArrowCode from '../../../examples/hover-card/WithArrow?raw';
+
+링크에 포인터를 올리거나 키보드로 포커스했을 때 **링크가 가리키는 대상을 미리 보여주는** 카드.
+사용자 프로필, 문서 링크, 상품 링크처럼 눌러 보기 전에 무엇인지 짐작하게 도와준다.
+
+<Aside type="caution" title="보조 정보에만 쓴다">
+  HoverCard 는 터치 기기에서 열리지 않고, 카드 안의 요소는 키보드로 닿을 수 없다. 카드에 담긴 정보는
+  **링크를 눌러 이동한 페이지에서도 반드시 볼 수 있어야 한다.** 꼭 필요한 정보나 버튼이라면
+  [Popover](/components/popover/) 를 쓴다.
+</Aside>
+
+<Preview code={basicCode}>
+  <Basic client:visible />
+</Preview>
+
+## 사용법
+
+```tsx
+import { HoverCard } from '@hoon-ds/react';
+
+<HoverCard.Root>
+  <HoverCard.Trigger href="/users/hong">@홍길동</HoverCard.Trigger>
+  <HoverCard.Content>{/* 미리보기 */}</HoverCard.Content>
+</HoverCard.Root>;
+```
+
+| 부품      | 역할                                                                                       |
+| --------- | ------------------------------------------------------------------------------------------ |
+| `Root`    | 열림 상태와 지연 시간. 기본 `openDelay` 500ms, `closeDelay` 300ms                          |
+| `Trigger` | 카드를 여는 요소. 기본은 `<a>` 이며 실제로 이동하는 링크여야 한다. 라우터 링크는 `asChild` |
+| `Content` | 포털로 렌더링되는 카드. `arrow` 로 화살표를 그린다                                         |
+
+## 예시
+
+### 화살표와 위치
+
+`arrow` 로 트리거를 가리키는 화살표를 그리고, `side`·`align` 으로 위치를 정한다. 화면 밖으로 나가면 자동으로 반대쪽에 그린다.
+
+<Preview code={withArrowCode}>
+  <WithArrow client:visible />
+</Preview>
+
+### 지연 시간
+
+`openDelay` 는 포인터가 지나가다 스칠 때 카드가 튀어나오지 않게 하고, `closeDelay` 는 포인터를 카드 쪽으로 옮길 시간을 준다.
+너무 짧으면 산만하고 너무 길면 느리게 느껴진다. 기본값(500ms, 300ms)에서 크게 벗어나지 않는 것을 권한다.
+
+## API
+
+### Root
+
+<PropsTable
+  of="HoverCard.Root"
+  inherits="Radix HoverCard.Root"
+  inheritsHref="https://www.radix-ui.com/primitives/docs/components/hover-card#root"
+/>
+
+### Content
+
+<PropsTable
+  of="HoverCard.Content"
+  inherits="Radix HoverCard.Content"
+  inheritsHref="https://www.radix-ui.com/primitives/docs/components/hover-card#content"
+/>
+
+### Trigger
+
+[Radix HoverCard.Trigger](https://www.radix-ui.com/primitives/docs/components/hover-card#trigger) 의 props 를 그대로 받는다.
+
+## 접근성
+
+### 키보드
+
+| 키      | 동작                                                       |
+| ------- | ---------------------------------------------------------- |
+| `Tab`   | 링크로 포커스가 가면 카드가 열리고, 포커스가 떠나면 닫힌다 |
+| `Enter` | 링크로 이동한다 (카드와 무관하게 링크 동작 그대로)         |
+| `Esc`   | 카드를 닫는다                                              |
+
+### 스크린리더
+
+- 카드는 시각적인 미리보기다. 트리거와 프로그래밍적으로 연결되지 않으므로 스크린리더는 카드 내용을 읽지 않는다. 그래서 카드의 정보는 링크 대상 페이지에도 있어야 한다.
+- 카드 안의 링크와 버튼은 탭 순서에서 빠진다. 카드에 조작 요소를 넣지 않는다.
+- 트리거 텍스트만으로 어디로 가는지 알 수 있게 쓴다 ("여기" 대신 "@홍길동").
+
+### 사용자 설정
+
+- 터치 포인터로는 열리지 않는다. 터치 사용자는 링크를 눌러 바로 이동한다.
+- `prefers-reduced-motion` 이면 이동 없이 짧은 페이드만 남는다.
+- Windows 고대비 모드에서 시스템 색 테두리로 경계가 보인다.
+
+## 가이드
+
+<DoDont>
+  <Do title="링크의 미리보기">프로필, 문서, 상품처럼 링크 대상의 요약을 보여준다.</Do>
+  <Dont title="꼭 필요한 정보">
+    결제 조건, 오류 안내처럼 놓치면 안 되는 내용은 페이지에 직접 쓴다.
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="읽기 전용 내용">이름, 소개, 통계처럼 읽기만 하는 내용을 담는다.</Do>
+  <Dont title="버튼과 입력">
+    팔로우 버튼 같은 조작 요소는 키보드로 닿을 수 없다. Popover 를 쓴다.
+  </Dont>
+</DoDont>

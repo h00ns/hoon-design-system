@@ -1,0 +1,109 @@
+---
+title: ScrollArea
+description: 운영체제와 무관하게 같은 모양의 스크롤바를 그리는 스크롤 영역.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import Preview from '../../../components/Preview.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import DoDont from '../../../components/DoDont.astro';
+import Do from '../../../components/Do.astro';
+import Dont from '../../../components/Dont.astro';
+
+import Basic from '../../../examples/scroll-area/Basic';
+import basicCode from '../../../examples/scroll-area/Basic?raw';
+import Horizontal from '../../../examples/scroll-area/Horizontal';
+import horizontalCode from '../../../examples/scroll-area/Horizontal?raw';
+import Both from '../../../examples/scroll-area/Both';
+import bothCode from '../../../examples/scroll-area/Both?raw';
+
+운영체제와 무관하게 **같은 모양의 얇은 스크롤바**를 그리는 스크롤 영역.
+스크롤 자체는 브라우저 기본 동작이라 휠, 터치, 키보드 스크롤이 그대로 동작하고, 그 위에 스크롤바 모양만 바꾼다.
+
+<Aside type="caution" title="꼭 필요할 때만 쓴다">
+  운영체제의 기본 스크롤바는 사용자가 익숙하고, 일부 사용자는 스크롤바를 항상 보이게 설정해 둔다.
+  디자인상 꼭 필요한 좁은 영역(메뉴 목록, 사이드 패널)에만 쓰고, 페이지 전체 스크롤에는 쓰지 않는다.
+</Aside>
+
+<Preview code={basicCode}>
+  <Basic client:visible />
+</Preview>
+
+## 사용법
+
+```tsx
+import { ScrollArea } from '@hoon-ds/react';
+
+<ScrollArea aria-label="태그 목록" style={{ height: 200 }}>
+  {/* 긴 내용 */}
+</ScrollArea>;
+```
+
+높이(가로 스크롤이면 너비)는 `className` 이나 `style` 로 제한한다. 내용이 넘칠 수 있는 영역에는 `aria-label` 이나 `aria-labelledby` 로 이름을 준다.
+
+## 예시
+
+### 가로 스크롤
+
+`orientation="horizontal"`. `type="auto"` 를 주면 넘칠 때 스크롤바가 항상 보여서 더 있다는 걸 알 수 있다.
+
+<Preview code={horizontalCode}>
+  <Horizontal client:visible />
+</Preview>
+
+### 양방향
+
+`orientation="both"` 는 넓은 표처럼 두 방향으로 넘치는 내용에 쓴다.
+
+<Preview code={bothCode}>
+  <Both client:visible />
+</Preview>
+
+## API
+
+<PropsTable
+  of="ScrollArea"
+  inherits="Radix ScrollArea.Root"
+  inheritsHref="https://www.radix-ui.com/primitives/docs/components/scroll-area#root"
+/>
+
+`ref` 와 `className` 은 바깥 루트에 붙는다. 스크롤 위치를 직접 다루려면 `viewportRef` 로 실제 스크롤되는 요소를 받는다.
+
+## 접근성
+
+### 키보드
+
+| 키                      | 동작                                           |
+| ----------------------- | ---------------------------------------------- |
+| `Tab`                   | 내용이 넘치면 스크롤 영역 자체로 포커스가 간다 |
+| `↑` `↓` `←` `→`         | 포커스된 영역을 스크롤한다                     |
+| `Page Up` / `Page Down` | 한 화면씩 스크롤한다                           |
+| `Home` / `End`          | 처음과 끝으로 이동한다                         |
+
+### 스크린리더
+
+- 내용이 넘칠 때만 뷰포트가 탭 순서에 들어간다 (WCAG 2.1.1). 넘치지 않으면 불필요한 탭 정지를 만들지 않는다.
+- `aria-label` 이나 `aria-labelledby` 를 주면 뷰포트가 `role="region"` 이 되어 랜드마크 목록에서 찾을 수 있고, 포커스될 때 이름을 읽는다.
+- 커스텀 스크롤바 자체는 보조기기에 노출되지 않는다. 스크롤은 뷰포트의 기본 동작으로 처리된다.
+
+### 사용자 설정
+
+- 스크롤바 막대는 얇지만 실제로 잡을 수 있는 영역은 24px 이상이다.
+- `prefers-reduced-motion` 이면 스크롤바가 나타나고 사라지는 페이드가 없다.
+- Windows 고대비 모드에서 막대와 테두리가 시스템 텍스트 색으로 보인다.
+
+## 가이드
+
+<DoDont>
+  <Do title="좁은 영역">메뉴, 태그 목록, 사이드 패널처럼 높이가 정해진 작은 영역에 쓴다.</Do>
+  <Dont title="페이지 전체">
+    페이지 스크롤을 바꾸면 브라우저와 운영체제의 익숙한 동작을 잃는다.
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="이름 주기">넘치는 영역에는 무엇이 들어 있는지 `aria-label` 로 알린다.</Do>
+  <Dont title="스크롤 안의 스크롤">
+    스크롤 영역을 겹치면 휠과 터치 스크롤이 어디로 갈지 예측하기 어렵다.
+  </Dont>
+</DoDont>

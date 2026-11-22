@@ -1,0 +1,162 @@
+---
+title: Sheet
+description: 화면 가장자리에서 미끄러져 나오는 패널. 필터, 상세 정보, 보조 작업에 쓴다.
+---
+
+import Preview from '../../../components/Preview.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import DoDont from '../../../components/DoDont.astro';
+import Do from '../../../components/Do.astro';
+import Dont from '../../../components/Dont.astro';
+
+import Basic from '../../../examples/sheet/Basic';
+import basicCode from '../../../examples/sheet/Basic?raw';
+import Sides from '../../../examples/sheet/Sides';
+import sidesCode from '../../../examples/sheet/Sides?raw';
+import Sizes from '../../../examples/sheet/Sizes';
+import sizesCode from '../../../examples/sheet/Sizes?raw';
+import LongContent from '../../../examples/sheet/LongContent';
+import longContentCode from '../../../examples/sheet/LongContent?raw';
+import NonModal from '../../../examples/sheet/NonModal';
+import nonModalCode from '../../../examples/sheet/NonModal?raw';
+
+화면 가장자리에서 미끄러져 나오는 패널. **현재 화면을 보면서 곁들여 하는 작업**에 쓴다.
+목록 필터, 항목 상세 보기, 장바구니, 모바일 내비게이션 메뉴가 대표적이다.
+[Dialog](/components/dialog/) 와 같은 접근성 동작(포커스 트랩, Esc, 포커스 복귀)을 그대로 가지며, 위치와 모양만 다르다.
+
+<Preview code={basicCode}>
+  <Basic client:visible />
+</Preview>
+
+## 사용법
+
+```tsx
+import { Button, Sheet } from '@hoon-ds/react';
+
+<Sheet.Root>
+  <Sheet.Trigger asChild>
+    <Button>필터</Button>
+  </Sheet.Trigger>
+  <Sheet.Content side="right">
+    <Sheet.Header>
+      <Sheet.Title>필터</Sheet.Title>
+      <Sheet.Description>조건을 고른 뒤 적용을 누르세요.</Sheet.Description>
+    </Sheet.Header>
+    <Sheet.Body>{/* 내용 */}</Sheet.Body>
+    <Sheet.Footer>
+      <Sheet.Close asChild>
+        <Button>적용</Button>
+      </Sheet.Close>
+    </Sheet.Footer>
+  </Sheet.Content>
+</Sheet.Root>;
+```
+
+| 부품          | 역할                                                                                   |
+| ------------- | -------------------------------------------------------------------------------------- |
+| `Root`        | 열림 상태. `open`/`onOpenChange` 또는 `defaultOpen`. `modal={false}` 로 비모달         |
+| `Trigger`     | 여는 요소. `asChild` 로 Button 을 감싼다                                               |
+| `Content`     | 포털, 오버레이(모달일 때), 포커스 관리, 닫기 버튼을 포함한 본체. `side`·`size` 로 모양 |
+| `Header`      | 제목과 설명 영역 (고정)                                                                |
+| `Title`       | **필수.** 시트의 접근 가능한 이름                                                      |
+| `Description` | 접근 가능한 설명. 없으면 `Content` 에 `aria-describedby={undefined}`                   |
+| `Body`        | 스크롤 영역. 내용이 넘쳐도 Header, Footer 는 제자리에 있다                             |
+| `Footer`      | 동작 버튼 영역 (아래에 고정)                                                           |
+| `Close`       | 닫는 요소. `asChild` 로 Button 을 감싼다                                               |
+
+## 예시
+
+### 방향
+
+`side` 로 붙을 가장자리를 고른다. 기본은 `right`. 읽는 방향이 오른쪽에서 왼쪽인 언어(`dir="rtl"`)에서는 좌우 애니메이션이 자동으로 뒤집힌다.
+
+<Preview code={sidesCode}>
+  <Sides client:visible />
+</Preview>
+
+### 크기
+
+좌우 시트는 너비(`sm` 320px, `md` 384px, `lg` 512px), 위아래 시트는 최대 높이(`sm` 33%, `md` 50%, `lg` 75%)가 바뀐다.
+`full` 은 화면 전체를 채운다. 작은 화면에서는 `full` 이 아닌 한 바깥을 눌러 닫을 수 있도록 오버레이가 조금 보이게 남는다.
+
+<Preview code={sizesCode}>
+  <Sizes client:visible />
+</Preview>
+
+### 긴 내용
+
+시트 높이는 화면을 넘지 않는다. 내용이 넘치면 **Body 만 스크롤**되고, 이때 Body 는 자동으로 포커스 가능해져 키보드로도 스크롤할 수 있다.
+
+<Preview code={longContentCode}>
+  <LongContent client:visible />
+</Preview>
+
+### 비모달
+
+`Root` 에 `modal={false}` 를 주면 오버레이와 스크롤 잠금이 없고, 바깥 콘텐츠도 보조기기에서 숨기지 않는다.
+도움말 패널처럼 **페이지를 쓰면서 함께 열어 두는** 시트에 쓴다. 바깥을 눌러도 닫히지 않게 하려면 `onInteractOutside` 에서 `preventDefault()` 를 호출한다.
+
+<Preview code={nonModalCode}>
+  <NonModal client:visible />
+</Preview>
+
+## API
+
+### Content
+
+<PropsTable
+  of="Sheet.Content"
+  inherits="Radix Dialog.Content"
+  inheritsHref="https://www.radix-ui.com/primitives/docs/components/dialog#content"
+/>
+
+### 그 외 부품
+
+| 부품                         | 설명                                                                                                    |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `Root`                       | [Radix Dialog.Root](https://www.radix-ui.com/primitives/docs/components/dialog#root). `modal` 기본 true |
+| `Trigger`                    | [Radix Dialog.Trigger](https://www.radix-ui.com/primitives/docs/components/dialog#trigger)              |
+| `Title`                      | [Radix Dialog.Title](https://www.radix-ui.com/primitives/docs/components/dialog#title)                  |
+| `Description`                | [Radix Dialog.Description](https://www.radix-ui.com/primitives/docs/components/dialog#description)      |
+| `Close`                      | [Radix Dialog.Close](https://www.radix-ui.com/primitives/docs/components/dialog#close)                  |
+| `Header` · `Body` · `Footer` | `<div>` 의 HTML 속성                                                                                    |
+
+## 접근성
+
+[WAI-ARIA APG Dialog (Modal) 패턴](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/)을 따른다.
+
+### 키보드
+
+| 키                | 동작                                                             |
+| ----------------- | ---------------------------------------------------------------- |
+| `Enter` / `Space` | 트리거에서 시트를 연다                                           |
+| `Tab`             | 시트 안의 다음 요소로 이동. 마지막 요소에서는 첫 요소로 돌아간다 |
+| `Shift + Tab`     | 이전 요소로 이동. 첫 요소에서는 마지막 요소로 간다               |
+| `Esc`             | 시트를 닫고 트리거로 포커스를 돌려준다                           |
+
+### 스크린리더
+
+- `role="dialog"`. `Title` 이 `aria-labelledby`, `Description` 이 `aria-describedby` 로 자동 연결된다.
+- 모달이면 열려 있는 동안 바깥 콘텐츠가 `aria-hidden` 처리되어 가상 커서가 시트를 벗어나지 않는다.
+- 열리면 포커스가 시트 안 **첫 번째 포커스 가능한 요소**로 간다. 닫기 버튼은 화면상 우측 상단이지만 DOM 에서는 마지막에 있다.
+- 닫기 버튼의 이름은 기본 `"닫기"`. 다국어 서비스라면 `closeLabel` 로 바꾼다.
+- 비모달이면 바깥 콘텐츠가 그대로 보조기기에 노출된다. 시트 안에서는 Tab 이 순환하므로, 바깥으로 돌아가는 방법(닫기 버튼, Esc)을 꼭 남긴다.
+
+### 사용자 설정
+
+- `prefers-reduced-motion` 이면 미끄러지는 이동 없이 짧은 페이드만 남는다.
+- 노치와 홈 인디케이터 영역(safe area)을 피해 내용을 배치한다.
+- Windows 고대비 모드에서 그림자 대신 시스템 색 테두리로 경계가 보인다.
+- 모달이면 열려 있는 동안 페이지 스크롤이 잠기고, Body 끝에서 스크롤이 페이지로 이어지지 않는다.
+
+## 가이드
+
+<DoDont>
+  <Do title="곁들이는 작업">필터처럼 페이지 내용을 보면서 조정하는 일에 쓴다.</Do>
+  <Dont title="긴 흐름">여러 단계를 거치는 결제나 가입은 시트가 아니라 페이지로 만든다.</Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="일관된 방향">같은 종류의 시트는 늘 같은 쪽에서 나오게 한다.</Do>
+  <Dont title="시트 위에 시트">중첩은 맥락을 잃게 만든다. 내용을 시트 안에서 바꿔 보여준다.</Dont>
+</DoDont>

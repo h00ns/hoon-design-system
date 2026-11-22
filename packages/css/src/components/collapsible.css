@@ -1,0 +1,130 @@
+/*
+ * Collapsible
+ * <div class="hds-collapsible" data-state="open">
+ *   <button class="hds-collapsible__trigger" aria-expanded="true" aria-controls="…">…</button>
+ *   <div class="hds-collapsible__content" data-state="open">
+ *     <div class="hds-collapsible__content-inner">…</div>
+ *   </div>
+ * </div>
+ */
+.hds-collapsible {
+  min-width: 0;
+}
+
+/* asChild 없이 쓸 때의 텍스트 버튼 모양 */
+.hds-collapsible__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--hds-space-2);
+  min-height: var(--hds-size-control-sm);
+  margin: 0;
+  padding-inline: var(--hds-space-2);
+  border: 0;
+  border-radius: var(--hds-radius-md);
+  background: none;
+  color: var(--hds-color-accent-fg);
+  font-family: inherit;
+  font-size: var(--hds-font-size-sm);
+  font-weight: var(--hds-font-weight-semibold);
+  line-height: var(--hds-font-line-height-normal);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) {
+  .hds-collapsible__trigger:where(:hover):not(:disabled) {
+    background-color: var(--hds-color-accent-subtle);
+  }
+}
+
+.hds-collapsible__trigger:focus-visible {
+  outline: var(--hds-size-focus-ring-width) solid var(--hds-color-focus-ring);
+  outline-offset: var(--hds-size-focus-ring-offset);
+}
+
+.hds-collapsible__trigger:disabled {
+  color: var(--hds-color-fg-disabled);
+  cursor: not-allowed;
+}
+
+/* 트리거 안 아이콘(svg)을 열림 상태에 맞춰 돌린다 */
+.hds-collapsible__trigger svg,
+.hds-collapsible [data-collapsible-icon] {
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+  transition: transform var(--hds-duration-normal) var(--hds-easing-standard);
+}
+
+.hds-collapsible[data-state='open'] .hds-collapsible__trigger svg,
+.hds-collapsible[data-state='open'] [data-collapsible-icon] {
+  transform: rotate(180deg);
+}
+
+/* ── Content ─────────────────────────────── */
+.hds-collapsible__content {
+  overflow: hidden;
+}
+
+.hds-collapsible__content[data-state='open'] {
+  animation: hds-collapsible-down var(--hds-duration-normal) var(--hds-easing-standard);
+}
+
+/*
+ * 닫힌 상태. 기본은 Radix 가 닫힘 애니메이션 뒤에 DOM 에서 빼지만,
+ * forceMount 로 남겨 둔 경우에도 화면과 보조기기 모두에서 숨긴다.
+ * (애니메이션이 도는 동안은 keyframes 의 visibility 가 우선한다)
+ */
+.hds-collapsible__content[data-state='closed'] {
+  height: 0;
+  visibility: hidden;
+  animation: hds-collapsible-up var(--hds-duration-normal) var(--hds-easing-standard);
+}
+
+.hds-collapsible__content-inner {
+  padding-block: var(--hds-space-2);
+}
+
+@keyframes hds-collapsible-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-collapsible-content-height);
+  }
+}
+
+@keyframes hds-collapsible-up {
+  from {
+    height: var(--radix-collapsible-content-height);
+    visibility: visible;
+  }
+  to {
+    height: 0;
+    visibility: visible;
+  }
+}
+
+/* ── 사용자 설정 ─────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .hds-collapsible__content[data-state='open'],
+  .hds-collapsible__content[data-state='closed'] {
+    animation: none;
+  }
+
+  .hds-collapsible__trigger svg,
+  .hds-collapsible [data-collapsible-icon] {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .hds-collapsible__trigger {
+    color: LinkText;
+  }
+
+  .hds-collapsible__trigger:disabled {
+    color: GrayText;
+  }
+}

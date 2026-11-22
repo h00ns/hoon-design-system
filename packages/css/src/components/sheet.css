@@ -1,0 +1,281 @@
+/*
+ * Sheet: 화면 가장자리에서 나오는 패널 (Dialog 기반)
+ * <div class="hds-sheet__overlay" data-state="open"></div>
+ * <div class="hds-sheet" role="dialog" data-side="right" data-size="md" data-state="open" data-modal>
+ *   <div class="hds-sheet__header">
+ *     <h2 class="hds-sheet__title">…</h2>
+ *     <p class="hds-sheet__description">…</p>
+ *   </div>
+ *   <div class="hds-sheet__body">…</div>
+ *   <div class="hds-sheet__footer">…</div>
+ *   <button class="hds-button hds-icon-button hds-sheet__close">…</button>
+ * </div>
+ */
+.hds-sheet__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--hds-z-index-modal);
+  background-color: var(--hds-color-bg-overlay);
+}
+
+.hds-sheet {
+  --_size: 24rem;
+  --_pad: var(--hds-space-6);
+  /* 작은 화면에서도 오버레이가 조금 보이도록 남겨 둔다 (바깥을 눌러 닫을 수 있음을 암시) */
+  --_min-gap: var(--hds-space-10);
+
+  position: fixed;
+  z-index: var(--hds-z-index-modal);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow: hidden;
+  border: 0 solid var(--hds-color-border-default);
+  background-color: var(--hds-color-bg-raised);
+  color: var(--hds-color-fg-default);
+  box-shadow: var(--hds-shadow-lg);
+  font-family: var(--hds-font-family-sans);
+  font-size: var(--hds-font-size-md);
+  line-height: var(--hds-font-line-height-normal);
+}
+
+.hds-sheet:focus {
+  outline: none;
+}
+
+/* ── 크기 ───────────────────────────────── */
+.hds-sheet[data-size='sm'] {
+  --_size: 20rem;
+}
+
+.hds-sheet[data-size='lg'] {
+  --_size: 32rem;
+}
+
+/* ── 방향 ───────────────────────────────── */
+.hds-sheet[data-side='right'],
+.hds-sheet[data-side='left'] {
+  inset-block: 0;
+  width: min(var(--_size), calc(100vw - var(--_min-gap)));
+  height: 100dvh;
+  padding-block: env(safe-area-inset-top, 0px) env(safe-area-inset-bottom, 0px);
+}
+
+.hds-sheet[data-side='right'] {
+  inset-inline-end: 0;
+  border-inline-start-width: 1px;
+  padding-inline-end: env(safe-area-inset-right, 0px);
+}
+
+.hds-sheet[data-side='left'] {
+  inset-inline-start: 0;
+  border-inline-end-width: 1px;
+  padding-inline-start: env(safe-area-inset-left, 0px);
+}
+
+.hds-sheet[data-side='top'],
+.hds-sheet[data-side='bottom'] {
+  --_size: 50dvh;
+
+  inset-inline: 0;
+  width: 100%;
+  max-height: min(var(--_size), calc(100dvh - var(--_min-gap)));
+  padding-inline: env(safe-area-inset-left, 0px) env(safe-area-inset-right, 0px);
+}
+
+.hds-sheet[data-side='top'][data-size='sm'],
+.hds-sheet[data-side='bottom'][data-size='sm'] {
+  --_size: 33dvh;
+}
+
+.hds-sheet[data-side='top'][data-size='lg'],
+.hds-sheet[data-side='bottom'][data-size='lg'] {
+  --_size: 75dvh;
+}
+
+.hds-sheet[data-side='top'] {
+  inset-block-start: 0;
+  border-block-end-width: 1px;
+  border-radius: 0 0 var(--hds-radius-xl) var(--hds-radius-xl);
+  padding-block-start: env(safe-area-inset-top, 0px);
+}
+
+.hds-sheet[data-side='bottom'] {
+  inset-block-end: 0;
+  border-block-start-width: 1px;
+  border-radius: var(--hds-radius-xl) var(--hds-radius-xl) 0 0;
+  padding-block-end: env(safe-area-inset-bottom, 0px);
+}
+
+.hds-sheet[data-size='full'] {
+  --_min-gap: 0px;
+  --_size: 100vw;
+}
+
+.hds-sheet[data-side='top'][data-size='full'],
+.hds-sheet[data-side='bottom'][data-size='full'] {
+  --_size: 100dvh;
+
+  height: 100dvh;
+  border-radius: 0;
+}
+
+/* ── 영역 ───────────────────────────────── */
+.hds-sheet__header {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: var(--hds-space-2);
+  padding: var(--_pad) var(--_pad) var(--hds-space-2);
+  /* 닫기 버튼과 겹치지 않게 */
+  padding-inline-end: calc(var(--_pad) + var(--hds-size-control-sm));
+}
+
+.hds-sheet__title {
+  margin: 0;
+  font-size: var(--hds-font-size-xl);
+  font-weight: var(--hds-font-weight-semibold);
+  line-height: var(--hds-font-line-height-tight);
+}
+
+.hds-sheet__description {
+  margin: 0;
+  color: var(--hds-color-fg-muted);
+  font-size: var(--hds-font-size-sm);
+}
+
+.hds-sheet__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: var(--hds-space-4) var(--_pad);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.hds-sheet__body:focus-visible {
+  outline: var(--hds-size-focus-ring-width) solid var(--hds-color-focus-ring);
+  outline-offset: calc(var(--hds-size-focus-ring-width) * -1);
+}
+
+.hds-sheet__footer {
+  display: flex;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--hds-space-2);
+  padding: var(--hds-space-4) var(--_pad) var(--_pad);
+  border-top: 1px solid var(--hds-color-border-default);
+}
+
+.hds-sheet__close {
+  position: absolute;
+  inset-block-start: calc(var(--hds-space-4) + env(safe-area-inset-top, 0px));
+  inset-inline-end: calc(var(--hds-space-4) + env(safe-area-inset-right, 0px));
+}
+
+.hds-sheet[data-side='bottom'] .hds-sheet__close {
+  inset-block-start: var(--hds-space-4);
+}
+
+/* ── 애니메이션 ─────────────────────────── */
+.hds-sheet__overlay[data-state='open'] {
+  animation: hds-sheet-fade-in var(--hds-duration-normal) var(--hds-easing-standard);
+}
+
+.hds-sheet__overlay[data-state='closed'] {
+  animation: hds-sheet-fade-out var(--hds-duration-fast) var(--hds-easing-standard);
+}
+
+.hds-sheet[data-side='right'] {
+  --_from: translateX(100%);
+}
+.hds-sheet[data-side='left'] {
+  --_from: translateX(-100%);
+}
+.hds-sheet[data-side='top'] {
+  --_from: translateY(-100%);
+}
+.hds-sheet[data-side='bottom'] {
+  --_from: translateY(100%);
+}
+
+/* 오른쪽에서 왼쪽으로 쓰는 언어에서는 좌우 방향을 뒤집는다 */
+[dir='rtl'] .hds-sheet[data-side='right'] {
+  --_from: translateX(-100%);
+}
+[dir='rtl'] .hds-sheet[data-side='left'] {
+  --_from: translateX(100%);
+}
+
+.hds-sheet[data-state='open'] {
+  animation: hds-sheet-slide-in var(--hds-duration-slow) var(--hds-easing-standard);
+}
+
+.hds-sheet[data-state='closed'] {
+  animation: hds-sheet-slide-out var(--hds-duration-normal) var(--hds-easing-standard);
+}
+
+@keyframes hds-sheet-slide-in {
+  from {
+    transform: var(--_from);
+  }
+}
+
+@keyframes hds-sheet-slide-out {
+  to {
+    transform: var(--_from);
+  }
+}
+
+@keyframes hds-sheet-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes hds-sheet-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+/* 작은 화면에서는 버튼을 꽉 채워 세로로 쌓고 주요 동작(마지막 버튼)을 위로 */
+@media (max-width: 40rem) {
+  .hds-sheet {
+    --_pad: var(--hds-space-5);
+  }
+
+  .hds-sheet__footer {
+    flex-direction: column-reverse;
+  }
+
+  .hds-sheet__footer > * {
+    width: 100%;
+  }
+}
+
+/* ── 사용자 설정 ────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  /* 미끄러지는 이동 없이 짧은 페이드만 남긴다 */
+  .hds-sheet[data-state='open'],
+  .hds-sheet__overlay[data-state='open'] {
+    animation: hds-sheet-fade-in var(--hds-duration-fast) linear;
+  }
+
+  .hds-sheet[data-state='closed'],
+  .hds-sheet__overlay[data-state='closed'] {
+    animation: hds-sheet-fade-out var(--hds-duration-fast) linear;
+  }
+}
+
+@media (forced-colors: active) {
+  /* 그림자·배경색이 사라지므로 경계를 시스템 색으로 그린다 */
+  .hds-sheet {
+    border-color: CanvasText;
+    border-width: 2px;
+  }
+
+  .hds-sheet__footer {
+    border-top-color: CanvasText;
+  }
+}

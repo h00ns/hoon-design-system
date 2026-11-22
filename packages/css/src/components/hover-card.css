@@ -1,0 +1,95 @@
+/*
+ * HoverCard: 포인터·포커스로 여는 미리보기 카드
+ * <div class="hds-hover-card" data-state="open" data-side="bottom">
+ *   …
+ *   <svg class="hds-hover-card__arrow">…</svg>
+ * </div>
+ */
+.hds-hover-card {
+  z-index: var(--hds-z-index-popover);
+  box-sizing: border-box;
+  width: max-content;
+  max-width: min(20rem, var(--radix-hover-card-content-available-width, 100vw));
+  padding: var(--hds-space-4);
+  border: 1px solid var(--hds-color-border-default);
+  border-radius: var(--hds-radius-lg);
+  background-color: var(--hds-color-bg-raised);
+  color: var(--hds-color-fg-default);
+  box-shadow: var(--hds-shadow-md);
+  font-family: var(--hds-font-family-sans);
+  font-size: var(--hds-font-size-sm);
+  line-height: var(--hds-font-line-height-normal);
+  transform-origin: var(--radix-hover-card-content-transform-origin);
+}
+
+.hds-hover-card__arrow {
+  fill: var(--hds-color-bg-raised);
+  stroke: var(--hds-color-border-default);
+  stroke-width: 1px;
+  clip-path: inset(1px 0 0 0);
+  margin-top: -1px;
+}
+
+/* ── 애니메이션 ─────────────────────────── */
+.hds-hover-card[data-side='top'] {
+  --_from: translateY(4px);
+}
+.hds-hover-card[data-side='bottom'] {
+  --_from: translateY(-4px);
+}
+.hds-hover-card[data-side='left'] {
+  --_from: translateX(4px);
+}
+.hds-hover-card[data-side='right'] {
+  --_from: translateX(-4px);
+}
+
+.hds-hover-card[data-state='open'] {
+  animation: hds-hover-card-in var(--hds-duration-normal) var(--hds-easing-standard);
+}
+
+.hds-hover-card[data-state='closed'] {
+  animation: hds-hover-card-out var(--hds-duration-fast) var(--hds-easing-standard);
+}
+
+@keyframes hds-hover-card-in {
+  from {
+    opacity: 0;
+    transform: var(--_from, none) scale(0.97);
+  }
+}
+
+@keyframes hds-hover-card-out {
+  to {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+
+@keyframes hds-hover-card-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+/* ── 사용자 설정 ────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .hds-hover-card[data-state='open'] {
+    animation: hds-hover-card-fade var(--hds-duration-fast) linear;
+  }
+
+  .hds-hover-card[data-state='closed'] {
+    animation: hds-hover-card-fade var(--hds-duration-fast) linear reverse;
+  }
+}
+
+@media (forced-colors: active) {
+  .hds-hover-card {
+    border-color: CanvasText;
+  }
+
+  .hds-hover-card__arrow {
+    fill: Canvas;
+    stroke: CanvasText;
+  }
+}

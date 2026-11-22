@@ -22,3 +22,8 @@ export * from './select';
 export * from './dropdown-menu';
 export * from './tabs';
 export * from './accordion';
+export * from './sheet';
+export * from './hover-card';
+export * from './progress';
+export * from './collapsible';
+export * from './scroll-area';

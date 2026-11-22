@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Dialog as DialogPrimitive } from 'radix-ui';
 import { IconButton } from '../icon-button/IconButton';
 import { cx } from '../utils/cx';
-import { useIsomorphicLayoutEffect } from '../utils/use-isomorphic-layout-effect';
+import { useMergedRef, useScrollOverflow } from '../utils/use-scroll-overflow';
 
 /* -------------------------------------------------------------------------------------------------
  * Root · Trigger · Close
@@ -107,35 +107,8 @@ const Body = React.forwardRef<HTMLDivElement, DialogBodyProps>(function DialogBo
   { className, tabIndex, ...rest },
   forwardedRef,
 ) {
-  const innerRef = React.useRef<HTMLDivElement | null>(null);
-  const [overflowing, setOverflowing] = React.useState(false);
-
-  useIsomorphicLayoutEffect(() => {
-    const node = innerRef.current;
-    if (!node) return;
-    const update = () => setOverflowing(node.scrollHeight > node.clientHeight + 1);
-    update();
-    // 영역 크기 변화(창 크기)와 내용 변화(비동기 로딩 등) 모두에 반응한다
-    const resizeObserver =
-      typeof ResizeObserver === 'undefined' ? undefined : new ResizeObserver(update);
-    resizeObserver?.observe(node);
-    const mutationObserver =
-      typeof MutationObserver === 'undefined' ? undefined : new MutationObserver(update);
-    mutationObserver?.observe(node, { childList: true, subtree: true, characterData: true });
-    return () => {
-      resizeObserver?.disconnect();
-      mutationObserver?.disconnect();
-    };
-  }, []);
-
-  const ref = React.useCallback(
-    (node: HTMLDivElement | null) => {
-      innerRef.current = node;
-      if (typeof forwardedRef === 'function') forwardedRef(node);
-      else if (forwardedRef) forwardedRef.current = node;
-    },
-    [forwardedRef],
-  );
+  const [overflowRef, overflowing] = useScrollOverflow<HTMLDivElement>('vertical');
+  const ref = useMergedRef(overflowRef, forwardedRef);
 
   return (
     <div

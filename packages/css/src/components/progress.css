@@ -1,0 +1,123 @@
+/*
+ * Progress
+ * <div class="hds-progress" data-size="md" data-tone="accent">
+ *   <div class="hds-progress__header">
+ *     <span class="hds-progress__label" id="…">업로드</span>
+ *     <span class="hds-progress__value" aria-hidden="true">42%</span>
+ *   </div>
+ *   <div class="hds-progress__track" role="progressbar" aria-valuenow="42" aria-valuetext="42%" aria-labelledby="…">
+ *     <div class="hds-progress__indicator" style="transform: translateX(-58%)"></div>
+ *   </div>
+ * </div>
+ *  - 진행률을 알 수 없으면 래퍼에 data-indeterminate
+ */
+.hds-progress {
+  --_height: 0.5rem;
+  --_fill: var(--hds-color-accent-solid);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--hds-space-2);
+  width: 100%;
+  min-width: 0;
+  font-family: var(--hds-font-family-sans);
+}
+
+.hds-progress[data-size='sm'] {
+  --_height: 0.25rem;
+}
+
+.hds-progress[data-size='lg'] {
+  --_height: 0.75rem;
+}
+
+.hds-progress[data-tone='success'] {
+  --_fill: var(--hds-color-success-solid);
+}
+
+.hds-progress[data-tone='danger'] {
+  --_fill: var(--hds-color-danger-solid);
+}
+
+.hds-progress__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--hds-space-3);
+  font-size: var(--hds-font-size-sm);
+  line-height: var(--hds-font-line-height-normal);
+}
+
+.hds-progress__label {
+  color: var(--hds-color-fg-default);
+  font-weight: var(--hds-font-weight-medium);
+}
+
+.hds-progress__value {
+  flex-shrink: 0;
+  color: var(--hds-color-fg-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.hds-progress__track {
+  position: relative;
+  height: var(--_height);
+  overflow: hidden;
+  border-radius: var(--hds-radius-full);
+  background-color: var(--hds-color-bg-muted);
+  /* Safari 에서 둥근 모서리 밖으로 자식이 새지 않게 */
+  isolation: isolate;
+}
+
+.hds-progress__indicator {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background-color: var(--_fill);
+  transition: transform var(--hds-duration-slow) var(--hds-easing-standard);
+}
+
+/* ── 진행률을 알 수 없음 ─────────────────── */
+.hds-progress[data-indeterminate] .hds-progress__indicator {
+  width: 40%;
+  animation: hds-progress-indeterminate 1.4s var(--hds-easing-standard) infinite;
+}
+
+@keyframes hds-progress-indeterminate {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(250%);
+  }
+}
+
+@keyframes hds-progress-pulse {
+  50% {
+    opacity: 0.4;
+  }
+}
+
+/* ── 사용자 설정 ─────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .hds-progress__indicator {
+    transition: none;
+  }
+
+  /* 이동 대신 막대 전체가 천천히 깜빡여 "진행 중"을 알린다 */
+  .hds-progress[data-indeterminate] .hds-progress__indicator {
+    width: 100%;
+    animation: hds-progress-pulse 2s ease-in-out infinite;
+  }
+}
+
+@media (forced-colors: active) {
+  .hds-progress__track {
+    border: 1px solid CanvasText;
+    background-color: Canvas;
+  }
+
+  .hds-progress__indicator {
+    background-color: Highlight;
+  }
+}

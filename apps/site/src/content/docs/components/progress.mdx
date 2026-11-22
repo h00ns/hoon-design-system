@@ -1,0 +1,127 @@
+---
+title: Progress
+description: 작업이 얼마나 진행됐는지 보여주는 막대.
+---
+
+import Preview from '../../../components/Preview.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import DoDont from '../../../components/DoDont.astro';
+import Do from '../../../components/Do.astro';
+import Dont from '../../../components/Dont.astro';
+
+import Basic from '../../../examples/progress/Basic';
+import basicCode from '../../../examples/progress/Basic?raw';
+import Sizes from '../../../examples/progress/Sizes';
+import sizesCode from '../../../examples/progress/Sizes?raw';
+import Tones from '../../../examples/progress/Tones';
+import tonesCode from '../../../examples/progress/Tones?raw';
+import Indeterminate from '../../../examples/progress/Indeterminate';
+import indeterminateCode from '../../../examples/progress/Indeterminate?raw';
+import CustomValueLabel from '../../../examples/progress/CustomValueLabel';
+import customValueLabelCode from '../../../examples/progress/CustomValueLabel?raw';
+import Live from '../../../examples/progress/Live';
+import liveCode from '../../../examples/progress/Live?raw';
+
+파일 업로드, 설치, 단계형 설문처럼 **얼마나 진행됐는지 알 수 있는 작업**의 진행 정도를 보여주는 막대.
+진행률을 알 수 없다면 `value={null}` 로 진행 중이라는 사실만 알리거나, 짧은 대기라면 [Spinner](/components/spinner/) 를 쓴다.
+
+<Preview code={basicCode}>
+  <Basic />
+</Preview>
+
+## 사용법
+
+```tsx
+import { Progress } from '@hoon-ds/react';
+
+<Progress value={42} label="파일 업로드" showValue />;
+```
+
+`label` 을 주면 진행 막대의 접근 가능한 이름으로 연결된다. 보이는 레이블이 없다면 `aria-label` 로 무엇의 진행률인지 알려야 한다.
+
+## 예시
+
+### 크기
+
+`sm` 4px, `md` 8px, `lg` 12px 두께.
+
+<Preview code={sizesCode}>
+  <Sizes />
+</Preview>
+
+### 색
+
+`accent` 는 진행 중, `success` 는 완료, `danger` 는 실패에 쓴다. **색만으로 상태를 전하지 않도록** 레이블에도 "완료", "실패" 를 적는다.
+
+<Preview code={tonesCode}>
+  <Tones />
+</Preview>
+
+### 진행률을 알 수 없음
+
+`value={null}` 이면 막대가 좌우로 오가며 진행 중임을 알린다. 스크린리더에는 값 없이 "진행 중"으로 전달된다.
+
+<Preview code={indeterminateCode}>
+  <Indeterminate />
+</Preview>
+
+### 값 문구 바꾸기
+
+기본 값 문구는 백분율(`42%`)이다. 단계처럼 백분율보다 자연스러운 표현이 있으면 `getValueLabel` 로 바꾼다.
+같은 문구가 화면의 값과 스크린리더의 `aria-valuetext` 에 함께 쓰인다.
+
+<Preview code={customValueLabelCode}>
+  <CustomValueLabel />
+</Preview>
+
+### 실시간 갱신
+
+값이 바뀌면 막대가 부드럽게 늘어난다. 완료되면 색과 레이블을 함께 바꾼다.
+
+<Preview code={liveCode}>
+  <Live client:visible />
+</Preview>
+
+## API
+
+<PropsTable
+  of="Progress"
+  inherits="Radix Progress.Root"
+  inheritsHref="https://www.radix-ui.com/primitives/docs/components/progress#root"
+/>
+
+`className`, `style` 은 바깥 래퍼에, `ref` 와 나머지 props(`aria-label` 등)는 `role="progressbar"` 요소에 붙는다.
+
+## 접근성
+
+[WAI-ARIA progressbar 역할](https://www.w3.org/TR/wai-aria-1.2/#progressbar)을 따른다.
+
+### 스크린리더
+
+- `role="progressbar"` 와 `aria-valuemin`, `aria-valuemax`, `aria-valuenow`, `aria-valuetext` 를 노출한다.
+- 화면에 보이는 값(`showValue`)은 `aria-valuetext` 와 같은 내용이라 중복해서 읽지 않도록 숨긴다.
+- 진행 막대는 값이 바뀔 때마다 알려주지 않는다. 완료나 실패처럼 **중요한 순간은** [Toast](/components/toast/) 나 live region 으로 따로 알린다.
+- 진행률을 알 수 없으면 `aria-valuenow` 가 빠지고 `data-state="indeterminate"` 가 된다.
+
+### 사용자 설정
+
+- `prefers-reduced-motion` 이면 막대가 좌우로 움직이지 않고 제자리에서 천천히 깜빡인다. 값 변화도 애니메이션 없이 바로 반영된다.
+- Windows 고대비 모드에서 트랙은 테두리로, 채움은 시스템 강조색으로 보인다.
+
+## 가이드
+
+<DoDont>
+  <Do title="무엇의 진행인지">
+    "파일 업로드", "3단계 중 2단계"처럼 무엇이 얼마나 진행됐는지 쓴다.
+  </Do>
+  <Dont title="이름 없는 막대">
+    레이블도 `aria-label` 도 없으면 스크린리더는 "진행률 42%"만 읽는다.
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="실제 진행에 맞추기">값은 실제 작업 진행에 맞춰 올린다.</Do>
+  <Dont title="가짜 진행률">
+    99% 에서 오래 멈추는 막대는 신뢰를 잃는다. 알 수 없으면 indeterminate 로 둔다.
+  </Dont>
+</DoDont>

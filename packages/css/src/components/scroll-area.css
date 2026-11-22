@@ -1,0 +1,120 @@
+/*
+ * ScrollArea
+ * <div class="hds-scroll-area" data-orientation="vertical">
+ *   <div class="hds-scroll-area__viewport" tabindex="0" role="region" aria-label="…">…</div>
+ *   <div class="hds-scroll-area__scrollbar" data-orientation="vertical" data-state="visible">
+ *     <div class="hds-scroll-area__thumb"></div>
+ *   </div>
+ *   <div class="hds-scroll-area__corner"></div>
+ * </div>
+ */
+.hds-scroll-area {
+  --_bar: 0.625rem;
+
+  position: relative;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.hds-scroll-area__viewport {
+  width: 100%;
+  height: 100%;
+  /* 바깥(높이를 제한한 요소)의 둥근 모서리를 따른다 */
+  border-radius: inherit;
+}
+
+.hds-scroll-area__viewport:focus-visible {
+  outline: var(--hds-size-focus-ring-width) solid var(--hds-color-focus-ring);
+  outline-offset: calc(var(--hds-size-focus-ring-width) * -1);
+}
+
+.hds-scroll-area__scrollbar {
+  display: flex;
+  box-sizing: border-box;
+  padding: 2px;
+  user-select: none;
+  /* 스크롤바를 끄는 동안에도 스크롤은 막지 않는다 */
+  touch-action: none;
+  transition: background-color var(--hds-duration-fast) var(--hds-easing-standard);
+}
+
+.hds-scroll-area__scrollbar[data-orientation='vertical'] {
+  width: var(--_bar);
+}
+
+.hds-scroll-area__scrollbar[data-orientation='horizontal'] {
+  flex-direction: column;
+  height: var(--_bar);
+}
+
+@media (hover: hover) {
+  .hds-scroll-area__scrollbar:hover {
+    background-color: var(--hds-color-bg-muted);
+  }
+}
+
+.hds-scroll-area__thumb {
+  position: relative;
+  flex: 1;
+  border-radius: var(--hds-radius-full);
+  background-color: var(--hds-color-border-control);
+}
+
+/* 얇은 막대라도 잡기 쉽게 실제 포인터 영역을 넓힌다 */
+.hds-scroll-area__thumb::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  min-width: 1.5rem;
+  height: 100%;
+  min-height: 1.5rem;
+  transform: translate(-50%, -50%);
+}
+
+.hds-scroll-area__corner {
+  background-color: var(--hds-color-bg-muted);
+}
+
+/* ── 스크롤바 등장·퇴장 ──────────────────── */
+.hds-scroll-area__scrollbar[data-state='visible'] {
+  animation: hds-scroll-area-fade-in var(--hds-duration-fast) linear;
+}
+
+.hds-scroll-area__scrollbar[data-state='hidden'] {
+  animation: hds-scroll-area-fade-out var(--hds-duration-normal) linear;
+}
+
+@keyframes hds-scroll-area-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes hds-scroll-area-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+/* ── 사용자 설정 ─────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .hds-scroll-area__scrollbar {
+    transition: none;
+  }
+
+  .hds-scroll-area__scrollbar[data-state] {
+    animation: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .hds-scroll-area__thumb {
+    background-color: CanvasText;
+  }
+
+  .hds-scroll-area__scrollbar {
+    border: 1px solid CanvasText;
+  }
+}
