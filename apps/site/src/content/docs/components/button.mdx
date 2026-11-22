@@ -101,7 +101,7 @@ import { Button } from '@hoon-ds/react';
 ### 스크린리더
 
 - 네이티브 `<button>` 이라 역할과 상태를 브라우저가 그대로 전달한다.
-- 기본 `type="button"` — 폼 안에 두어도 의도치 않게 제출되지 않는다. 제출 버튼은 `type="submit"` 을 명시한다.
+- 기본 `type="button"`: 폼 안에 두어도 의도치 않게 제출되지 않는다. 제출 버튼은 `type="submit"` 을 명시한다.
 - `loading` 은 `aria-busy="true"` + `aria-disabled="true"`. 작업 **결과**(성공/실패)는 [Toast](/components/toast/) 나 live region 으로 따로 알린다.
 - `asChild` 로 링크를 렌더링하면 비활성은 `aria-disabled` 로 표현하고 이동을 막는다.
 

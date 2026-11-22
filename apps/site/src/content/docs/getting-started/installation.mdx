@@ -30,9 +30,9 @@ import { Aside, Steps, TabItem, Tabs } from '@astrojs/starlight/components';
    앱 진입점에서 **한 번만** 불러온다. 순서가 중요하다.
 
    ```tsx title="main.tsx"
-   import '@hoon-ds/tokens/css'; // 1. 디자인 토큰 (CSS 변수) — 필수
-   import '@hoon-ds/css/base.css'; // 2. 전역 베이스 (box-sizing, 본문 글꼴, 포커스 링) — 선택
-   import '@hoon-ds/css'; // 3. 컴포넌트 스타일 — 필수
+   import '@hoon-ds/tokens/css'; // 1. 디자인 토큰 (CSS 변수): 필수
+   import '@hoon-ds/css/base.css'; // 2. 전역 베이스 (box-sizing, 본문 글꼴, 포커스 링): 선택
+   import '@hoon-ds/css'; // 3. 컴포넌트 스타일: 필수
    ```
 
    `base.css` 는 앱 전체를 이 디자인 시스템으로 그릴 때만 쓴다. 기존 앱에 일부 컴포넌트만 도입한다면 생략해도 컴포넌트는 정상 동작한다.
@@ -84,10 +84,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 ## 스타일 덮어쓰기
 
-컴포넌트 스타일은 모두 `@layer hds.components` 안에 있다. **레이어 밖에 쓴 CSS 는 선택자 우선순위와 상관없이 항상 이긴다** — `!important` 가 필요 없다.
+컴포넌트 스타일은 모두 `@layer hds.components` 안에 있다. **레이어 밖에 쓴 CSS 는 선택자 우선순위와 상관없이 항상 이긴다**: `!important` 가 필요 없다.
 
 ```css
-/* 앱 CSS — 레이어 밖이므로 항상 우선 */
+/* 앱 CSS: 레이어 밖이므로 항상 우선 */
 .checkout .hds-button {
   border-radius: var(--hds-radius-full);
 }

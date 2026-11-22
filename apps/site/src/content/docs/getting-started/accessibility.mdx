@@ -11,12 +11,12 @@ import { Aside } from '@astrojs/starlight/components';
 
 ## 컴포넌트가 보장하는 것
 
-- **키보드** — 모든 컴포넌트를 키보드로 조작할 수 있고, 동작은 [WAI-ARIA APG](https://www.w3.org/WAI/ARIA/apg/patterns/) 패턴을 따른다.
-- **포커스** — `:focus-visible` 포커스 링이 항상 보이고(3:1 대비), 오버레이가 닫히면 포커스가 트리거로 돌아간다.
-- **역할·이름·상태** — 스크린리더가 역할(role), 이름, 상태(`aria-expanded`, `aria-checked` …)를 올바르게 읽는다.
-- **색 대비** — 시맨틱 토큰 조합은 텍스트 4.5:1, UI 경계 3:1 이상이며 테스트로 검증된다.
-- **사용자 설정** — 다크 모드, 동작 줄이기, Windows 고대비, 200% 확대에서 깨지지 않는다.
-- **터치 타깃** — 모든 인터랙티브 컨트롤이 24×24px 이상이다.
+- **키보드**: 모든 컴포넌트를 키보드로 조작할 수 있고, 동작은 [WAI-ARIA APG](https://www.w3.org/WAI/ARIA/apg/patterns/) 패턴을 따른다.
+- **포커스**: `:focus-visible` 포커스 링이 항상 보이고(3:1 대비), 오버레이가 닫히면 포커스가 트리거로 돌아간다.
+- **역할·이름·상태**: 스크린리더가 역할(role), 이름, 상태(`aria-expanded`, `aria-checked` …)를 올바르게 읽는다.
+- **색 대비**: 시맨틱 토큰 조합은 텍스트 4.5:1, UI 경계 3:1 이상이며 테스트로 검증된다.
+- **사용자 설정**: 다크 모드, 동작 줄이기, Windows 고대비, 200% 확대에서 깨지지 않는다.
+- **터치 타깃**: 모든 인터랙티브 컨트롤이 24×24px 이상이다.
 
 ## 사용하는 쪽에서 챙길 것
 
@@ -26,7 +26,7 @@ import { Aside } from '@astrojs/starlight/components';
 // ✅ 아이콘만 있는 버튼은 aria-label
 <IconButton aria-label="닫기"><XIcon /></IconButton>
 
-// ✅ 입력에는 항상 보이는 레이블 — placeholder 는 레이블이 아니다
+// ✅ 입력에는 항상 보이는 레이블: placeholder 는 레이블이 아니다
 <Field.Root>
   <Field.Label>이메일</Field.Label>
   <Input placeholder="name@company.com" />

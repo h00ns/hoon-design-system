@@ -989,3 +989,47 @@
     border-color: Highlight;
   }
 }
+
+/* 좁은 화면: 명령어는 영역 안에서 가로 스크롤 */
+.copy-chip {
+  max-width: 100%;
+}
+
+.copy-chip code,
+.install code {
+  min-width: 0;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+}
+
+.closing {
+  min-width: 0;
+}
+
+.install {
+  width: auto;
+  max-width: 100%;
+}
+
+@media (max-width: 36rem) {
+  .container {
+    padding-inline: 1rem;
+  }
+
+  .section {
+    padding-block: 4rem;
+  }
+
+  .bento__cell {
+    padding: 1.25rem;
+  }
+
+  .theme-split {
+    grid-template-columns: 1fr;
+  }
+}
+
+.closing {
+  grid-template-columns: minmax(0, 1fr);
+}

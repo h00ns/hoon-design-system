@@ -3,7 +3,7 @@ import { Field, Select } from '@hoon-ds/react';
 export default function DisabledExample() {
   return (
     <div style={{ display: 'grid', gap: 16, width: '100%', maxWidth: 280 }}>
-      {/* 항목 하나만 비활성 — 키보드 이동에서 건너뛴다 */}
+      {/* 항목 하나만 비활성: 키보드 이동에서 건너뛴다 */}
       <Field.Root>
         <Field.Label>요금제</Field.Label>
         <Select.Root>
@@ -20,7 +20,7 @@ export default function DisabledExample() {
         </Select.Root>
       </Field.Root>
 
-      {/* Select 전체 비활성 — Field 의 disabled 를 이어받는다 */}
+      {/* Select 전체 비활성: Field 의 disabled 를 이어받는다 */}
       <Field.Root disabled>
         <Field.Label>현재 요금제</Field.Label>
         <Select.Root defaultValue="pro">

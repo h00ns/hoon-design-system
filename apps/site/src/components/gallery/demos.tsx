@@ -3,10 +3,31 @@
  * 열고 닫는 오버레이는 트리거와 열린 모습의 핵심만 보여준다.
  */
 import * as DS from '@hoon-ds/react';
-import { CheckCircle, DotsThree, GearSix, Info, X } from '@phosphor-icons/react/ssr';
+import {
+  CheckCircle,
+  DotsThree,
+  GearSix,
+  Info,
+  TextB,
+  TextItalic,
+  TextUnderline,
+  X,
+} from '@phosphor-icons/react/ssr';
 import type { ReactNode } from 'react';
 
 const {
+  Breadcrumb,
+  Card,
+  Collapsible,
+  Combobox,
+  Kbd,
+  Link,
+  Pagination,
+  Progress,
+  ScrollArea,
+  Slider,
+  Table,
+  ToggleGroup,
   Accordion,
   Alert,
   Avatar,
@@ -217,6 +238,157 @@ export const DEMOS: Record<string, () => ReactNode> = {
       <CheckCircle weight="fill" className="g-toast__icon" />
       <span>링크를 복사했습니다</span>
       <X weight="bold" className="g-toast__close" />
+    </div>
+  ),
+
+  combobox: () => (
+    <div className="g-anchor g-field">
+      <Combobox
+        aria-label="도시 검색 예시"
+        size="sm"
+        defaultInputValue="서"
+        options={[{ value: 'seoul', label: '서울' }]}
+        className="g-field"
+      />
+      <ul className="g-surface g-menu g-field">
+        <li data-active>서울</li>
+        <li>서귀포</li>
+        <li>서산</li>
+      </ul>
+    </div>
+  ),
+  slider: () => (
+    <div className="g-field g-col">
+      <Slider
+        defaultValue={[20000, 60000]}
+        min={0}
+        max={100000}
+        step={1000}
+        aria-label="가격 범위 예시"
+      />
+    </div>
+  ),
+  'toggle-group': () => (
+    <ToggleGroup.Root type="multiple" defaultValue={['bold']} aria-label="글자 스타일 예시">
+      <ToggleGroup.Item value="bold" aria-label="굵게">
+        <TextB weight="bold" />
+      </ToggleGroup.Item>
+      <ToggleGroup.Item value="italic" aria-label="기울임">
+        <TextItalic weight="bold" />
+      </ToggleGroup.Item>
+      <ToggleGroup.Item value="underline" aria-label="밑줄">
+        <TextUnderline weight="bold" />
+      </ToggleGroup.Item>
+    </ToggleGroup.Root>
+  ),
+  sheet: () => (
+    <div className="g-sheet">
+      <div className="g-surface g-sheet__panel">
+        <p className="g-surface__title">필터</p>
+        <Skeleton style={{ width: '80%' }} />
+        <Button size="sm">적용</Button>
+      </div>
+    </div>
+  ),
+  'hover-card': () => (
+    <div className="g-anchor">
+      <Link href="#hover-card">@hoon</Link>
+      <div className="g-surface g-bubble g-row" style={{ justifyContent: 'flex-start' }}>
+        <Avatar name="김하늘" size="sm" />
+        <div>
+          <p className="g-surface__title">김하늘</p>
+          <p className="g-surface__text">프론트엔드 엔지니어</p>
+        </div>
+      </div>
+    </div>
+  ),
+  progress: () => (
+    <div className="g-field g-col">
+      <Progress value={42} label="업로드" showValue size="sm" />
+      <Progress value={80} tone="success" aria-label="완료율 예시" size="sm" />
+    </div>
+  ),
+  collapsible: () => (
+    <Collapsible.Root defaultOpen className="g-field">
+      <Collapsible.Trigger>고급 설정</Collapsible.Trigger>
+      <Collapsible.Content className="g-muted">캐시 사용, 로그 수준</Collapsible.Content>
+    </Collapsible.Root>
+  ),
+  'scroll-area': () => (
+    <ScrollArea
+      type="always"
+      style={{ height: 96, width: '100%', maxWidth: 200 }}
+      aria-label="목록 예시"
+    >
+      <ul className="g-list">
+        {['서울', '부산', '대구', '인천', '광주', '대전', '울산'].map((c) => (
+          <li key={c}>{c}</li>
+        ))}
+      </ul>
+    </ScrollArea>
+  ),
+  card: () => (
+    <Card.Root className="g-field" padding="sm">
+      <Card.Header>
+        <Card.Title>프로 요금제</Card.Title>
+        <Card.Description>팀 협업 기능 포함</Card.Description>
+      </Card.Header>
+      <Card.Footer>
+        <Button size="sm">시작하기</Button>
+      </Card.Footer>
+    </Card.Root>
+  ),
+  table: () => (
+    <Table.Root density="compact" className="g-table" aria-label="주문 예시">
+      <Table.Header>
+        <Table.Row>
+          <Table.Head>상품</Table.Head>
+          <Table.Head numeric>가격</Table.Head>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        <Table.Row>
+          <Table.Cell>키보드</Table.Cell>
+          <Table.Cell numeric>89,000</Table.Cell>
+        </Table.Row>
+        <Table.Row>
+          <Table.Cell>마우스</Table.Cell>
+          <Table.Cell numeric>42,000</Table.Cell>
+        </Table.Row>
+      </Table.Body>
+    </Table.Root>
+  ),
+  breadcrumb: () => (
+    <Breadcrumb.Root aria-label="경로 예시">
+      <Breadcrumb.List>
+        <Breadcrumb.Item>
+          <Breadcrumb.Link href="#home">홈</Breadcrumb.Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Separator />
+        <Breadcrumb.Item>
+          <Breadcrumb.Link href="#docs">문서</Breadcrumb.Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Separator />
+        <Breadcrumb.Item>
+          <Breadcrumb.Page>Button</Breadcrumb.Page>
+        </Breadcrumb.Item>
+      </Breadcrumb.List>
+    </Breadcrumb.Root>
+  ),
+  pagination: () => (
+    <div className="g-scale">
+      <Pagination count={5} defaultPage={2} size="sm" aria-label="페이지 예시" />
+    </div>
+  ),
+  link: () => (
+    <p className="g-muted" style={{ margin: 0 }}>
+      자세한 내용은 <Link href="#guide">사용 가이드</Link>를 보세요.
+    </p>
+  ),
+  kbd: () => (
+    <div className="g-row">
+      <Kbd keys={['⌘', 'K']} />
+      <Kbd>Esc</Kbd>
     </div>
   ),
 };

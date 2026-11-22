@@ -31,7 +31,7 @@ import withAnchorCode from '../../../examples/popover/WithAnchor?raw';
 | 여는 방법       | hover · 키보드 포커스           | 클릭 · Enter/Space         | 클릭 · Enter/Space              |
 | 내용            | 짧은 텍스트 한 줄               | 텍스트, 링크, 간단한 폼    | 폼, 상세 정보, 여러 단계의 작업 |
 | 인터랙티브 요소 | ❌ 넣을 수 없다                 | ✅                         | ✅                              |
-| 바깥과 상호작용 | ✅                              | ✅ (비모달)                | ❌ (모달 — 바깥은 잠긴다)       |
+| 바깥과 상호작용 | ✅                              | ✅ (비모달)                | ❌ (모달, 바깥은 잠긴다)        |
 | 포커스          | 트리거에 남는다                 | 내용으로 이동, 닫히면 복귀 | 내용 안에 갇힘, 닫히면 복귀     |
 | 터치 기기       | 열리지 않는다                   | ✅                         | ✅                              |
 
@@ -112,8 +112,8 @@ import { Popover } from '@hoon-ds/react';
 | `Trigger`     | [Popover.Trigger](https://www.radix-ui.com/primitives/docs/components/popover#trigger) |
 | `Anchor`      | [Popover.Anchor](https://www.radix-ui.com/primitives/docs/components/popover#anchor)   |
 | `Close`       | [Popover.Close](https://www.radix-ui.com/primitives/docs/components/popover#close)     |
-| `Title`       | `<h2>` 속성 — 패널의 `aria-labelledby` 로 자동 연결                                    |
-| `Description` | `<p>` 속성 — 패널의 `aria-describedby` 로 자동 연결                                    |
+| `Title`       | `<h2>` 속성: 패널의 `aria-labelledby` 로 자동 연결                                     |
+| `Description` | `<p>` 속성: 패널의 `aria-describedby` 로 자동 연결                                     |
 
 ## 접근성
 

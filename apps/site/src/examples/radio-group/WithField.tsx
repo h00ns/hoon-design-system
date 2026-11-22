@@ -5,7 +5,7 @@ export default function WithFieldExample() {
     <Field.Root required>
       <Field.Label>배송 방법</Field.Label>
       <RadioGroup.Root name="shipping" defaultValue="normal">
-        <RadioGroup.Item value="normal" description="2–3일 · 무료">
+        <RadioGroup.Item value="normal" description="2~3일 · 무료">
           일반 배송
         </RadioGroup.Item>
         <RadioGroup.Item value="fast" description="오늘 주문 시 내일 도착 · 3,000원">

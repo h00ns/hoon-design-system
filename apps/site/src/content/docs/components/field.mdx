@@ -143,8 +143,8 @@ Field 자체는 포커스를 받지 않는다. `Field.Label` 을 누르면 연�
 ### 스크린리더
 
 - 레이블: `<label for>` (그룹 컨트롤은 `aria-labelledby`)
-- 설명·오류: `aria-describedby` — 설명 다음에 오류 순서로 읽는다.
-- 오류 상태: `aria-invalid="true"` — 오류가 사라지면 연결도 함께 끊긴다.
+- 설명·오류: `aria-describedby` 로 연결하며, 설명 다음에 오류 순서로 읽는다.
+- 오류 상태: `aria-invalid="true"`. 오류가 사라지면 연결도 함께 끊긴다.
 - 필수: 네이티브 `required` 또는 `aria-required`. `*` 기호는 `aria-hidden`.
 - 오류 메시지는 live region 이 아니다. 입력할 때마다 읽히면 방해가 되므로, 제출 시 오류 필드로 **포커스를 옮겨** 알린다.
 

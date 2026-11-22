@@ -621,3 +621,20 @@ starlight-toc a[aria-current='true']:hover {
     transition: none;
   }
 }
+
+.ds-dodont__label {
+  padding: 0.05rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 650;
+}
+
+.ds-dodont__item[data-tone='do'] .ds-dodont__label {
+  background: var(--hds-color-success-subtle);
+  color: var(--hds-color-success-fg);
+}
+
+.ds-dodont__item[data-tone='dont'] .ds-dodont__label {
+  background: var(--hds-color-danger-subtle);
+  color: var(--hds-color-danger-fg);
+}
