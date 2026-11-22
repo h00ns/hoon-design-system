@@ -1,9 +1,10 @@
 import { Button, Field, Input, Select, Switch, Tabs } from '@hoon-ds/react';
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 /**
- * 히어로의 실제 컴포넌트 조합 위로 "포커스 링"이 키보드 순서를 따라 이동한다.
- * - 실제 DOM 포커스는 건드리지 않는다 (사용자의 포커스·스크롤을 빼앗지 않기 위해 링은 오버레이로 그린다)
+ * 히어로의 실제 컴포넌트 조합에서 "포커스"가 키보드 순서를 따라 이동한다.
+ * - 실제 DOM 포커스는 건드리지 않는다 (사용자의 포커스·스크롤을 빼앗지 않도록, 대상에 data-tour-focus 만 달고
+ *   CSS 로 각 컴포넌트의 :focus-visible 모양을 똑같이 그린다)
  * - 사용자가 영역에 들어오면(hover / focus) 투어를 멈추고 직접 조작하게 둔다
  * - prefers-reduced-motion 이면 투어를 하지 않는다
  */
@@ -28,20 +29,11 @@ const STEPS: Step[] = [
 
 const STEP_MS = 1500;
 
-interface Ring {
-  x: number;
-  y: number;
-  w: number;
-  h: number;
-  r: string;
-}
-
 export default function HeroStage() {
   const stageRef = useRef<HTMLDivElement>(null);
   // 투어 대상 요소들. 렌더링에 쓰지 않는 값이라 상태 갱신 없이 Map 에 담는다
   const [targets] = useState(() => new Map<StepKey, HTMLElement | null>());
   const [step, setStep] = useState(0);
-  const [ring, setRing] = useState<Ring | null>(null);
   const [touring, setTouring] = useState(false);
   const [paused, setPaused] = useState(false);
   const [tab, setTab] = useState('me');
@@ -73,33 +65,17 @@ export default function HeroStage() {
 
   const active = touring && !paused;
 
-  const measure = useCallback(() => {
-    const stage = stageRef.current;
-    const current = STEPS[step];
-    const el = current && targets.get(current.target);
-    if (!stage || !el) return;
-    const s = stage.getBoundingClientRect();
-    const r = el.getBoundingClientRect();
-    setRing({
-      x: r.left - s.left,
-      y: r.top - s.top,
-      w: r.width,
-      h: r.height,
-      r: getComputedStyle(el).borderRadius || '6px',
-    });
-  }, [step, targets]);
-
-  useLayoutEffect(() => {
-    if (!active) return;
-    measure();
-  }, [active, measure, tab, weekly, saving]);
-
+  // 현재 단계의 대상에 data-tour-focus 를 달아 컴포넌트의 실제 포커스 스타일을 그대로 보여준다.
+  // (오버레이로 링을 따로 그리면 위치가 어긋날 수 있다. 실제 DOM 포커스는 건드리지 않는다)
   useEffect(() => {
     if (!active) return;
-    const ro = new ResizeObserver(measure);
-    if (stageRef.current) ro.observe(stageRef.current);
-    return () => ro.disconnect();
-  }, [active, measure]);
+    const current = STEPS[step];
+    const el = current && targets.get(current.target);
+    // Input 은 ref 가 <input> 이지만 포커스 모양은 바깥 래퍼가 그린다
+    const visual = el?.closest('.hds-input') ?? el;
+    visual?.setAttribute('data-tour-focus', '');
+    return () => visual?.removeAttribute('data-tour-focus');
+  }, [active, step, targets, tab]);
 
   // 단계 진행. 다음 단계의 "효과"(탭 전환, 스위치 토글, 저장)는 타이머 콜백에서 적용한다
   useEffect(() => {
@@ -191,19 +167,6 @@ export default function HeroStage() {
           </div>
         </section>
       </Tabs.Root>
-
-      {active && ring && (
-        <div
-          className="hero-ring"
-          aria-hidden="true"
-          style={{
-            transform: `translate(${ring.x - 4}px, ${ring.y - 4}px)`,
-            width: ring.w + 8,
-            height: ring.h + 8,
-            borderRadius: `calc(${ring.r} + 4px)`,
-          }}
-        />
-      )}
 
       <div className="hero-hud" aria-hidden="true" data-visible={active || undefined}>
         {current?.keys.map((k) => (

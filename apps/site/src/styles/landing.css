@@ -397,19 +397,30 @@
   padding-top: 1rem;
 }
 
-.hero-ring {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 2;
-  border: 2px solid var(--l-accent);
-  box-shadow: 0 0 0 4px color-mix(in oklab, var(--l-accent) 22%, transparent);
-  pointer-events: none;
+/* 투어 중인 컨트롤: 각 컴포넌트의 실제 포커스 모양과 같게 그린다 */
+.hero-card .hds-input[data-tour-focus],
+.hero-card .hds-select__trigger[data-tour-focus] {
+  border-color: var(--hds-color-focus-ring);
+  box-shadow:
+    0 0 0 1px var(--hds-color-focus-ring),
+    0 0 0 4px var(--hds-color-focus-halo);
+}
+
+.hero-card :is(.hds-button, .hds-switch__control)[data-tour-focus] {
+  outline: var(--hds-size-focus-ring-width) solid var(--hds-color-focus-ring);
+  outline-offset: var(--hds-size-focus-ring-offset);
+}
+
+.hero-card .hds-tabs__trigger[data-tour-focus] {
+  outline: var(--hds-size-focus-ring-width) solid var(--hds-color-focus-ring);
+  outline-offset: calc(var(--hds-size-focus-ring-width) * -1);
+}
+
+.hero-card [data-tour-focus] {
   transition:
-    transform 0.45s var(--l-ease),
-    width 0.45s var(--l-ease),
-    height 0.45s var(--l-ease),
-    border-radius 0.45s var(--l-ease);
+    box-shadow 0.25s var(--l-ease),
+    border-color 0.25s var(--l-ease),
+    outline-color 0.25s var(--l-ease);
 }
 
 .hero-hud {
@@ -985,8 +996,8 @@
     border: 1px solid CanvasText;
   }
 
-  .hero-ring {
-    border-color: Highlight;
+  .hero-card [data-tour-focus] {
+    outline: 2px solid Highlight;
   }
 }
 
