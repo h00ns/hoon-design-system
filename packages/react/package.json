@@ -1,6 +1,6 @@
 {
   "name": "@hoon-ds/react",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Accessible React components for hoon-design-system, built on Radix",
   "keywords": [
     "react",
