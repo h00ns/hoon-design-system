@@ -19,9 +19,20 @@
   background-color: var(--hds-color-bg-raised);
   color: var(--hds-color-fg-default);
   box-shadow: var(--hds-shadow-md);
-  font-size: var(--hds-font-size-md);
-  line-height: var(--hds-font-line-height-normal);
+  font-family: var(--hds-font-family-sans);
+  font-size: var(--hds-font-size-sm);
+  font-weight: var(--hds-font-weight-medium);
+  line-height: var(--hds-font-line-height-tight);
+  /* 한국어 문장이 단어 중간에서 끊기지 않게 */
+  word-break: keep-all;
   transform-origin: var(--radix-dropdown-menu-content-transform-origin);
+}
+
+/* 포인터로 열면 Radix 가 메뉴 표면에 포커스를 둔다. 표면 전체에 링을 그리지 않고
+   항목 하이라이트로 위치를 보여준다 */
+.hds-menu:focus,
+.hds-menu:focus-visible {
+  outline: none;
 }
 
 .hds-menu[data-state='open'] {
@@ -48,7 +59,9 @@
   border-radius: var(--hds-radius-sm);
   cursor: default;
   user-select: none;
+  /* 키보드·포인터 모두 배경 하이라이트로 위치를 보여준다 (테두리 링 대신) */
   outline: none;
+  transition: background-color var(--hds-duration-fast) var(--hds-easing-standard);
 }
 
 .hds-menu__item[data-inset] {
@@ -60,14 +73,20 @@
   width: var(--_icon);
   height: var(--_icon);
   color: var(--hds-color-fg-muted);
+  transition: color var(--hds-duration-fast) var(--hds-easing-standard);
 }
 
 .hds-menu__item[data-highlighted] {
   background-color: var(--hds-color-neutral-subtle);
 }
 
-.hds-menu__sub-trigger[data-state='open']:not([data-highlighted]) {
-  background-color: var(--hds-color-bg-muted);
+.hds-menu__item[data-highlighted] > svg {
+  color: var(--hds-color-fg-default);
+}
+
+/* 하위 메뉴가 열려 있는 동안은 부모 항목을 하이라이트와 같은 톤으로 유지한다 */
+.hds-menu__sub-trigger[data-state='open'] {
+  background-color: var(--hds-color-neutral-subtle);
 }
 
 .hds-menu__item[data-variant='danger'] {
@@ -110,10 +129,12 @@
 /* ── 단축키 · 하위 메뉴 화살표 ──────────── */
 .hds-menu__shortcut {
   margin-inline-start: auto;
-  padding-inline-start: var(--hds-space-4);
+  padding-inline-start: var(--hds-space-6);
   color: var(--hds-color-fg-muted);
   font-size: var(--hds-font-size-xs);
-  letter-spacing: 0.05em;
+  font-weight: var(--hds-font-weight-regular);
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
 }
 
 .hds-menu__chevron {
@@ -138,7 +159,8 @@
   padding: var(--hds-space-2) var(--_px) var(--hds-space-1);
   color: var(--hds-color-fg-muted);
   font-size: var(--hds-font-size-xs);
-  font-weight: var(--hds-font-weight-semibold);
+  font-weight: var(--hds-font-weight-medium);
+  line-height: var(--hds-font-line-height-tight);
 }
 
 .hds-menu__label[data-inset] {

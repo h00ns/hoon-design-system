@@ -18,6 +18,19 @@
   background-color: var(--hds-color-bg-overlay);
 }
 
+/* 뒤 화면을 살짝 흐려 표면과 분리한다. 투명도 줄이기 설정이면 흐림 없이 */
+@supports (backdrop-filter: blur(1px)) {
+  .hds-dialog__overlay {
+    backdrop-filter: blur(2px);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .hds-dialog__overlay {
+    backdrop-filter: none;
+  }
+}
+
 .hds-dialog {
   --_width: 32rem;
   --_gutter: var(--hds-space-8);
@@ -42,6 +55,9 @@
   font-family: var(--hds-font-family-sans);
   font-size: var(--hds-font-size-md);
   line-height: var(--hds-font-line-height-normal);
+  /* 한국어 문장이 단어 중간에서 끊기지 않게 */
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 .hds-dialog:focus {
@@ -66,7 +82,7 @@
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  gap: var(--hds-space-2);
+  gap: var(--hds-space-1);
   padding: var(--_pad) var(--_pad) var(--hds-space-2);
   /* 닫기 버튼과 겹치지 않게 */
   padding-inline-end: calc(var(--_pad) + var(--hds-size-control-sm));
@@ -74,15 +90,17 @@
 
 .hds-dialog__title {
   margin: 0;
-  font-size: var(--hds-font-size-xl);
+  font-size: var(--hds-font-size-lg);
   font-weight: var(--hds-font-weight-semibold);
   line-height: var(--hds-font-line-height-tight);
+  letter-spacing: -0.015em;
 }
 
 .hds-dialog__description {
   margin: 0;
   color: var(--hds-color-fg-muted);
   font-size: var(--hds-font-size-sm);
+  line-height: var(--hds-font-line-height-normal);
 }
 
 .hds-dialog__body {
@@ -94,9 +112,12 @@
   overscroll-behavior: contain;
 }
 
+/* 스크롤되는 본문은 Tab 으로 포커스를 받는다. 표면 가장자리에 붙지 않도록
+   안쪽으로 살짝 띄운 둥근 링을 그린다 */
 .hds-dialog__body:focus-visible {
   outline: var(--hds-size-focus-ring-width) solid var(--hds-color-focus-ring);
-  outline-offset: calc(var(--hds-size-focus-ring-width) * -1);
+  outline-offset: calc(var(--hds-space-1) * -1);
+  border-radius: var(--hds-radius-md);
 }
 
 .hds-dialog__footer {
@@ -110,8 +131,16 @@
 
 .hds-dialog__close {
   position: absolute;
-  inset-block-start: var(--hds-space-4);
-  inset-inline-end: var(--hds-space-4);
+  /* 제목 첫 줄과 높이를 맞춘다 */
+  inset-block-start: calc(var(--_pad) - var(--hds-space-1));
+  inset-inline-end: calc(var(--_pad) - var(--hds-space-2));
+  color: var(--hds-color-fg-muted);
+}
+
+@media (hover: hover) {
+  .hds-dialog__close:hover {
+    color: var(--hds-color-fg-default);
+  }
 }
 
 /* ── 애니메이션 ─────────────────────────── */

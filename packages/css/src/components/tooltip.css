@@ -10,7 +10,7 @@
   z-index: var(--hds-z-index-tooltip);
   box-sizing: border-box;
   max-width: min(20rem, var(--radix-tooltip-content-available-width, 100vw));
-  padding: var(--hds-space-1) var(--hds-space-2);
+  padding: calc(var(--hds-space-1) * 1.5) calc(var(--hds-space-2) + var(--hds-space-1) / 2);
   border-radius: var(--hds-radius-md);
   background-color: var(--hds-color-bg-inverse);
   color: var(--hds-color-fg-inverse);
@@ -18,7 +18,7 @@
   font-family: var(--hds-font-family-sans);
   font-size: var(--hds-font-size-xs);
   font-weight: var(--hds-font-weight-medium);
-  line-height: var(--hds-font-line-height-normal);
+  line-height: var(--hds-font-line-height-tight);
   /* 한국어 문장이 단어 중간에서 끊기지 않게 */
   word-break: keep-all;
   overflow-wrap: break-word;

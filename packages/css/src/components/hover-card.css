@@ -19,6 +19,9 @@
   font-family: var(--hds-font-family-sans);
   font-size: var(--hds-font-size-sm);
   line-height: var(--hds-font-line-height-normal);
+  /* 한국어 문장이 단어 중간에서 끊기지 않게 */
+  word-break: keep-all;
+  overflow-wrap: break-word;
   transform-origin: var(--radix-hover-card-content-transform-origin);
 }
 

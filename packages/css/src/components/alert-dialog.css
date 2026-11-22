@@ -22,12 +22,13 @@
 }
 
 .hds-alert-dialog__description {
-  font-size: var(--hds-font-size-md);
+  font-size: var(--hds-font-size-sm);
+  line-height: var(--hds-font-line-height-relaxed);
   overflow-y: auto;
 }
 
 .hds-alert-dialog__footer {
-  padding-top: var(--hds-space-4);
+  padding-top: var(--hds-space-5);
 }
 
 @media (max-width: 40rem) {

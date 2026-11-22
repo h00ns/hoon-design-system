@@ -18,6 +18,19 @@
   background-color: var(--hds-color-bg-overlay);
 }
 
+/* 뒤 화면을 살짝 흐려 표면과 분리한다. 투명도 줄이기 설정이면 흐림 없이 */
+@supports (backdrop-filter: blur(1px)) {
+  .hds-sheet__overlay {
+    backdrop-filter: blur(2px);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .hds-sheet__overlay {
+    backdrop-filter: none;
+  }
+}
+
 .hds-sheet {
   --_size: 24rem;
   --_pad: var(--hds-space-6);
@@ -37,6 +50,9 @@
   font-family: var(--hds-font-family-sans);
   font-size: var(--hds-font-size-md);
   line-height: var(--hds-font-line-height-normal);
+  /* 한국어 문장이 단어 중간에서 끊기지 않게 */
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 .hds-sheet:focus {
@@ -125,7 +141,7 @@
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  gap: var(--hds-space-2);
+  gap: var(--hds-space-1);
   padding: var(--_pad) var(--_pad) var(--hds-space-2);
   /* 닫기 버튼과 겹치지 않게 */
   padding-inline-end: calc(var(--_pad) + var(--hds-size-control-sm));
@@ -133,15 +149,17 @@
 
 .hds-sheet__title {
   margin: 0;
-  font-size: var(--hds-font-size-xl);
+  font-size: var(--hds-font-size-lg);
   font-weight: var(--hds-font-weight-semibold);
   line-height: var(--hds-font-line-height-tight);
+  letter-spacing: -0.015em;
 }
 
 .hds-sheet__description {
   margin: 0;
   color: var(--hds-color-fg-muted);
   font-size: var(--hds-font-size-sm);
+  line-height: var(--hds-font-line-height-normal);
 }
 
 .hds-sheet__body {
@@ -152,9 +170,11 @@
   overscroll-behavior: contain;
 }
 
+/* 스크롤 본문 포커스: 가장자리에 붙지 않게 안쪽으로 띄운 둥근 링 */
 .hds-sheet__body:focus-visible {
   outline: var(--hds-size-focus-ring-width) solid var(--hds-color-focus-ring);
-  outline-offset: calc(var(--hds-size-focus-ring-width) * -1);
+  outline-offset: calc(var(--hds-space-1) * -1);
+  border-radius: var(--hds-radius-md);
 }
 
 .hds-sheet__footer {
@@ -169,8 +189,16 @@
 
 .hds-sheet__close {
   position: absolute;
-  inset-block-start: calc(var(--hds-space-4) + env(safe-area-inset-top, 0px));
-  inset-inline-end: calc(var(--hds-space-4) + env(safe-area-inset-right, 0px));
+  /* 제목 첫 줄과 높이를 맞춘다 */
+  inset-block-start: calc(var(--_pad) - var(--hds-space-1) + env(safe-area-inset-top, 0px));
+  inset-inline-end: calc(var(--_pad) - var(--hds-space-2) + env(safe-area-inset-right, 0px));
+  color: var(--hds-color-fg-muted);
+}
+
+@media (hover: hover) {
+  .hds-sheet__close:hover {
+    color: var(--hds-color-fg-default);
+  }
 }
 
 .hds-sheet[data-side='bottom'] .hds-sheet__close {

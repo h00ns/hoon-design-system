@@ -67,8 +67,12 @@
   background-color: var(--hds-color-bg-raised);
   color: var(--hds-color-fg-default);
   box-shadow: var(--hds-shadow-lg);
+  font-family: var(--hds-font-family-sans);
   font-size: var(--hds-font-size-sm);
   line-height: var(--hds-font-line-height-normal);
+  /* 한국어 문장이 단어 중간에서 끊기지 않게 */
+  word-break: keep-all;
+  overflow-wrap: break-word;
   pointer-events: auto;
 }
 
@@ -97,6 +101,8 @@
 .hds-toast__icon {
   display: inline-flex;
   flex-shrink: 0;
+  /* 본문과 같은 위쪽 여백 → 아이콘이 제목 첫 줄과 나란히 */
+  padding-block: calc((var(--hds-size-control-sm) - 1lh) / 2);
   color: var(--_accent);
 }
 
@@ -116,8 +122,14 @@
   padding-block: calc((var(--hds-size-control-sm) - 1lh) / 2);
 }
 
+/* 부품의 바깥 여백은 직접 정한다 (본문 콘텐츠 안에 놓여도 문단 간격을 물려받지 않게) */
+.hds-toast__content > * {
+  margin: 0;
+}
+
 .hds-toast__title {
-  font-weight: var(--hds-font-weight-semibold);
+  font-weight: var(--hds-font-weight-medium);
+  letter-spacing: -0.005em;
 }
 
 .hds-toast__description {
@@ -127,6 +139,16 @@
 .hds-toast__action,
 .hds-toast__close {
   flex-shrink: 0;
+}
+
+.hds-toast__close {
+  color: var(--hds-color-fg-muted);
+}
+
+@media (hover: hover) {
+  .hds-toast__close:hover {
+    color: var(--hds-color-fg-default);
+  }
 }
 
 /* ── 애니메이션 ───────────────────────────── */
