@@ -50,7 +50,7 @@
 
 @media (hover: hover) {
   .hds-checkbox__control:hover:not([data-disabled])[data-state='unchecked'] {
-    border-color: var(--hds-color-fg-muted);
+    border-color: var(--hds-color-border-control-hover);
   }
 }
 

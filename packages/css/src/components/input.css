@@ -23,6 +23,7 @@
   border: 1px solid var(--_border);
   border-radius: var(--hds-radius-md);
   background-color: var(--hds-color-bg-default);
+  box-shadow: var(--hds-shadow-xs);
   color: var(--hds-color-fg-default);
   font-size: var(--_font-size);
   cursor: text;
@@ -44,15 +45,19 @@
 }
 
 @media (hover: hover) {
-  .hds-input:hover:not([data-disabled], [data-readonly], [data-invalid]) {
-    --_border: var(--hds-color-fg-muted);
+  .hds-input:hover:not(:focus-within, [data-disabled], [data-readonly], [data-invalid]) {
+    --_border: var(--hds-color-border-control-hover);
   }
 }
 
+/* 포커스: 테두리를 강조색 2px 로 만들고 바깥에 옅은 번짐을 둔다 (안쪽으로 파고드는 링 대신).
+   outline 은 투명하게 남겨 Windows 고대비 모드에서만 보이게 한다 */
 .hds-input:focus-within {
-  outline: var(--hds-size-focus-ring-width) solid var(--hds-color-focus-ring);
-  outline-offset: -1px;
   --_border: var(--hds-color-focus-ring);
+  outline: 2px solid transparent;
+  box-shadow:
+    0 0 0 1px var(--hds-color-focus-ring),
+    0 0 0 4px var(--hds-color-focus-halo);
 }
 
 .hds-input[data-invalid] {
@@ -60,7 +65,9 @@
 }
 
 .hds-input[data-invalid]:focus-within {
-  outline-color: var(--hds-color-danger-fg);
+  box-shadow:
+    0 0 0 1px var(--hds-color-danger-fg),
+    0 0 0 4px color-mix(in srgb, var(--hds-color-danger-solid) 22%, transparent);
 }
 
 .hds-input[data-readonly] {

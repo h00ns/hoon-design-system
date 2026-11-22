@@ -34,7 +34,7 @@
   color: var(--hds-color-fg-default);
   font-family: inherit;
   font-size: var(--hds-font-size-md);
-  font-weight: var(--hds-font-weight-semibold);
+  font-weight: var(--hds-font-weight-medium);
   line-height: var(--hds-font-line-height-normal);
   text-align: start;
   cursor: pointer;
@@ -42,10 +42,10 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+/* hover: 밑줄 대신 화살표를 진하게 해 누를 수 있음을 알린다 */
 @media (hover: hover) {
-  .hds-accordion__trigger:where(:hover):not(:disabled) .hds-accordion__title {
-    text-decoration: underline;
-    text-underline-offset: 0.2em;
+  .hds-accordion__trigger:where(:hover):not(:disabled) .hds-accordion__icon {
+    color: var(--hds-color-fg-default);
   }
 }
 
@@ -64,7 +64,9 @@
   display: inline-flex;
   flex-shrink: 0;
   color: var(--hds-color-fg-muted);
-  transition: transform var(--hds-duration-normal) var(--hds-easing-standard);
+  transition:
+    transform var(--hds-duration-normal) var(--hds-easing-standard),
+    color var(--hds-duration-fast);
 }
 
 .hds-accordion__icon svg {

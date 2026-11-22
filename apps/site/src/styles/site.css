@@ -21,9 +21,9 @@
   --sl-color-gray-6: #171a1f;
   --sl-color-black: #0c0e11;
 
-  --sl-color-accent-low: #15203f;
-  --sl-color-accent: #5c88ff;
-  --sl-color-accent-high: #bccfff;
+  --sl-color-accent-low: #10224d;
+  --sl-color-accent: #8bb4fe;
+  --sl-color-accent-high: #d7e5ff;
 
   --sl-color-bg-nav: color-mix(in oklab, var(--sl-color-black) 78%, transparent);
   --sl-color-bg-sidebar: var(--sl-color-black);
@@ -42,7 +42,7 @@
   --ds-surface-2: #181b20;
   --ds-border: #23272e;
   --ds-border-strong: #343a43;
-  --ds-glow: rgb(92 136 255 / 0.18);
+  --ds-glow: rgb(88 145 254 / 0.18);
   --ds-radius-surface: 16px;
 }
 
@@ -57,9 +57,9 @@
   --sl-color-gray-7: #f5f6f8;
   --sl-color-black: #fbfbfc;
 
-  --sl-color-accent-low: #e4ebff;
-  --sl-color-accent: #2a50db;
-  --sl-color-accent-high: #2340b3;
+  --sl-color-accent-low: #ecf2fe;
+  --sl-color-accent: #2e6fef;
+  --sl-color-accent-high: #1c57cc;
 
   --sl-color-bg-nav: color-mix(in oklab, var(--sl-color-black) 80%, transparent);
   --sl-color-bg-sidebar: var(--sl-color-black);
@@ -70,7 +70,7 @@
   --ds-surface-2: #f5f6f8;
   --ds-border: #e6e8ec;
   --ds-border-strong: #cfd4db;
-  --ds-glow: rgb(42 80 219 / 0.1);
+  --ds-glow: rgb(46 111 239 / 0.1);
 }
 
 /* ── 기본 타이포그래피 ─────────────────────────────── */
@@ -129,9 +129,12 @@ body {
 }
 
 /* 포커스 링: 디자인 시스템과 같은 규칙 */
-:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
-  outline: 2px solid var(--sl-color-accent);
-  outline-offset: 2px;
+/* site 레이어: 디자인 시스템 컴포넌트(@layer hds)의 포커스 규칙이 항상 우선한다 */
+@layer site {
+  :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--sl-color-accent);
+    outline-offset: 2px;
+  }
 }
 
 /* ── 헤더 ───────────────────────────────────────── */

@@ -23,6 +23,7 @@
   border: 1px solid var(--hds-color-border-control);
   border-radius: var(--hds-radius-md);
   background-color: var(--hds-color-bg-default);
+  box-shadow: var(--hds-shadow-xs);
   color: var(--hds-color-fg-default);
   font-family: inherit;
   font-size: var(--_font-size);
@@ -31,7 +32,7 @@
   cursor: pointer;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
-  transition-property: border-color, background-color;
+  transition-property: border-color, background-color, box-shadow;
   transition-duration: var(--hds-duration-fast);
   transition-timing-function: var(--hds-easing-standard);
 }
@@ -49,14 +50,25 @@
 }
 
 @media (hover: hover) {
-  .hds-select__trigger:where(:hover):not(:disabled) {
-    border-color: var(--hds-color-fg-muted);
+  .hds-select__trigger:where(:hover):not(:focus-visible, [data-state='open'], :disabled) {
+    border-color: var(--hds-color-border-control-hover);
   }
 }
 
-.hds-select__trigger:focus-visible {
-  outline: var(--hds-size-focus-ring-width) solid var(--hds-color-focus-ring);
-  outline-offset: var(--hds-size-focus-ring-offset);
+/* 포커스: Input 과 같은 규칙 (테두리 강조 + 바깥 번짐). outline 은 고대비 모드용 */
+.hds-select__trigger:focus-visible,
+.hds-select__trigger[data-state='open'] {
+  border-color: var(--hds-color-focus-ring);
+  outline: 2px solid transparent;
+  box-shadow:
+    0 0 0 1px var(--hds-color-focus-ring),
+    0 0 0 4px var(--hds-color-focus-halo);
+}
+
+@media (forced-colors: active) {
+  .hds-select__trigger:focus-visible {
+    outline-color: Highlight;
+  }
 }
 
 .hds-select__trigger[aria-invalid='true'] {

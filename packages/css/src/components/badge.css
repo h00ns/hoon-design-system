@@ -5,58 +5,68 @@
 .hds-badge {
   --_bg: var(--hds-color-neutral-subtle);
   --_fg: var(--hds-color-fg-default);
+  /* 같은 색조의 얇은 테두리: 배경만 칠한 배지보다 경계가 또렷하고 덜 투박하다 */
+  --_border: var(--hds-color-border-default);
 
   display: inline-flex;
   align-items: center;
-  gap: var(--hds-space-1);
+  gap: 0.3em;
   max-width: 100%;
-  min-height: 1.5rem;
-  padding-inline: var(--hds-space-2);
-  border: 1px solid transparent;
+  min-height: 1.375rem;
+  padding-inline: 0.5rem;
   border-radius: var(--hds-radius-full);
   background-color: var(--_bg);
+  box-shadow: inset 0 0 0 1px var(--_border);
   color: var(--_fg);
   font-size: var(--hds-font-size-xs);
-  font-weight: var(--hds-font-weight-semibold);
+  font-weight: var(--hds-font-weight-medium);
   line-height: var(--hds-font-line-height-tight);
+  letter-spacing: 0.005em;
   white-space: nowrap;
   vertical-align: middle;
   font-variant-numeric: tabular-nums;
 }
 
 .hds-badge[data-size='sm'] {
-  min-height: 1.25rem;
-  padding-inline: var(--hds-space-1);
+  min-height: 1.125rem;
+  padding-inline: 0.375rem;
+  font-size: 0.6875rem;
 }
 
 .hds-badge svg {
   flex-shrink: 0;
-  width: 1em;
-  height: 1em;
+  width: 1.1em;
+  height: 1.1em;
 }
 
 /* subtle */
 .hds-badge[data-tone='accent'] {
   --_bg: var(--hds-color-accent-subtle);
   --_fg: var(--hds-color-accent-fg);
+  --_border: var(--hds-color-accent-border);
 }
 .hds-badge[data-tone='success'] {
   --_bg: var(--hds-color-success-subtle);
   --_fg: var(--hds-color-success-fg);
+  --_border: var(--hds-color-success-border);
 }
 .hds-badge[data-tone='warning'] {
   --_bg: var(--hds-color-warning-subtle);
   --_fg: var(--hds-color-warning-fg);
+  --_border: var(--hds-color-warning-border);
 }
 .hds-badge[data-tone='danger'] {
   --_bg: var(--hds-color-danger-subtle);
   --_fg: var(--hds-color-danger-fg);
+  --_border: var(--hds-color-danger-border);
 }
 
-/* solid */
+/* solid: 테두리 없이 채움. 윗면 하이라이트로 납작함을 덜어낸다 */
 .hds-badge[data-variant='solid'] {
   --_bg: var(--hds-color-bg-inverse);
   --_fg: var(--hds-color-fg-inverse);
+  --_border: transparent;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.14);
 }
 .hds-badge[data-variant='solid'][data-tone='accent'] {
   --_bg: var(--hds-color-accent-solid);
@@ -77,6 +87,6 @@
 
 @media (forced-colors: active) {
   .hds-badge {
-    border-color: CanvasText;
+    border: 1px solid CanvasText;
   }
 }

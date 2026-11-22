@@ -19,7 +19,7 @@
         "$value": "{color.gray.900}"
       },
       "overlay": {
-        "$value": "#111418a3",
+        "$value": "#11141966",
         "$description": "모달 뒤 스크림"
       }
     },
@@ -49,9 +49,17 @@
         "$value": "{color.gray.200}",
         "$description": "장식용 구분선"
       },
+      "strong": {
+        "$value": "{color.gray.300}",
+        "$description": "카드·표면 외곽처럼 조금 더 분명한 선"
+      },
       "control": {
         "$value": "{color.gray.500}",
         "$description": "입력 컨트롤 경계. WCAG 1.4.11 3:1 이상."
+      },
+      "control-hover": {
+        "$value": "{color.gray.600}",
+        "$description": "입력 컨트롤에 포인터를 올렸을 때"
       }
     },
     "accent": {
@@ -72,6 +80,9 @@
       },
       "subtle-hover": {
         "$value": "{color.blue.100}"
+      },
+      "border": {
+        "$value": "{color.blue.200}"
       }
     },
     "danger": {
@@ -89,28 +100,58 @@
       },
       "subtle": {
         "$value": "{color.red.50}"
+      },
+      "subtle-hover": {
+        "$value": "{color.red.100}"
+      },
+      "border": {
+        "$value": "{color.red.200}"
       }
     },
     "success": {
       "solid": {
         "$value": "{color.green.700}"
       },
+      "solid-hover": {
+        "$value": "{color.green.800}"
+      },
+      "solid-active": {
+        "$value": "{color.green.900}"
+      },
       "fg": {
         "$value": "{color.green.700}"
       },
       "subtle": {
         "$value": "{color.green.50}"
+      },
+      "subtle-hover": {
+        "$value": "{color.green.100}"
+      },
+      "border": {
+        "$value": "{color.green.200}"
       }
     },
     "warning": {
       "solid": {
         "$value": "{color.amber.400}"
       },
+      "solid-hover": {
+        "$value": "{color.amber.500}"
+      },
+      "solid-active": {
+        "$value": "{color.amber.600}"
+      },
       "fg": {
         "$value": "{color.amber.800}"
       },
       "subtle": {
         "$value": "{color.amber.50}"
+      },
+      "subtle-hover": {
+        "$value": "{color.amber.100}"
+      },
+      "border": {
+        "$value": "{color.amber.200}"
       }
     },
     "neutral": {
@@ -126,6 +167,10 @@
     },
     "focus-ring": {
       "$value": "{color.blue.600}"
+    },
+    "focus-halo": {
+      "$value": "#2e6fef33",
+      "$description": "포커스 링 바깥의 옅은 번짐 (장식, 대비 요구 없음)"
     }
   }
 }

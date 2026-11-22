@@ -70,7 +70,7 @@
 
 @media (hover: hover) {
   .hds-switch__control:hover:not([data-disabled])[data-state='unchecked'] {
-    background-color: var(--hds-color-fg-muted);
+    background-color: var(--hds-color-border-control-hover);
   }
 
   .hds-switch__control:hover:not([data-disabled])[data-state='checked'] {

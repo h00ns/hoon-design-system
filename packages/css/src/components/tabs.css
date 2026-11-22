@@ -78,6 +78,7 @@
   outline: var(--hds-size-focus-ring-width) solid var(--hds-color-focus-ring);
   outline-offset: calc(var(--hds-size-focus-ring-width) * -1);
   border-radius: var(--hds-radius-sm);
+  border-radius: var(--hds-radius-sm);
 }
 
 .hds-tabs__trigger:disabled {

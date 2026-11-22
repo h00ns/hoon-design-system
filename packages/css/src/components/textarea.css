@@ -18,12 +18,13 @@
   border: 1px solid var(--_border);
   border-radius: var(--hds-radius-md);
   background-color: var(--hds-color-bg-default);
+  box-shadow: var(--hds-shadow-xs);
   color: var(--hds-color-fg-default);
   font-family: inherit;
   font-size: var(--hds-font-size-md);
   line-height: var(--hds-font-line-height-normal);
   resize: vertical;
-  transition-property: border-color;
+  transition-property: border-color, box-shadow;
   transition-duration: var(--hds-duration-fast);
   transition-timing-function: var(--hds-easing-standard);
 }
@@ -56,15 +57,18 @@
 }
 
 @media (hover: hover) {
-  .hds-textarea:hover:not(:disabled, [data-readonly], [data-invalid]) {
-    --_border: var(--hds-color-fg-muted);
+  .hds-textarea:hover:not(:focus-visible, :disabled, [data-readonly], [data-invalid]) {
+    --_border: var(--hds-color-border-control-hover);
   }
 }
 
+/* 포커스: Input 과 같은 규칙 (테두리 강조 + 바깥 번짐). outline 은 고대비 모드용 */
 .hds-textarea:focus-visible {
-  outline: var(--hds-size-focus-ring-width) solid var(--hds-color-focus-ring);
-  outline-offset: -1px;
   --_border: var(--hds-color-focus-ring);
+  outline: 2px solid transparent;
+  box-shadow:
+    0 0 0 1px var(--hds-color-focus-ring),
+    0 0 0 4px var(--hds-color-focus-halo);
 }
 
 .hds-textarea[data-invalid] {
@@ -72,7 +76,9 @@
 }
 
 .hds-textarea[data-invalid]:focus-visible {
-  outline-color: var(--hds-color-danger-fg);
+  box-shadow:
+    0 0 0 1px var(--hds-color-danger-fg),
+    0 0 0 4px color-mix(in srgb, var(--hds-color-danger-solid) 22%, transparent);
 }
 
 .hds-textarea[data-readonly] {
@@ -98,6 +104,10 @@
 }
 
 @media (forced-colors: active) {
+  .hds-textarea:focus-visible {
+    outline-color: Highlight;
+  }
+
   .hds-textarea {
     border-color: CanvasText;
   }

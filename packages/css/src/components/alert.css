@@ -12,13 +12,14 @@
 .hds-alert {
   --_bg: var(--hds-color-accent-subtle);
   --_accent: var(--hds-color-accent-fg);
+  --_border: var(--hds-color-accent-border);
 
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
   gap: var(--hds-space-3);
   padding: var(--hds-space-4);
-  border: 1px solid color-mix(in srgb, var(--_accent) 35%, transparent);
+  border: 1px solid var(--_border);
   border-radius: var(--hds-radius-lg);
   background-color: var(--_bg);
   color: var(--hds-color-fg-default);
@@ -29,16 +30,19 @@
 .hds-alert[data-tone='success'] {
   --_bg: var(--hds-color-success-subtle);
   --_accent: var(--hds-color-success-fg);
+  --_border: var(--hds-color-success-border);
 }
 
 .hds-alert[data-tone='warning'] {
   --_bg: var(--hds-color-warning-subtle);
   --_accent: var(--hds-color-warning-fg);
+  --_border: var(--hds-color-warning-border);
 }
 
 .hds-alert[data-tone='danger'] {
   --_bg: var(--hds-color-danger-subtle);
   --_accent: var(--hds-color-danger-fg);
+  --_border: var(--hds-color-danger-border);
 }
 
 .hds-alert__icon {
@@ -64,6 +68,12 @@
 
 .hds-alert__title {
   font-weight: var(--hds-font-weight-semibold);
+  letter-spacing: -0.01em;
+}
+
+/* 제목이 있으면 본문은 한 단계 낮춘다 (제목만 있을 때는 기본 색 유지) */
+.hds-alert__title + .hds-alert__description {
+  color: var(--hds-color-fg-muted);
 }
 
 .hds-alert__description {
