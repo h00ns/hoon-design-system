@@ -9,7 +9,7 @@
  * </div>
  */
 .hds-slider {
-  --_track: 4px;
+  --_track: 6px;
   --_thumb: 1.25rem;
   --_fill: var(--hds-color-accent-solid);
 
@@ -21,7 +21,7 @@
 }
 
 .hds-slider[data-size='sm'] {
-  --_track: 3px;
+  --_track: 4px;
   --_thumb: 1rem;
 }
 
@@ -63,9 +63,9 @@
   overflow: hidden;
   height: var(--_track);
   border-radius: var(--hds-radius-full);
-  background-color: var(--hds-color-bg-muted);
-  /* 배경색이 옅으므로 트랙 위치를 알 수 있게 테두리를 더한다 (1.4.11) */
-  box-shadow: inset 0 0 0 1px var(--hds-color-border-control);
+  /* 트랙은 옅게 채운다. 조작 대상인 손잡이와 채워진 범위가 3:1 이상이라
+     트랙 외곽선은 두지 않는다 (가는 외곽선 트랙은 낡아 보인다) */
+  background-color: var(--hds-color-neutral-subtle-hover);
 }
 
 .hds-slider[data-orientation='vertical'] .hds-slider__track {
@@ -92,7 +92,7 @@
   height: var(--_thumb);
   border: 2px solid var(--_fill);
   border-radius: var(--hds-radius-full);
-  background-color: var(--hds-color-bg-default);
+  background-color: var(--hds-color-white);
   box-shadow: var(--hds-shadow-sm);
   cursor: grab;
   transition-property: transform, box-shadow;
@@ -125,6 +125,7 @@
 
 .hds-slider[data-disabled] .hds-slider__thumb {
   border-color: var(--hds-color-fg-disabled);
+  background-color: var(--hds-color-bg-muted);
   box-shadow: none;
   cursor: not-allowed;
 }

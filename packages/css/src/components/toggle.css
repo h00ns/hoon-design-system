@@ -20,9 +20,11 @@
   margin: 0;
   padding-block: 0;
   padding-inline: var(--_px);
-  border: 1px solid var(--hds-color-border-control);
+  /* 꺼짐: secondary 버튼과 같은 표면 (흰 표면 + 얇은 테두리 + 얕은 그림자) */
+  border: 1px solid var(--hds-color-border-strong);
   border-radius: var(--hds-radius-md);
-  background-color: var(--hds-color-bg-default);
+  background-color: var(--hds-color-bg-raised);
+  box-shadow: var(--hds-shadow-xs);
   color: var(--hds-color-fg-default);
   font-family: inherit;
   font-size: var(--_font-size);
@@ -33,7 +35,7 @@
   user-select: none;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
-  transition-property: background-color, border-color, color;
+  transition-property: background-color, border-color, color, box-shadow;
   transition-duration: var(--hds-duration-fast);
   transition-timing-function: var(--hds-easing-standard);
 }
@@ -66,17 +68,18 @@
 }
 
 @media (hover: hover) {
-  .hds-toggle:where(:hover):not(:disabled) {
-    background-color: var(--hds-color-neutral-subtle);
+  .hds-toggle:where(:hover):not(:disabled, [data-state='on']) {
+    background-color: var(--hds-color-bg-subtle);
   }
 }
 
-/* 켜짐: 색만이 아니라 테두리 굵기·글자 굵기도 함께 바뀐다 */
+/* 켜짐: 옅은 강조 배경 + 1px 강조 테두리 + 글자 굵기.
+   포커스 링(2px, 바깥으로 띄움)과 헷갈리지 않도록 테두리는 1px 만 쓴다 */
 .hds-toggle[data-state='on'] {
   border-color: var(--hds-color-accent-solid);
   background-color: var(--hds-color-accent-subtle);
+  box-shadow: none;
   color: var(--hds-color-accent-fg);
-  box-shadow: inset 0 0 0 1px var(--hds-color-accent-solid);
   font-weight: var(--hds-font-weight-semibold);
 }
 
@@ -101,48 +104,66 @@
   cursor: not-allowed;
 }
 
-/* ── 그룹: 붙어 있는 세그먼트 ─────────────── */
+/* ── 그룹: 세그먼트 컨트롤 ────────────────── */
+/* 옅은 홈(트랙) 안에 항목을 두고, 켜진 항목만 떠 있는 칩으로 보여준다.
+   칩 외곽선은 컨트롤 경계색이라 켜짐 상태가 배경과 3:1 이상 구분된다 (1.4.11) */
 .hds-toggle-group {
+  --_gap: 3px;
+
   display: inline-flex;
   align-items: stretch;
+  gap: 2px;
+  padding: var(--_gap);
+  border-radius: var(--hds-radius-md);
+  background-color: var(--hds-color-neutral-subtle);
+  box-shadow: inset 0 0 0 1px var(--hds-color-border-default);
 }
 
 .hds-toggle-group[data-orientation='vertical'] {
   flex-direction: column;
 }
 
-.hds-toggle-group__item:not(:first-child) {
-  margin-inline-start: -1px;
+.hds-toggle-group .hds-toggle {
+  /* 그룹 전체 높이가 단독 컨트롤 높이와 같도록 항목을 줄인다 */
+  min-height: calc(var(--_height) - 2 * var(--_gap));
+  min-width: calc(var(--_height) - 2 * var(--_gap));
+  border-color: transparent;
+  border-radius: calc(var(--hds-radius-md) - var(--_gap));
+  background-color: transparent;
+  box-shadow: none;
+  color: var(--hds-color-fg-muted);
 }
 
-.hds-toggle-group[data-orientation='vertical'] .hds-toggle-group__item:not(:first-child) {
-  margin-inline-start: 0;
-  margin-block-start: -1px;
+@media (hover: hover) {
+  .hds-toggle-group .hds-toggle:where(:hover):not(:disabled, [data-state='on']) {
+    background-color: var(--hds-color-neutral-subtle-hover);
+    color: var(--hds-color-fg-default);
+  }
 }
 
-.hds-toggle-group:not([data-orientation='vertical']) .hds-toggle-group__item:not(:first-child) {
-  border-start-start-radius: 0;
-  border-end-start-radius: 0;
+.hds-toggle-group .hds-toggle[data-state='on'] {
+  border-color: transparent;
+  background-color: var(--hds-color-bg-raised);
+  box-shadow:
+    0 0 0 1px var(--hds-color-border-control),
+    var(--hds-shadow-xs);
+  color: var(--hds-color-fg-default);
 }
 
-.hds-toggle-group:not([data-orientation='vertical']) .hds-toggle-group__item:not(:last-child) {
-  border-start-end-radius: 0;
-  border-end-end-radius: 0;
+@media (hover: hover) {
+  .hds-toggle-group .hds-toggle[data-state='on']:where(:hover):not(:disabled) {
+    background-color: var(--hds-color-bg-raised);
+  }
 }
 
-.hds-toggle-group[data-orientation='vertical'] .hds-toggle-group__item:not(:first-child) {
-  border-start-start-radius: 0;
-  border-start-end-radius: 0;
+/* 그룹 안에서는 링을 칩에 바짝 붙여 트랙 밖으로 넘치지 않게 한다 */
+.hds-toggle-group .hds-toggle:focus-visible {
+  outline-offset: 1px;
 }
 
-.hds-toggle-group[data-orientation='vertical'] .hds-toggle-group__item:not(:last-child) {
-  border-end-start-radius: 0;
-  border-end-end-radius: 0;
-}
-
-/* 켜진 항목의 테두리가 이웃 위로 올라오게 한다 */
-.hds-toggle-group__item[data-state='on'] {
-  position: relative;
+.hds-toggle-group .hds-toggle:disabled {
+  background-color: transparent;
+  color: var(--hds-color-fg-disabled);
 }
 
 /* ── 사용자 설정 ─────────────────────────── */
@@ -153,11 +174,17 @@
 }
 
 @media (forced-colors: active) {
-  .hds-toggle {
+  .hds-toggle,
+  .hds-toggle-group .hds-toggle {
     border-color: ButtonText;
   }
 
-  .hds-toggle[data-state='on'] {
+  .hds-toggle-group {
+    border: 1px solid CanvasText;
+  }
+
+  .hds-toggle[data-state='on'],
+  .hds-toggle-group .hds-toggle[data-state='on'] {
     background-color: Highlight;
     color: HighlightText;
     border-color: Highlight;

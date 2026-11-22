@@ -49,8 +49,9 @@
   border: 1.5px solid var(--hds-color-border-control);
   border-radius: var(--hds-radius-full);
   background-color: var(--hds-color-bg-default);
+  box-shadow: var(--hds-shadow-xs);
   cursor: pointer;
-  transition-property: border-color;
+  transition-property: border-color, background-color;
   transition-duration: var(--hds-duration-fast);
   transition-timing-function: var(--hds-easing-standard);
 }
@@ -73,8 +74,20 @@
   outline-offset: var(--hds-size-focus-ring-offset);
 }
 
+/* 체크: 강조색으로 채우고 가운데 흰 점. 외곽선만 바뀌는 것보다 상태가 또렷하다 */
 .hds-radio__control[data-state='checked'] {
   border-color: var(--hds-color-accent-solid);
+  background-color: var(--hds-color-accent-solid);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.16),
+    var(--hds-shadow-xs);
+}
+
+@media (hover: hover) {
+  .hds-radio__control:hover:not([data-disabled])[data-state='checked'] {
+    border-color: var(--hds-color-accent-solid-hover);
+    background-color: var(--hds-color-accent-solid-hover);
+  }
 }
 
 .hds-radio-group[aria-invalid='true'] .hds-radio__control[data-state='unchecked'] {
@@ -82,15 +95,16 @@
 }
 
 .hds-radio__indicator {
-  width: 0.5rem;
-  height: 0.5rem;
+  width: 0.4375rem;
+  height: 0.4375rem;
   border-radius: var(--hds-radius-full);
-  background-color: var(--hds-color-accent-solid);
+  background-color: var(--hds-color-fg-on-accent);
 }
 
 .hds-radio__control[data-disabled] {
   border-color: var(--hds-color-border-default);
   background-color: var(--hds-color-bg-muted);
+  box-shadow: none;
   cursor: not-allowed;
 }
 

@@ -32,11 +32,13 @@
   /* 레이블 첫 줄 가운데에 맞춘다 */
   margin-top: calc((1lh - var(--_size)) / 2);
   border: 1.5px solid var(--hds-color-border-control);
-  border-radius: var(--hds-radius-sm);
+  /* 18px 상자에는 6px 은 너무 둥글다 */
+  border-radius: calc(var(--hds-radius-sm) - 1px);
   background-color: var(--hds-color-bg-default);
+  box-shadow: var(--hds-shadow-xs);
   color: var(--hds-color-fg-on-accent);
   cursor: pointer;
-  transition-property: background-color, border-color;
+  transition-property: background-color, border-color, box-shadow;
   transition-duration: var(--hds-duration-fast);
   transition-timing-function: var(--hds-easing-standard);
 }
@@ -62,6 +64,19 @@
 .hds-checkbox__control:is([data-state='checked'], [data-state='indeterminate']) {
   border-color: var(--hds-color-accent-solid);
   background-color: var(--hds-color-accent-solid);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.16),
+    var(--hds-shadow-xs);
+}
+
+@media (hover: hover) {
+  .hds-checkbox__control:hover:not([data-disabled]):is(
+      [data-state='checked'],
+      [data-state='indeterminate']
+    ) {
+    border-color: var(--hds-color-accent-solid-hover);
+    background-color: var(--hds-color-accent-solid-hover);
+  }
 }
 
 .hds-checkbox__control[aria-invalid='true']:not(
@@ -88,6 +103,7 @@
 .hds-checkbox__control[data-disabled] {
   border-color: var(--hds-color-border-default);
   background-color: var(--hds-color-bg-muted);
+  box-shadow: none;
   color: var(--hds-color-fg-disabled);
   cursor: not-allowed;
 }

@@ -76,7 +76,9 @@
 
 .hds-input[data-disabled] {
   --_border: var(--hds-color-border-default);
-  background-color: var(--hds-color-bg-muted);
+  /* 비활성: 한 단계 가라앉은 배경, 그림자 없음 (다크 모드에서 muted 는 오히려 떠 보인다) */
+  background-color: var(--hds-color-bg-subtle);
+  box-shadow: none;
   color: var(--hds-color-fg-disabled);
   cursor: not-allowed;
 }
