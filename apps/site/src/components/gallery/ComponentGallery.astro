@@ -1,0 +1,50 @@
+---
+/**
+ * 컴포넌트 카드 그리드. 각 카드에는 실제 컴포넌트로 만든 미니 데모가 들어간다.
+ * 데모는 장식이므로 inert + aria-hidden 으로 탭 순서와 접근성 트리에서 뺀다.
+ * 카드 전체 클릭은 제목 링크를 늘리는 방식(::after)이라 링크 안에 컨트롤이 중첩되지 않는다.
+ */
+import { getCollection } from 'astro:content';
+import { COMPONENTS, type ComponentMeta } from '../../data/components';
+import { DEMOS } from './demos';
+
+interface Props {
+  /** 보여줄 slug 목록 (없으면 문서가 있는 전체) */
+  only?: string[];
+  /** 카드 머리 수준 */
+  headingLevel?: 'h2' | 'h3';
+  variant?: 'default' | 'featured';
+}
+
+const { only, headingLevel = 'h3', variant = 'default' } = Astro.props;
+const docs = await getCollection('docs');
+const available = new Set(
+  docs.filter((d) => d.id.startsWith('components/')).map((d) => d.id.split('/')[1]),
+);
+const items: ComponentMeta[] = (only ? only.map((s) => COMPONENTS.find((c) => c.slug === s)) : COMPONENTS).filter(
+  (c): c is ComponentMeta => !!c && available.has(c.slug),
+);
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const Heading = headingLevel;
+---
+
+<ul class="gallery not-content" data-variant={variant}>
+  {
+    items.map((c) => {
+      const Demo = DEMOS[c.slug];
+      return (
+        <li class="gallery__card">
+          <div class="gallery__demo" inert aria-hidden="true" data-theme-scope>
+            {Demo ? <Demo /> : <span class="gallery__monogram">{c.name}</span>}
+          </div>
+          <div class="gallery__meta">
+            <Heading class="gallery__name">
+              <a href={`${base}/components/${c.slug}/`}>{c.name}</a>
+            </Heading>
+            <p class="gallery__summary">{c.summary}</p>
+          </div>
+        </li>
+      );
+    })
+  }
+</ul>

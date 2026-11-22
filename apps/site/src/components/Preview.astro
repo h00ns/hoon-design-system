@@ -10,8 +10,12 @@
  *   <Variants client:visible />
  * </Preview>
  * ```
+ *
+ * - 툴바에서 예시만 라이트/다크로 바꿔 볼 수 있다 (data-theme 를 캔버스에만 적용).
+ * - 코드가 길면 접힌 상태로 시작하고 "코드 펼치기" 로 연다.
  */
 import { Code } from '@astrojs/starlight/components';
+import { Desktop, Moon, Sun } from '@phosphor-icons/react/ssr';
 
 interface Props {
   /** 보여줄 소스 코드 (`?raw` import) */
@@ -23,15 +27,79 @@ interface Props {
 }
 
 const { code, align = 'center', minHeight } = Astro.props;
-// 예시 파일의 import 경로를 실제 패키지 이름 그대로 보여준다
 const source = code.trim();
+const lines = source.split('\n').length;
+const collapsible = lines > 14;
+const id = `preview-${Math.random().toString(36).slice(2, 9)}`;
 ---
 
-<div class="ds-preview not-content">
-  <div class="ds-preview__canvas" data-align={align} style={minHeight ? { minHeight } : undefined}>
+<figure class="ds-preview not-content" data-preview>
+  <div class="ds-preview__bar">
+    <div class="ds-preview__themes" role="group" aria-label="예시 테마">
+      <button type="button" data-preview-theme="" aria-pressed="true">
+        <Desktop size={14} weight="bold" aria-hidden="true" />
+        <span class="sr-only">페이지 테마 따르기</span>
+      </button>
+      <button type="button" data-preview-theme="light" aria-pressed="false">
+        <Sun size={14} weight="bold" aria-hidden="true" />
+        <span class="sr-only">라이트</span>
+      </button>
+      <button type="button" data-preview-theme="dark" aria-pressed="false">
+        <Moon size={14} weight="bold" aria-hidden="true" />
+        <span class="sr-only">다크</span>
+      </button>
+    </div>
+  </div>
+  <div
+    class="ds-preview__canvas"
+    data-align={align}
+    style={minHeight ? { minHeight } : undefined}
+  >
     <slot />
   </div>
-  <div class="ds-preview__code">
+  <div class="ds-preview__code" id={id} data-collapsed={collapsible ? '' : undefined}>
     <Code code={source} lang="tsx" />
+    {
+      collapsible && (
+        <div class="ds-preview__expand">
+          <button type="button" aria-expanded="false" aria-controls={id} data-preview-expand>
+            <span data-label-collapsed>코드 펼치기 ({lines}줄)</span>
+            <span data-label-expanded hidden>
+              코드 접기
+            </span>
+          </button>
+        </div>
+      )
+    }
   </div>
-</div>
+</figure>
+
+<script>
+  function setup(root: HTMLElement) {
+    if (root.dataset.ready) return;
+    root.dataset.ready = '';
+    const canvas = root.querySelector<HTMLElement>('.ds-preview__canvas');
+    const themeButtons = root.querySelectorAll<HTMLButtonElement>('[data-preview-theme]');
+    themeButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const theme = btn.dataset.previewTheme;
+        if (theme) canvas?.setAttribute('data-theme', theme);
+        else canvas?.removeAttribute('data-theme');
+        themeButtons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      });
+    });
+
+    const expand = root.querySelector<HTMLButtonElement>('[data-preview-expand]');
+    const codeEl = root.querySelector<HTMLElement>('.ds-preview__code');
+    expand?.addEventListener('click', () => {
+      const open = expand.getAttribute('aria-expanded') === 'true';
+      expand.setAttribute('aria-expanded', String(!open));
+      if (open) codeEl?.setAttribute('data-collapsed', '');
+      else codeEl?.removeAttribute('data-collapsed');
+      expand.querySelector('[data-label-collapsed]')?.toggleAttribute('hidden', !open);
+      expand.querySelector('[data-label-expanded]')?.toggleAttribute('hidden', open);
+      if (open) root.scrollIntoView({ block: 'nearest' });
+    });
+  }
+  document.querySelectorAll<HTMLElement>('[data-preview]').forEach(setup);
+</script>

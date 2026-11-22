@@ -29,10 +29,29 @@ export default defineConfig({
       ],
       customCss: [
         './src/styles/layer-order.css',
+        'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css',
+        '@fontsource-variable/geist',
+        '@fontsource-variable/geist-mono',
         '@hoon-ds/tokens/css',
         '@hoon-ds/css',
+        './src/styles/gallery.css',
         './src/styles/site.css',
       ],
+      components: {
+        SiteTitle: './src/components/overrides/SiteTitle.astro',
+        PageTitle: './src/components/overrides/PageTitle.astro',
+      },
+      expressiveCode: {
+        themes: ['vitesse-dark', 'vitesse-light'],
+        styleOverrides: {
+          borderRadius: '12px',
+          borderColor: 'var(--ds-border)',
+          codeFontFamily: "'Geist Mono Variable', ui-monospace, monospace",
+          codeFontSize: '0.8125rem',
+          codeLineHeight: '1.7',
+          frames: { shadowColor: 'transparent', frameBoxShadowCssValue: 'none' },
+        },
+      },
       sidebar: [
         { label: '시작하기', items: [{ autogenerate: { directory: 'getting-started' } }] },
         { label: 'Foundations', items: [{ autogenerate: { directory: 'foundations' } }] },

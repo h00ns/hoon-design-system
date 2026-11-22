@@ -25,6 +25,10 @@ StyleDictionary.registerFormat({
     if (theme === 'light') {
       return `${header}:root {\n  color-scheme: light;\n${vars}\n}\n`;
     }
+    if (theme === 'light-scoped') {
+      // 다크 페이지 안의 라이트 영역 (<section data-theme="light">)
+      return `${header}[data-theme="light"] {\n  color-scheme: light;\n${vars}\n}\n`;
+    }
     const nested = vars.replace(/^/gm, '  ');
     return (
       `${header}[data-theme="dark"] {\n  color-scheme: dark;\n${vars}\n}\n\n` +
@@ -45,6 +49,21 @@ const lightSd = new StyleDictionary({
       prefix: PREFIX,
       buildPath: `${BUILD}css/`,
       files: [{ destination: 'light.css', format: 'css/hds-theme', options: { theme: 'light' } }],
+    },
+    cssScoped: {
+      transformGroup: 'css',
+      prefix: PREFIX,
+      buildPath: `${BUILD}css/`,
+      // primitive 는 :root 에 이미 있으므로 시맨틱만 출력 (참조 경고는 의도된 것)
+      log: { warnings: 'disabled' },
+      files: [
+        {
+          destination: 'light-scoped.css',
+          format: 'css/hds-theme',
+          filter: isSemantic,
+          options: { theme: 'light-scoped' },
+        },
+      ],
     },
     js: {
       transformGroup: 'js',
@@ -97,5 +116,9 @@ await darkSd.buildAllPlatforms();
 // light + dark 를 하나의 진입 파일로 합친다 (소비자는 @hoon-ds/tokens/css 하나만 import)
 const light = await readFile(`${BUILD}css/light.css`, 'utf8');
 const dark = await readFile(`${BUILD}css/dark.css`, 'utf8');
+const lightScoped = (await readFile(`${BUILD}css/light-scoped.css`, 'utf8')).replace(
+  /^\/\*\*[\s\S]*?\*\/\n\n/,
+  '',
+);
 await mkdir(`${BUILD}css`, { recursive: true });
-await writeFile(`${BUILD}css/tokens.css`, `${light}\n${dark}`);
+await writeFile(`${BUILD}css/tokens.css`, `${light}\n${dark}\n${lightScoped}`);

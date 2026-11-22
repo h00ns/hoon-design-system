@@ -1,0 +1,12 @@
+---
+/** 브랜드 마크: 포커스 링을 형상화한 이중 사각형 */
+interface Props {
+  size?: number;
+}
+const { size = 24 } = Astro.props;
+---
+
+<svg class="ds-logo" width={size} height={size} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+  <rect x="5" y="5" width="14" height="14" rx="3.5" fill="currentColor"></rect>
+  <rect x="1.75" y="1.75" width="20.5" height="20.5" rx="6" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.45"></rect>
+</svg>

@@ -1,0 +1,116 @@
+---
+import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css';
+import '@fontsource-variable/geist';
+import '@fontsource-variable/geist-mono';
+import '../styles/layer-order.css';
+import '@hoon-ds/tokens/css';
+import '@hoon-ds/css';
+import '../styles/gallery.css';
+import '../styles/landing.css';
+import { GithubLogo, Moon, Sun } from '@phosphor-icons/react/ssr';
+import Logo from '../components/Logo.astro';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const nav = [
+  { href: `${base}/getting-started/introduction/`, label: '문서' },
+  { href: `${base}/components/`, label: '컴포넌트' },
+  { href: `${base}/foundations/colors/`, label: 'Foundations' },
+];
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <link rel="icon" href={`${base}/favicon.svg`} type="image/svg+xml" />
+    {/* Starlight 와 같은 저장 키를 써서 문서 페이지와 테마를 공유한다. 깜빡임 방지를 위해 인라인 */}
+    <script is:inline>
+      (() => {
+        let stored = '';
+        try {
+          stored = localStorage.getItem('starlight-theme') || '';
+        } catch {}
+        const theme =
+          stored || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">본문 바로가기</a>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="brand" href={`${base}/`} translate="no">
+          <Logo size={22} />
+          <span>hoon<span class="brand__slash">/</span>ds</span>
+          <span class="sr-only">hoon-design-system 홈</span>
+        </a>
+        <nav aria-label="주요 메뉴" class="site-nav">
+          <ul>
+            {nav.map((n) => (
+              <li>
+                <a href={n.href}>{n.label}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <div class="site-header__actions">
+          <a class="icon-link" href="https://github.com/h00ns/hoon-design-system" aria-label="GitHub 저장소">
+            <GithubLogo size={20} weight="fill" aria-hidden="true" />
+          </a>
+          <button type="button" class="icon-link" data-theme-toggle aria-label="다크 모드" aria-pressed="false">
+            <Sun size={20} weight="bold" aria-hidden="true" className="theme-icon-light" />
+            <Moon size={20} weight="bold" aria-hidden="true" className="theme-icon-dark" />
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__inner">
+        <a class="brand brand--muted" href={`${base}/`} translate="no">
+          <Logo size={18} />
+          <span>hoon<span class="brand__slash">/</span>ds</span>
+        </a>
+        <ul class="site-footer__links">
+          <li><a href={`${base}/getting-started/introduction/`}>문서</a></li>
+          <li><a href="https://github.com/h00ns/hoon-design-system">GitHub</a></li>
+          <li><a href="https://www.npmjs.com/package/@hoon-ds/react">npm</a></li>
+        </ul>
+        <p class="site-footer__note">MIT License</p>
+      </div>
+    </footer>
+
+    <script>
+      const btn = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+      const sync = () => {
+        const dark = document.documentElement.dataset.theme === 'dark';
+        btn?.setAttribute('aria-pressed', String(dark));
+      };
+      sync();
+      btn?.addEventListener('click', () => {
+        const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+        document.documentElement.dataset.theme = next;
+        try {
+          localStorage.setItem('starlight-theme', next);
+        } catch {}
+        sync();
+      });
+    </script>
+  </body>
+</html>

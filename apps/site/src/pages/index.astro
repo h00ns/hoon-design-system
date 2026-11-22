@@ -1,0 +1,272 @@
+---
+import { Button, Badge, Switch } from '@hoon-ds/react';
+import dark from '@hoon-ds/tokens/json/dark';
+import light from '@hoon-ds/tokens/json/light';
+import { ArrowRight, Copy, Check } from '@phosphor-icons/react/ssr';
+import { getCollection } from 'astro:content';
+import ComponentGallery from '../components/gallery/ComponentGallery.astro';
+import HeroStage from '../components/landing/HeroStage';
+import KeyboardDemo from '../components/landing/KeyboardDemo';
+import MotionDemo from '../components/landing/MotionDemo';
+import LandingLayout from '../layouts/LandingLayout.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const docs = await getCollection('docs');
+const componentCount = docs.filter((d) => d.id.startsWith('components/') && d.id !== 'components').length;
+
+/* 대비 표: 실제 토큰 값으로 계산 */
+type Tokens = Record<string, string>;
+const L = light as Tokens;
+const D = dark as Tokens;
+const lum = (hex: string) => {
+  const c = [0, 2, 4]
+    .map((i) => parseInt(hex.replace('#', '').slice(i, i + 2), 16) / 255)
+    .map((v) => (v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
+  return 0.2126 * c[0]! + 0.7152 * c[1]! + 0.0722 * c[2]!;
+};
+const ratio = (a: string, b: string) => {
+  const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p) as [number, number];
+  return (x + 0.05) / (y + 0.05);
+};
+const pairs = [
+  { fg: 'fg-default', bg: 'bg-default', label: '본문' },
+  { fg: 'fg-muted', bg: 'bg-default', label: '보조 텍스트' },
+  { fg: 'fg-on-accent', bg: 'accent-solid', label: '주요 버튼' },
+  { fg: 'danger-fg', bg: 'bg-default', label: '오류 메시지' },
+].map((p) => ({
+  ...p,
+  light: { fg: L[`color-${p.fg}`]!, bg: L[`color-${p.bg}`]!, r: ratio(L[`color-${p.fg}`]!, L[`color-${p.bg}`]!) },
+  dark: { fg: D[`color-${p.fg}`]!, bg: D[`color-${p.bg}`]!, r: ratio(D[`color-${p.fg}`]!, D[`color-${p.bg}`]!) },
+}));
+
+/* 토큰 모자이크 */
+const scales = ['gray', 'blue', 'red', 'green', 'amber'];
+const mosaic = scales.map((s) =>
+  Object.keys(L)
+    .filter((k) => k.startsWith(`color-${s}-`) && k !== 'color-gray-0')
+    .map((k) => ({ name: `--hds-${k}`, value: L[k]! })),
+);
+
+const install = 'pnpm add @hoon-ds/react @hoon-ds/css @hoon-ds/tokens';
+// 4열 그리드: 두 칸짜리 카드 2개 + 한 칸 카드 8개 = 정확히 3줄
+const featured = ['button', 'field', 'select', 'checkbox', 'switch', 'tabs', 'accordion', 'alert', 'badge', 'avatar'];
+---
+
+<LandingLayout
+  title="hoon-design-system: 접근성을 기본값으로 갖춘 React 디자인 시스템"
+  description="키보드, 스크린리더, 다크 모드, 고대비까지 처음부터 설계한 React 컴포넌트"
+>
+  <!-- 히어로 -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero__backdrop" aria-hidden="true"></div>
+    <div class="container hero__grid">
+      <div class="hero__copy">
+        <h1 id="hero-title" class="hero__title">
+          모두를 위한 화면,<br /><span class="hero__accent">기본값으로.</span>
+        </h1>
+        <p class="hero__lead">
+          키보드, 스크린리더, 다크 모드, 고대비까지 처음부터 설계한 React 컴포넌트 {componentCount}종.
+        </p>
+        <div class="hero__actions">
+          {/* 링크라서 React 없이 @hoon-ds/css 클래스만으로 그린다 */}
+          <a class="hds-button" data-variant="primary" data-size="lg" href={`${base}/getting-started/introduction/`}>
+              문서 시작하기
+              <ArrowRight size={18} weight="bold" aria-hidden="true" />
+            </a>
+          <div class="copy-chip">
+            <code>pnpm add @hoon-ds/react</code>
+            <button type="button" class="copy-chip__btn" data-copy={install} aria-label="설치 명령 복사">
+              <Copy size={16} weight="bold" aria-hidden="true" className="copy-icon" />
+              <Check size={16} weight="bold" aria-hidden="true" className="copied-icon" />
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="hero__visual">
+        <HeroStage client:load />
+      </div>
+    </div>
+  </section>
+
+  <!-- 기본값 bento -->
+  <section class="section" aria-labelledby="defaults-title">
+    <div class="container">
+      <h2 id="defaults-title" class="section__title">접근성은 옵션이 아니라<br />기본값입니다.</h2>
+      <div class="bento">
+        <article class="bento__cell bento__cell--keyboard">
+          <h3>키보드만으로 전부</h3>
+          <p>모든 컴포넌트가 WAI-ARIA 패턴대로 움직입니다. 이 안에서 Tab, Space, 화살표를 눌러 보세요.</p>
+          <KeyboardDemo client:visible />
+        </article>
+
+        <article class="bento__cell bento__cell--contrast">
+          <h3>대비는 테스트가 지킵니다</h3>
+          <p>토큰 조합의 WCAG 대비를 빌드할 때마다 68번 검사합니다.</p>
+          <table class="contrast">
+            <caption class="sr-only">주요 색 조합의 대비 (라이트 / 다크)</caption>
+            <thead>
+              <tr>
+                <th scope="col">조합</th>
+                <th scope="col">라이트</th>
+                <th scope="col">다크</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                pairs.map((p) => (
+                  <tr>
+                    <th scope="row">{p.label}</th>
+                    {[p.light, p.dark].map((t) => (
+                      <td>
+                        <span class="contrast__chip" style={{ color: t.fg, background: t.bg }} aria-hidden="true">
+                          가
+                        </span>
+                        <span class="contrast__ratio">{t.r.toFixed(1)}:1</span>
+                      </td>
+                    ))}
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </article>
+
+        <article class="bento__cell bento__cell--theme">
+          <h3>다크 모드는 토큰 하나로</h3>
+          <p>같은 컴포넌트, 다른 테마. data-theme 속성 하나로 영역마다 바꿀 수 있습니다.</p>
+          <div class="theme-split" inert aria-hidden="true">
+            {
+              (['light', 'dark'] as const).map((t) => (
+                <div class="theme-split__pane" data-theme={t}>
+                  <div class="theme-split__row">
+                    <Badge tone="success">완료</Badge>
+                    <Badge tone="accent">신규</Badge>
+                  </div>
+                  <Switch defaultChecked>알림 받기</Switch>
+                  <div class="theme-split__row">
+                    <Button size="sm" variant="secondary">취소</Button>
+                    <Button size="sm">저장</Button>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </article>
+
+        <article class="bento__cell bento__cell--types">
+          <h3>실수는 타입이 먼저 잡습니다</h3>
+          <p>아이콘만 있는 버튼에 이름을 빠뜨리면 컴파일되지 않습니다.</p>
+          <pre class="type-error" aria-label="타입 오류 예시"><code><span class="tk-tag">&lt;IconButton</span><span class="tk-tag">&gt;</span>
+  <span class="tk-tag">&lt;TrashIcon /&gt;</span>
+<span class="tk-tag">&lt;/IconButton&gt;</span>
+<span class="tk-err">Property 'aria-label' is missing in type</span>
+<span class="tk-fix">&lt;IconButton <span class="tk-attr">aria-label</span>=<span class="tk-str">"삭제"</span>&gt;</span></code></pre>
+        </article>
+
+        <article class="bento__cell bento__cell--motion">
+          <h3>움직임은 설정을 따릅니다</h3>
+          <p>동작 줄이기를 켠 사용자에게는 이동 대신 투명도만 바뀝니다.</p>
+          <MotionDemo client:visible />
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 컴포넌트 -->
+  <section class="section section--components" aria-labelledby="components-title">
+    <div class="container">
+      <h2 id="components-title" class="section__title">{componentCount}개의 컴포넌트, 하나의 규칙.</h2>
+      <p class="section__lead">
+        버튼부터 다이얼로그까지 같은 기준으로 만들고 같은 방식으로 테스트합니다.
+      </p>
+      <ComponentGallery only={featured} variant="featured" />
+      <a class="text-link" href={`${base}/components/`}>
+        전체 컴포넌트 보기 <ArrowRight size={16} weight="bold" aria-hidden="true" />
+      </a>
+    </div>
+  </section>
+
+  <!-- 토큰 -->
+  <section class="section section--tokens" aria-labelledby="tokens-title">
+    <div class="container tokens-intro">
+      <h2 id="tokens-title" class="section__title">토큰을 바꾸면<br />전부 바뀝니다.</h2>
+      <p class="section__lead">
+        색, 간격, 모션을 CSS 변수로 관리합니다. 브랜드 색 하나를 바꾸면 모든 컴포넌트에 반영됩니다.
+      </p>
+      <a class="text-link" href={`${base}/foundations/colors/`}>
+        Foundations 보기 <ArrowRight size={16} weight="bold" aria-hidden="true" />
+      </a>
+    </div>
+    <div class="mosaic" aria-hidden="true">
+      {
+        mosaic.map((row) => (
+          <div class="mosaic__row">
+            {row.map((c) => (
+              <span class="mosaic__cell" style={{ background: c.value }} title={c.name} />
+            ))}
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- 마무리 -->
+  <section class="section section--closing" aria-labelledby="closing-title">
+    <div class="container closing">
+      <h2 id="closing-title" class="section__title">설치는 한 줄이면 됩니다.</h2>
+      <div class="install">
+        <code>{install}</code>
+        <button type="button" class="copy-chip__btn" data-copy={install} aria-label="설치 명령 복사">
+          <Copy size={18} weight="bold" aria-hidden="true" className="copy-icon" />
+          <Check size={18} weight="bold" aria-hidden="true" className="copied-icon" />
+        </button>
+      </div>
+      {/* 링크라서 React 없이 @hoon-ds/css 클래스만으로 그린다 */}
+          <a class="hds-button" data-variant="primary" data-size="lg" href={`${base}/getting-started/introduction/`}>
+          문서 시작하기
+          <ArrowRight size={18} weight="bold" aria-hidden="true" />
+        </a>
+    </div>
+  </section>
+
+  <div class="sr-only" role="status" aria-live="polite" data-copy-status></div>
+
+  <script>
+    const status = document.querySelector('[data-copy-status]');
+    document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(btn.dataset.copy ?? '');
+          btn.dataset.copied = '';
+          if (status) status.textContent = '설치 명령을 복사했습니다';
+          window.setTimeout(() => {
+            delete btn.dataset.copied;
+            if (status) status.textContent = '';
+          }, 1600);
+        } catch {
+          if (status) status.textContent = '복사하지 못했습니다. 직접 선택해 복사해 주세요';
+        }
+      });
+    });
+
+    // 스크롤하며 섹션 등장 (동작 줄이기면 건너뜀)
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.setAttribute('data-revealed', '');
+              io.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.15 },
+      );
+      document.querySelectorAll('.bento__cell, .gallery__card, .mosaic__row').forEach((el, i) => {
+        (el as HTMLElement).style.setProperty('--i', String(i % 6));
+        el.setAttribute('data-reveal', '');
+        io.observe(el);
+      });
+    }
+  </script>
+</LandingLayout>

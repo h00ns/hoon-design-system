@@ -1,0 +1,24 @@
+---
+/** 분류별 컴포넌트 갤러리. 문서가 있는 컴포넌트만, 비어 있는 분류는 숨긴다. */
+import { getCollection } from 'astro:content';
+import { CATEGORIES, COMPONENTS } from '../../data/components';
+import ComponentGallery from './ComponentGallery.astro';
+
+const docs = await getCollection('docs');
+const available = new Set(docs.map((d) => d.id.split('/')[1]).filter(Boolean));
+const groups = CATEGORIES.map((category) => ({
+  category,
+  slugs: COMPONENTS.filter((c) => c.category === category && available.has(c.slug)).map((c) => c.slug),
+})).filter((g) => g.slugs.length > 0);
+---
+
+{
+  groups.map((g) => (
+    <section class="catalog" aria-labelledby={`cat-${g.category}`}>
+      <h2 id={`cat-${g.category}`}>
+        {g.category} <span class="catalog__count">{g.slugs.length}</span>
+      </h2>
+      <ComponentGallery only={g.slugs} />
+    </section>
+  ))
+}

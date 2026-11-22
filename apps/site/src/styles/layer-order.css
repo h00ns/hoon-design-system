@@ -1,7 +1,7 @@
 /*
- * 레이어 우선순위를 명시한다: starlight(낮음) → hds(높음).
+ * 레이어 우선순위를 명시한다: starlight(낮음) → site(사이트 전역 기본값) → hds(높음).
  * 이 선언이 없으면 번들 순서에 따라 Starlight 의 reset(`* { margin: 0 }` 등)이
  * 컴포넌트 스타일(@layer hds.components)을 덮어써 Dialog 위치 등이 깨진다.
  * customCss 의 첫 번째 항목이어야 한다.
  */
-@layer starlight, hds;
+@layer starlight, site, hds;

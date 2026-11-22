@@ -1,0 +1,10 @@
+---
+import Logo from '../Logo.astro';
+const { siteTitleHref } = Astro.locals.starlightRoute;
+---
+
+<a href={siteTitleHref} class="ds-site-title" translate="no">
+  <Logo size={22} />
+  <span class="ds-site-title__name">hoon<span class="ds-site-title__slash">/</span>ds</span>
+  <span class="sr-only">hoon-design-system 홈</span>
+</a>
