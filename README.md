@@ -21,13 +21,14 @@ packages/tokens  ──▶  packages/css  ──▶  packages/react
 
 ## 컴포넌트
 
-| 분류      | 컴포넌트                                                     |
-| --------- | ------------------------------------------------------------ |
-| 동작      | Button, IconButton                                           |
-| 폼        | Field, Input, Textarea, Checkbox, RadioGroup, Switch, Select |
-| 오버레이  | Dialog, AlertDialog, Popover, Tooltip, DropdownMenu          |
-| 피드백    | Toast, Alert, Spinner, Skeleton                              |
-| 구조·표시 | Tabs, Accordion, Badge, Avatar, Separator, VisuallyHidden    |
+| 분류      | 컴포넌트                                                                                             |
+| --------- | ---------------------------------------------------------------------------------------------------- |
+| 동작      | Button, IconButton                                                                                   |
+| 폼        | Field, Input, Textarea, Checkbox, RadioGroup, Switch, Select, Combobox, Slider, ToggleGroup          |
+| 오버레이  | Dialog, AlertDialog, Sheet, Popover, Tooltip, HoverCard, DropdownMenu                                |
+| 피드백    | Toast, Alert, Progress, Spinner, Skeleton                                                            |
+| 구조·표시 | Card, Table, Tabs, Accordion, Collapsible, ScrollArea, Badge, Avatar, Separator, Kbd, VisuallyHidden |
+| 탐색      | Link, Breadcrumb, Pagination                                                                         |
 
 모든 컴포넌트는 키보드(WAI-ARIA APG), 스크린리더, 다크 모드, 동작 줄이기, Windows 고대비 모드를 지원하고
 동작·접근성(axe) 테스트를 갖는다. 문서는 문서 사이트에 있다 (`pnpm dev:site`).
