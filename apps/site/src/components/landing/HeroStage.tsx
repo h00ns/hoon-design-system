@@ -38,7 +38,8 @@ interface Ring {
 
 export default function HeroStage() {
   const stageRef = useRef<HTMLDivElement>(null);
-  const targets = useRef<Partial<Record<StepKey, HTMLElement | null>>>({});
+  // 투어 대상 요소들. 렌더링에 쓰지 않는 값이라 상태 갱신 없이 Map 에 담는다
+  const [targets] = useState(() => new Map<StepKey, HTMLElement | null>());
   const [step, setStep] = useState(0);
   const [ring, setRing] = useState<Ring | null>(null);
   const [touring, setTouring] = useState(false);
@@ -48,7 +49,7 @@ export default function HeroStage() {
   const [saving, setSaving] = useState(false);
 
   const register = (key: StepKey) => (el: HTMLElement | null) => {
-    targets.current[key] = el;
+    targets.set(key, el);
   };
 
   // 동작 줄이기가 아니고, 화면에 보일 때만 투어
@@ -75,7 +76,7 @@ export default function HeroStage() {
   const measure = useCallback(() => {
     const stage = stageRef.current;
     const current = STEPS[step];
-    const el = current && targets.current[current.target];
+    const el = current && targets.get(current.target);
     if (!stage || !el) return;
     const s = stage.getBoundingClientRect();
     const r = el.getBoundingClientRect();
@@ -86,7 +87,7 @@ export default function HeroStage() {
       h: r.height,
       r: getComputedStyle(el).borderRadius || '6px',
     });
-  }, [step]);
+  }, [step, targets]);
 
   useLayoutEffect(() => {
     if (!active) return;
@@ -100,28 +101,31 @@ export default function HeroStage() {
     return () => ro.disconnect();
   }, [active, measure]);
 
-  // 단계 진행 + 각 단계의 "효과"
+  // 단계 진행. 다음 단계의 "효과"(탭 전환, 스위치 토글, 저장)는 타이머 콜백에서 적용한다
   useEffect(() => {
     if (!active) return;
-    const current = STEPS[step];
-    if (current?.target === 'tab') setTab((t) => (t === 'me' ? 'team' : 'me'));
-    if (current?.target === 'switch' && current.keys[0] === 'Space') setWeekly((v) => !v);
-    if (current?.target === 'save' && current.keys[0] === 'Enter') {
-      setSaving(true);
-      const done = window.setTimeout(() => setSaving(false), 1100);
-      const next = window.setTimeout(() => setStep((s) => (s + 1) % STEPS.length), STEP_MS);
-      return () => {
-        window.clearTimeout(done);
-        window.clearTimeout(next);
-      };
-    }
-    const id = window.setTimeout(() => setStep((s) => (s + 1) % STEPS.length), STEP_MS);
+    const id = window.setTimeout(() => {
+      const nextIndex = (step + 1) % STEPS.length;
+      const next = STEPS[nextIndex];
+      if (next?.target === 'tab') setTab((t) => (t === 'me' ? 'team' : 'me'));
+      if (next?.target === 'switch' && next.keys[0] === 'Space') setWeekly((v) => !v);
+      if (next?.target === 'save' && next.keys[0] === 'Enter') setSaving(true);
+      setStep(nextIndex);
+    }, STEP_MS);
     return () => window.clearTimeout(id);
   }, [active, step]);
+
+  // 저장 로딩은 잠깐 보여주고 끝낸다
+  useEffect(() => {
+    if (!saving) return;
+    const id = window.setTimeout(() => setSaving(false), 1100);
+    return () => window.clearTimeout(id);
+  }, [saving]);
 
   const current = STEPS[step];
 
   return (
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- 포인터·포커스가 들어오면 투어를 멈출 뿐, 조작은 자식 컨트롤이 담당한다
     <div
       className="hero-stage"
       ref={stageRef}

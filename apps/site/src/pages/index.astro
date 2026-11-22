@@ -16,8 +16,10 @@ const componentCount = docs.filter((d) => d.id.startsWith('components/') && d.id
 
 /* 대비 표: 실제 토큰 값으로 계산 */
 type Tokens = Record<string, string>;
-const L = light as Tokens;
-const D = dark as Tokens;
+const toStrings = (t: Record<string, string | number>): Tokens =>
+  Object.fromEntries(Object.entries(t).map(([k, v]) => [k, String(v)]));
+const L = toStrings(light);
+const D = toStrings(dark);
 const lum = (hex: string) => {
   const c = [0, 2, 4]
     .map((i) => parseInt(hex.replace('#', '').slice(i, i + 2), 16) / 255)
