@@ -1,0 +1,154 @@
+---
+title: Combobox
+description: 입력해서 찾고, 목록에서 하나를 고르는 검색형 선택 컨트롤.
+---
+
+import Preview from '../../../components/Preview.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import DoDont from '../../../components/DoDont.astro';
+import Do from '../../../components/Do.astro';
+import Dont from '../../../components/Dont.astro';
+
+import Basic from '../../../examples/combobox/Basic';
+import basicCode from '../../../examples/combobox/Basic?raw';
+import Sizes from '../../../examples/combobox/Sizes';
+import sizesCode from '../../../examples/combobox/Sizes?raw';
+import Controlled from '../../../examples/combobox/Controlled';
+import controlledCode from '../../../examples/combobox/Controlled?raw';
+import Invalid from '../../../examples/combobox/Invalid';
+import invalidCode from '../../../examples/combobox/Invalid?raw';
+import Disabled from '../../../examples/combobox/Disabled';
+import disabledCode from '../../../examples/combobox/Disabled?raw';
+import CustomRender from '../../../examples/combobox/CustomRender';
+import customRenderCode from '../../../examples/combobox/CustomRender?raw';
+import InForm from '../../../examples/combobox/InForm';
+import inFormCode from '../../../examples/combobox/InForm?raw';
+
+입력해서 **찾고, 목록에서 하나를 고르는** 컨트롤. 항목이 많아 [Select](/components/select/) 로 훑어보기 어려울 때 쓴다.
+[WAI-ARIA Combobox (listbox popup)](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/) 패턴을 따른다.
+
+<Preview code={basicCode}>
+  <Basic client:visible />
+</Preview>
+
+## 사용법
+
+```tsx
+import { Combobox, Field } from '@hoon-ds/react';
+
+const options = [
+  { value: 'seoul', label: '서울', keywords: ['seoul'] },
+  { value: 'busan', label: '부산' },
+];
+
+<Field.Root>
+  <Field.Label>도시</Field.Label>
+  <Combobox options={options} onValueChange={setCity} />
+</Field.Root>;
+```
+
+### API 설계
+
+부품을 조립하는 대신 **`options` 배열 하나를 받는** 단일 컴포넌트다. 검색, 강조, `aria-activedescendant` 연결, IME 처리가 서로 얽혀 있어서 부품으로 나누면 잘못 조립하기 쉽기 때문이다. 항목 모양은 `renderOption` 으로 바꿀 수 있다.
+
+- 값은 항상 목록 안에서만 고른다. 목록에 없는 텍스트를 입력한 채 벗어나면 마지막 선택의 레이블로 되돌아간다.
+- `className`·`style` 은 테두리를 그리는 래퍼에, 나머지 props 와 `ref` 는 `<input>` 에 전달된다.
+
+## 예시
+
+### 크기
+
+Input·Select 와 같은 높이를 쓴다.
+
+<Preview code={sizesCode}>
+  <Sizes client:visible />
+</Preview>
+
+### 제어 모드
+
+`value` + `onValueChange` 로 선택을 직접 관리한다. 바깥에서 `value` 를 바꾸면 입력창 텍스트도 따라간다.
+
+<Preview code={controlledCode}>
+  <Controlled client:visible />
+</Preview>
+
+### 오류
+
+`Field.Root invalid` 와 `Field.ErrorMessage` 로 오류를 입력창에 연결한다.
+
+<Preview code={invalidCode}>
+  <Invalid client:visible />
+</Preview>
+
+### 비활성
+
+비활성 항목은 목록에 보이지만 키보드 이동에서 건너뛰고 선택되지 않는다.
+
+<Preview code={disabledCode}>
+  <Disabled client:visible />
+</Preview>
+
+### 항목 직접 그리기
+
+`renderOption` 의 결과가 항목의 접근 가능한 이름이 된다. 레이블 텍스트를 꼭 포함한다.
+
+<Preview code={customRenderCode}>
+  <CustomRender client:visible />
+</Preview>
+
+### 폼 제출
+
+`name` 을 주면 선택된 **값**(`value`)이 숨은 입력으로 함께 제출된다. 보이는 텍스트가 아니다.
+
+<Preview code={inFormCode}>
+  <InForm client:visible />
+</Preview>
+
+## API
+
+<PropsTable of="Combobox" inherits="<input> 의 HTML 속성 (type·role·value 제외)" />
+
+### 기본 필터
+
+`defaultComboboxFilter(option, query)` 를 함께 내보낸다. `label` 과 `keywords` 에 검색어가 들어 있는지 대소문자 없이 비교한다. 서버에서 이미 거른 결과를 `options` 로 넘길 때는 `filter={() => true}` 를 준다.
+
+## 접근성
+
+### 키보드
+
+| 키                  | 동작                                                                          |
+| ------------------- | ----------------------------------------------------------------------------- |
+| 글자 입력           | 목록을 열고 거른다. 첫 결과가 자동으로 강조된다                               |
+| `ArrowDown`         | 목록을 열고 첫 항목(선택된 값이 있으면 그 항목)을 강조, 열려 있으면 다음 항목 |
+| `ArrowUp`           | 목록을 열고 마지막 항목을 강조, 열려 있으면 이전 항목                         |
+| `Alt` + `ArrowDown` | 강조 없이 목록만 연다                                                         |
+| `Alt` + `ArrowUp`   | 강조된 항목을 선택하고 닫는다                                                 |
+| `Enter`             | 강조된 항목을 선택한다. 목록이 닫혀 있으면 폼을 제출한다                      |
+| `Escape`            | 목록을 닫는다. 닫힌 상태에서 한 번 더 누르면 입력과 선택을 지운다             |
+| `Home` / `End`      | 입력창 안에서 커서를 옮기고 항목 강조를 해제한다                              |
+| `Tab`               | 선택 없이 목록을 닫고 다음 요소로 이동한다                                    |
+
+### 스크린리더
+
+- DOM 포커스는 **항상 입력창**에 있다. 강조된 항목은 `aria-activedescendant` 로 전달되어 스크린리더가 항목을 읽는다.
+- 입력창은 `role="combobox"`, `aria-autocomplete="list"`, `aria-expanded`, `aria-controls` 를 가진다. 목록 이름은 Field 레이블을 그대로 쓴다.
+- 검색 결과 개수("3개 결과", "결과가 없습니다")를 **잠깐 기다렸다가** 정중하게(polite) 알린다. 글자마다 읽히지 않는다.
+- **한글 입력:** IME 조합 중의 `Enter`·화살표는 무시한다. 조합 중인 글자("ㅅ", "사")로도 바로 거른다. Safari 가 조합 직후 보내는 `Enter`(keyCode 229)도 걸러낸다.
+- 지우기 버튼은 `aria-label="지우기"` 를 가지며 Tab 순서에서는 빠진다. 키보드에서는 `Escape` 로 지운다.
+
+### 사용자 설정
+
+- 목록 애니메이션은 `prefers-reduced-motion` 에서 꺼진다.
+- Windows 고대비 모드에서 강조된 항목은 시스템 강조색(`Highlight`)으로 보인다.
+
+## 가이드
+
+<DoDont>
+  <Do title="항목이 많을 때">국가, 도시, 담당자처럼 15개가 넘어 훑어보기 어려운 목록.</Do>
+  <Dont title="항목이 적을 때">5개 남짓이면 Select 나 RadioGroup 이 더 빠르다.</Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="다른 이름으로도 찾기">`keywords` 로 영문 이름, 별칭을 함께 검색되게 한다.</Do>
+  <Dont title="자유 입력 받기">목록에 없는 값을 받아야 하면 Combobox 가 아니라 Input 을 쓴다.</Dont>
+</DoDont>

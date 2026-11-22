@@ -1,0 +1,202 @@
+/*
+ * Slider
+ * <div class="hds-slider" data-size="md" data-orientation="horizontal" [data-invalid] [data-disabled]>
+ *   <span class="hds-slider__root">
+ *     <span class="hds-slider__track"><span class="hds-slider__range" /></span>
+ *     <span class="hds-slider__thumb" role="slider" />
+ *   </span>
+ *   <div class="hds-slider__marks" aria-hidden="true">…</div>
+ * </div>
+ */
+.hds-slider {
+  --_track: 4px;
+  --_thumb: 1.25rem;
+  --_fill: var(--hds-color-accent-solid);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--hds-space-2);
+  width: 100%;
+  min-width: 0;
+}
+
+.hds-slider[data-size='sm'] {
+  --_track: 3px;
+  --_thumb: 1rem;
+}
+
+.hds-slider[data-invalid] {
+  --_fill: var(--hds-color-danger-solid);
+}
+
+.hds-slider[data-disabled] {
+  --_fill: var(--hds-color-fg-disabled);
+}
+
+.hds-slider__root {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  /* 손잡이가 잘리지 않고, 트랙 전체가 24px 이상의 터치 영역이 되도록 */
+  height: max(var(--_thumb), 1.5rem);
+  touch-action: none;
+  user-select: none;
+}
+
+.hds-slider[data-orientation='vertical'] {
+  width: auto;
+  height: 100%;
+  flex-direction: row;
+}
+
+.hds-slider[data-orientation='vertical'] .hds-slider__root {
+  flex-direction: column;
+  width: max(var(--_thumb), 1.5rem);
+  height: 100%;
+  min-height: 8rem;
+}
+
+.hds-slider__track {
+  position: relative;
+  flex-grow: 1;
+  overflow: hidden;
+  height: var(--_track);
+  border-radius: var(--hds-radius-full);
+  background-color: var(--hds-color-bg-muted);
+  /* 배경색이 옅으므로 트랙 위치를 알 수 있게 테두리를 더한다 (1.4.11) */
+  box-shadow: inset 0 0 0 1px var(--hds-color-border-control);
+}
+
+.hds-slider[data-orientation='vertical'] .hds-slider__track {
+  width: var(--_track);
+  height: auto;
+}
+
+.hds-slider__range {
+  position: absolute;
+  height: 100%;
+  border-radius: inherit;
+  background-color: var(--_fill);
+}
+
+.hds-slider[data-orientation='vertical'] .hds-slider__range {
+  width: 100%;
+  height: auto;
+}
+
+.hds-slider__thumb {
+  position: relative;
+  display: block;
+  width: var(--_thumb);
+  height: var(--_thumb);
+  border: 2px solid var(--_fill);
+  border-radius: var(--hds-radius-full);
+  background-color: var(--hds-color-bg-default);
+  box-shadow: var(--hds-shadow-sm);
+  cursor: grab;
+  transition-property: transform, box-shadow;
+  transition-duration: var(--hds-duration-fast);
+  transition-timing-function: var(--hds-easing-standard);
+}
+
+/* 눈에 보이는 손잡이보다 넓은 터치 영역 (WCAG 2.5.8) */
+.hds-slider__thumb::before {
+  content: '';
+  position: absolute;
+  inset: calc((1.5rem - var(--_thumb)) / -2 - 2px);
+  border-radius: inherit;
+}
+
+@media (hover: hover) {
+  .hds-slider:not([data-disabled]) .hds-slider__thumb:hover {
+    transform: scale(1.08);
+  }
+}
+
+.hds-slider__thumb:active {
+  cursor: grabbing;
+}
+
+.hds-slider__thumb:focus-visible {
+  outline: var(--hds-size-focus-ring-width) solid var(--hds-color-focus-ring);
+  outline-offset: var(--hds-size-focus-ring-offset);
+}
+
+.hds-slider[data-disabled] .hds-slider__thumb {
+  border-color: var(--hds-color-fg-disabled);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* ── 눈금 ─────────────────────────────────── */
+.hds-slider__marks {
+  position: relative;
+  height: 1.25rem;
+  color: var(--hds-color-fg-muted);
+  font-size: var(--hds-font-size-xs);
+  line-height: var(--hds-font-line-height-normal);
+}
+
+.hds-slider__mark {
+  position: absolute;
+  top: 0;
+  /* Radix 가 손잡이를 트랙 안쪽으로 당기는 만큼 눈금도 같은 공식으로 맞춘다 */
+  left: calc(var(--_p) * 1% + var(--_thumb) * (0.5 - var(--_p) / 100));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.hds-slider__mark-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: var(--hds-radius-full);
+  background-color: var(--hds-color-border-control);
+}
+
+.hds-slider__mark[data-active] .hds-slider__mark-dot {
+  background-color: var(--_fill);
+}
+
+.hds-slider[data-orientation='vertical'] .hds-slider__marks {
+  display: none;
+}
+
+/* ── 사용자 설정 ─────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .hds-slider__thumb {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .hds-slider__track {
+    border: 1px solid CanvasText;
+    box-shadow: none;
+  }
+
+  .hds-slider__range {
+    background-color: Highlight;
+    forced-color-adjust: none;
+  }
+
+  .hds-slider__thumb {
+    border-color: ButtonText;
+    background-color: ButtonFace;
+    forced-color-adjust: none;
+  }
+
+  .hds-slider[data-disabled] .hds-slider__range,
+  .hds-slider[data-disabled] .hds-slider__thumb {
+    border-color: GrayText;
+    background-color: GrayText;
+  }
+
+  .hds-slider__mark-dot {
+    background-color: CanvasText;
+  }
+}

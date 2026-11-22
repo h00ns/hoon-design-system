@@ -33,3 +33,6 @@ export * from './breadcrumb';
 export * from './pagination';
 export * from './link';
 export * from './kbd';
+export * from './combobox';
+export * from './slider';
+export * from './toggle-group';

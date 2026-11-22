@@ -43,3 +43,6 @@
 @import './components/pagination.css' layer(hds.components);
 @import './components/link.css' layer(hds.components);
 @import './components/kbd.css' layer(hds.components);
+@import './components/combobox.css' layer(hds.components);
+@import './components/slider.css' layer(hds.components);
+@import './components/toggle.css' layer(hds.components);

@@ -1,0 +1,131 @@
+---
+title: Slider
+description: 범위 안에서 값이나 구간을 끌어서 고르는 컨트롤.
+---
+
+import Preview from '../../../components/Preview.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import DoDont from '../../../components/DoDont.astro';
+import Do from '../../../components/Do.astro';
+import Dont from '../../../components/Dont.astro';
+
+import Basic from '../../../examples/slider/Basic';
+import basicCode from '../../../examples/slider/Basic?raw';
+import Range from '../../../examples/slider/Range';
+import rangeCode from '../../../examples/slider/Range?raw';
+import Marks from '../../../examples/slider/Marks';
+import marksCode from '../../../examples/slider/Marks?raw';
+import Sizes from '../../../examples/slider/Sizes';
+import sizesCode from '../../../examples/slider/Sizes?raw';
+import States from '../../../examples/slider/States';
+import statesCode from '../../../examples/slider/States?raw';
+import InForm from '../../../examples/slider/InForm';
+import inFormCode from '../../../examples/slider/InForm?raw';
+
+정해진 범위 안에서 **값을 끌어서 고르는** 컨트롤. 음량, 밝기처럼 정확한 숫자보다 상대적인 크기가 중요할 때 쓴다.
+값 배열에 숫자가 2개면 구간을 고르는 범위 슬라이더가 된다.
+[WAI-ARIA Slider](https://www.w3.org/WAI/ARIA/apg/patterns/slider/) 패턴을 따른다.
+
+<Preview code={basicCode}>
+  <Basic client:visible />
+</Preview>
+
+## 사용법
+
+```tsx
+import { Field, Slider } from '@hoon-ds/react';
+
+<Field.Root>
+  <Field.Label>음량</Field.Label>
+  <Slider defaultValue={[40]} getValueText={(v) => `${v}%`} />
+</Field.Root>;
+```
+
+`value`·`defaultValue` 는 **항상 배열**이다 (`[40]`, `[20, 80]`).
+
+## 예시
+
+### 범위
+
+손잡이 2개는 기본으로 "최솟값", "최댓값" 이름을 가진다. Field 레이블과 합쳐 "가격 최솟값" 으로 읽힌다. `minStepsBetweenThumbs` 로 두 손잡이 사이 최소 간격을 정한다.
+
+<Preview code={rangeCode}>
+  <Range client:visible />
+</Preview>
+
+### 눈금
+
+`marks` 는 시각 보조다. 스크린리더는 손잡이의 값 문구(`getValueText`)를 읽으므로 의미 있는 단계라면 같은 문구를 `getValueText` 로도 준다.
+
+<Preview code={marksCode}>
+  <Marks client:visible />
+</Preview>
+
+### 크기
+
+<Preview code={sizesCode}>
+  <Sizes client:visible />
+</Preview>
+
+### 오류 · 비활성
+
+<Preview code={statesCode}>
+  <States client:visible />
+</Preview>
+
+### 폼 제출
+
+`name` 을 주면 폼 안에서 값이 숨은 입력으로 제출된다. 범위 슬라이더는 `name[]` 으로 두 값이 제출된다.
+
+<Preview code={inFormCode}>
+  <InForm client:visible />
+</Preview>
+
+## API
+
+<PropsTable
+  of="Slider"
+  inherits="Radix Slider.Root"
+  inheritsHref="https://www.radix-ui.com/primitives/docs/components/slider#root"
+/>
+
+`className`·`style` 은 눈금까지 감싸는 바깥 래퍼에, `ref` 는 Radix Slider.Root 에 전달된다.
+
+## 접근성
+
+### 키보드
+
+| 키                        | 동작                                    |
+| ------------------------- | --------------------------------------- |
+| `Tab`                     | 손잡이로 이동 (범위면 손잡이마다 한 번) |
+| `ArrowRight` / `ArrowUp`  | `step` 만큼 증가                        |
+| `ArrowLeft` / `ArrowDown` | `step` 만큼 감소                        |
+| `PageUp` / `PageDown`     | 크게(10단계) 증가·감소                  |
+| `Shift` + 화살표          | 크게(10단계) 증가·감소                  |
+| `Home` / `End`            | 최솟값 / 최댓값                         |
+
+### 스크린리더
+
+- 손잡이는 `role="slider"` 와 `aria-valuenow`·`aria-valuemin`·`aria-valuemax` 를 가진다.
+- **단위가 있으면 `getValueText` 를 꼭 준다.** 없으면 "30000" 처럼 숫자만 읽힌다. 주면 "30,000원" 으로 읽힌다 (`aria-valuetext`).
+- Radix 는 범위 손잡이에 영어 기본 이름("Minimum", "Maximum")을 붙이는데, 이 컴포넌트는 항상 한국어 이름으로 덮어쓴다. `thumbLabels` 로 바꿀 수 있다.
+- Field 의 레이블·설명·오류가 모든 손잡이에 연결된다.
+
+### 사용자 설정
+
+- 트랙은 옅은 배경 위에 컨트롤 경계색 테두리를 둘러 3:1 대비를 맞춘다 (WCAG 1.4.11).
+- 보이는 손잡이는 20px 이지만 누를 수 있는 영역은 24px 이상이다 (WCAG 2.5.8).
+- Windows 고대비 모드에서 채워진 구간은 시스템 강조색으로 보인다.
+- `prefers-reduced-motion` 에서 손잡이 확대 효과를 끈다.
+
+## 가이드
+
+<DoDont>
+  <Do title="대략적인 값">음량, 밝기, 가격 범위처럼 상대적인 크기를 고를 때.</Do>
+  <Dont title="정확한 숫자">나이, 수량처럼 정확한 값이 필요하면 숫자 입력이 빠르고 정확하다.</Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="현재 값 보여주기">설명이나 옆 텍스트로 지금 값을 보여준다.</Do>
+  <Dont title="너무 넓은 범위">0부터 100만까지 1 단위처럼 끌어서 맞추기 어려운 범위.</Dont>
+</DoDont>

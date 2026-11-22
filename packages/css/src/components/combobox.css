@@ -1,0 +1,178 @@
+/*
+ * Combobox
+ * 입력: <div class="hds-input hds-combobox" data-state="open|closed"> (Input 스타일을 그대로 쓴다)
+ *         <input class="hds-input__control" role="combobox" />
+ *         <button class="hds-combobox__clear" />
+ *         <span class="hds-combobox__icon" />
+ * 목록: .hds-combobox__content > .hds-combobox__listbox > .hds-combobox__option
+ */
+.hds-combobox {
+  padding-inline-end: var(--hds-space-2);
+}
+
+.hds-combobox__clear {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  /* 터치 타깃 24px 이상 */
+  width: var(--hds-space-6);
+  height: var(--hds-space-6);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--hds-radius-sm);
+  background: transparent;
+  color: var(--hds-color-fg-muted);
+  cursor: pointer;
+}
+
+@media (hover: hover) {
+  .hds-combobox__clear:hover {
+    background-color: var(--hds-color-neutral-subtle);
+    color: var(--hds-color-fg-default);
+  }
+}
+
+.hds-combobox__clear svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.hds-combobox__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--hds-color-fg-muted);
+  cursor: pointer;
+  transition: transform var(--hds-duration-fast) var(--hds-easing-standard);
+}
+
+.hds-combobox__icon svg {
+  width: 1em;
+  height: 1em;
+}
+
+.hds-combobox[data-state='open'] .hds-combobox__icon {
+  transform: rotate(180deg);
+}
+
+.hds-combobox[data-disabled] .hds-combobox__icon {
+  color: var(--hds-color-fg-disabled);
+  cursor: not-allowed;
+}
+
+/* ── 목록 ─────────────────────────────────── */
+.hds-combobox__content {
+  z-index: var(--hds-z-index-dropdown);
+  box-sizing: border-box;
+  width: var(--radix-popover-trigger-width);
+  min-width: 10rem;
+  max-height: min(20rem, var(--radix-popover-content-available-height, 20rem));
+  overflow-y: auto;
+  padding: var(--hds-space-1);
+  border: 1px solid var(--hds-color-border-default);
+  border-radius: var(--hds-radius-lg);
+  background-color: var(--hds-color-bg-raised);
+  color: var(--hds-color-fg-default);
+  box-shadow: var(--hds-shadow-md);
+  font-family: var(--hds-font-family-sans);
+  transform-origin: var(--radix-popover-content-transform-origin);
+}
+
+.hds-combobox__content[data-state='open'] {
+  animation: hds-combobox-in var(--hds-duration-fast) var(--hds-easing-standard);
+}
+
+@keyframes hds-combobox-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+
+.hds-combobox__listbox:empty {
+  display: none;
+}
+
+.hds-combobox__option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--hds-space-2);
+  min-height: var(--hds-size-control-sm);
+  padding-block: var(--hds-space-1);
+  padding-inline: var(--hds-space-2) var(--hds-space-8);
+  border-radius: var(--hds-radius-sm);
+  font-size: var(--hds-font-size-md);
+  line-height: var(--hds-font-line-height-normal);
+  cursor: default;
+  user-select: none;
+}
+
+.hds-combobox__option[data-highlighted] {
+  background-color: var(--hds-color-neutral-subtle);
+}
+
+.hds-combobox__option[data-selected] {
+  font-weight: var(--hds-font-weight-medium);
+}
+
+.hds-combobox__option[data-disabled] {
+  color: var(--hds-color-fg-disabled);
+  cursor: not-allowed;
+}
+
+.hds-combobox__option-text {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.hds-combobox__check {
+  position: absolute;
+  inset-inline-end: var(--hds-space-2);
+  display: inline-flex;
+  color: var(--hds-color-accent-fg);
+}
+
+.hds-combobox__check svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.hds-combobox__empty {
+  padding: var(--hds-space-3) var(--hds-space-2);
+  color: var(--hds-color-fg-muted);
+  font-size: var(--hds-font-size-sm);
+  text-align: center;
+}
+
+/* ── 사용자 설정 ─────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .hds-combobox__content[data-state='open'] {
+    animation: none;
+  }
+
+  .hds-combobox__icon {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .hds-combobox__content {
+    border-color: CanvasText;
+  }
+
+  .hds-combobox__option[data-highlighted] {
+    background-color: Highlight;
+    color: HighlightText;
+    forced-color-adjust: none;
+  }
+
+  .hds-combobox__option[data-disabled] {
+    color: GrayText;
+  }
+
+  .hds-combobox__clear:focus-visible {
+    outline: 2px solid Highlight;
+  }
+}
