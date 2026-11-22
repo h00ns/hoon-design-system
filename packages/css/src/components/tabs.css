@@ -110,6 +110,9 @@
 }
 
 /* ── variant: segmented ──────────────────── */
+/* data-variant 는 React 에서 List 에도 붙는다 (목록이 Root 의 직계 자식이 아닐 때를 위해).
+   CSS 만 쓰는 경우를 위해 Root 직계 자식 선택자도 유지한다. */
+.hds-tabs__list[data-variant='segmented'],
 .hds-tabs[data-variant='segmented'] > .hds-tabs__list {
   gap: var(--hds-space-1);
   align-self: flex-start;
@@ -131,8 +134,9 @@
   box-shadow: var(--hds-shadow-sm);
 }
 
+/* 목록은 넘치면 스크롤되는(overflow) 영역이라 바깥으로 그린 링은 잘린다 → 안쪽에 그린다 */
 .hds-tabs[data-variant='segmented'] .hds-tabs__trigger:focus-visible {
-  outline-offset: 0;
+  outline-offset: calc(var(--hds-size-focus-ring-width) * -1);
 }
 
 /* ── Content ─────────────────────────────── */

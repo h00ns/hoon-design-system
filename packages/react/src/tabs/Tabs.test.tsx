@@ -40,6 +40,22 @@ describe('Tabs', () => {
     expect(container.querySelector('.hds-tabs')).toHaveAttribute('data-variant', 'segmented');
   });
 
+  it('목록이 Root 의 직계 자식이 아니어도 variant 를 받는다', () => {
+    render(
+      <Tabs.Root defaultValue="a" variant="segmented">
+        <header>
+          <Tabs.List aria-label="대상">
+            <Tabs.Trigger value="a">개인</Tabs.Trigger>
+            <Tabs.Trigger value="b">팀</Tabs.Trigger>
+          </Tabs.List>
+        </header>
+        <Tabs.Content value="a">개인 설정</Tabs.Content>
+        <Tabs.Content value="b">팀 설정</Tabs.Content>
+      </Tabs.Root>,
+    );
+    expect(screen.getByRole('tablist')).toHaveAttribute('data-variant', 'segmented');
+  });
+
   it('클릭하면 탭이 바뀐다', async () => {
     const user = userEvent.setup();
     render(<BasicTabs />);

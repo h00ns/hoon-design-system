@@ -1,17 +1,14 @@
 ---
-import { XCircle } from '@phosphor-icons/react/ssr';
-
 interface Props {
   title?: string;
 }
 const { title } = Astro.props;
 ---
 
-<figure class="ds-dodont__item" data-tone="dont">
-  <figcaption class="ds-dodont__title">
-    <XCircle size={18} weight="fill" aria-hidden="true" />
-    <span class="ds-dodont__label">비권장</span>
-    {title && <span>{title}</span>}
+<figure class="ds-guide" data-tone="dont">
+  <figcaption class="ds-guide__head">
+    <span class="ds-guide__label">피하기</span>
+    {title && <span class="ds-guide__title">{title}</span>}
   </figcaption>
-  <div><slot /></div>
+  <div class="ds-guide__body"><slot /></div>
 </figure>

@@ -19,17 +19,22 @@ export interface TabsRootProps extends React.ComponentPropsWithoutRef<typeof Tab
  * - `activationMode="manual"`: 화살표로 이동만 하고 Enter/Space 로 선택한다.
  *   패널을 그리는 비용이 크거나(데이터 요청 등) 전환이 무거울 때 쓴다.
  */
+/** 목록이 Root 의 직계 자식이 아니어도(예: 헤더 안) variant 스타일을 받도록 전달한다 */
+const TabsVariantContext = React.createContext<TabsVariant>('line');
+
 const Root = React.forwardRef<HTMLDivElement, TabsRootProps>(function TabsRoot(
   { variant = 'line', className, ...rest },
   ref,
 ) {
   return (
-    <TabsPrimitive.Root
-      {...rest}
-      ref={ref}
-      className={cx('hds-tabs', className)}
-      data-variant={variant}
-    />
+    <TabsVariantContext.Provider value={variant}>
+      <TabsPrimitive.Root
+        {...rest}
+        ref={ref}
+        className={cx('hds-tabs', className)}
+        data-variant={variant}
+      />
+    </TabsVariantContext.Provider>
   );
 });
 
@@ -47,7 +52,15 @@ const List = React.forwardRef<HTMLDivElement, TabsListProps>(function TabsList(
   { className, ...rest },
   ref,
 ) {
-  return <TabsPrimitive.List {...rest} ref={ref} className={cx('hds-tabs__list', className)} />;
+  const variant = React.useContext(TabsVariantContext);
+  return (
+    <TabsPrimitive.List
+      {...rest}
+      ref={ref}
+      className={cx('hds-tabs__list', className)}
+      data-variant={variant}
+    />
+  );
 });
 
 /* -------------------------------------------------------------------------------------------------
