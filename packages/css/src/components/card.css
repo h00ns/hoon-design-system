@@ -20,8 +20,9 @@
   min-width: 0;
   padding: var(--_pad);
   border: 1px solid var(--hds-color-border-default);
-  border-radius: var(--hds-radius-xl);
+  border-radius: var(--hds-radius-lg);
   background-color: var(--hds-color-bg-raised);
+  box-shadow: var(--hds-shadow-xs);
   color: var(--hds-color-fg-default);
   font-family: inherit;
 }
@@ -43,6 +44,7 @@
 .hds-card[data-variant='subtle'] {
   border-color: transparent;
   background-color: var(--hds-color-bg-subtle);
+  box-shadow: none;
 }
 
 .hds-card__header {
@@ -58,6 +60,7 @@
   font-size: var(--hds-font-size-lg);
   font-weight: var(--hds-font-weight-semibold);
   line-height: var(--hds-font-line-height-tight);
+  letter-spacing: -0.015em;
 }
 
 .hds-card__description {
@@ -113,14 +116,20 @@
   z-index: 1;
 }
 
+/* hover: 테두리를 한 단계 또렷하게 + 그림자를 한 단계 깊게 (위치는 움직이지 않는다) */
 @media (hover: hover) {
   .hds-card[data-interactive]:hover {
-    border-color: var(--hds-color-border-control);
+    border-color: var(--hds-color-border-strong);
+    box-shadow: var(--hds-shadow-sm);
   }
 
-  .hds-card[data-interactive]:hover .hds-card__link {
-    text-decoration: underline;
-    text-underline-offset: 0.2em;
+  .hds-card[data-interactive][data-variant='elevated']:hover {
+    box-shadow: var(--hds-shadow-lg);
+  }
+
+  .hds-card[data-interactive][data-variant='subtle']:hover {
+    background-color: var(--hds-color-bg-muted);
+    box-shadow: none;
   }
 }
 

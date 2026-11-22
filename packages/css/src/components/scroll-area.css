@@ -23,9 +23,22 @@
   border-radius: inherit;
 }
 
+/* 포커스 링은 영역 바깥에 그린다. 영역에 테두리가 있을 때 안쪽 링은 이중 테두리처럼 보인다.
+   :has 를 지원하지 않는 브라우저에서는 뷰포트 안쪽에 그린다 */
 .hds-scroll-area__viewport:focus-visible {
   outline: var(--hds-size-focus-ring-width) solid var(--hds-color-focus-ring);
   outline-offset: calc(var(--hds-size-focus-ring-width) * -1);
+}
+
+@supports selector(:has(*)) {
+  .hds-scroll-area__viewport:focus-visible {
+    outline: none;
+  }
+
+  .hds-scroll-area:has(> .hds-scroll-area__viewport:focus-visible) {
+    outline: var(--hds-size-focus-ring-width) solid var(--hds-color-focus-ring);
+    outline-offset: var(--hds-size-focus-ring-offset);
+  }
 }
 
 .hds-scroll-area__scrollbar {

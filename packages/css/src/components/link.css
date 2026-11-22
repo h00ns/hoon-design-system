@@ -9,7 +9,9 @@
   font: inherit;
   text-decoration-line: underline;
   text-decoration-thickness: 1px;
-  text-underline-offset: 0.2em;
+  /* 평소엔 글자색을 옅게 섞은 밑줄, hover 에서 글자색 그대로 진해진다 */
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+  text-underline-offset: 0.22em;
   cursor: pointer;
   transition-property: color, text-decoration-color;
   transition-duration: var(--hds-duration-fast);
@@ -26,7 +28,7 @@
 
 @media (hover: hover) {
   .hds-link:hover {
-    text-decoration-thickness: 2px;
+    text-decoration-color: currentColor;
   }
 
   .hds-link[data-underline='hover']:hover {

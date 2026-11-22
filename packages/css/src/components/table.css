@@ -18,6 +18,7 @@
   border: 1px solid var(--hds-color-border-default);
   border-radius: var(--hds-radius-lg);
   background-color: var(--hds-color-bg-default);
+  box-shadow: var(--hds-shadow-xs);
   /* 가로로 넘칠 때 스크롤 영역임을 알 수 있도록 iOS 에서도 스크롤바 공간을 둔다 */
   scrollbar-gutter: auto;
 }
@@ -47,6 +48,7 @@
   color: var(--hds-color-fg-default);
   font-size: var(--hds-font-size-md);
   font-weight: var(--hds-font-weight-semibold);
+  letter-spacing: -0.01em;
   text-align: start;
   caption-side: top;
 }
@@ -63,7 +65,8 @@
   background-color: var(--hds-color-bg-subtle);
   color: var(--hds-color-fg-muted);
   font-size: var(--hds-font-size-xs);
-  font-weight: var(--hds-font-weight-semibold);
+  font-weight: var(--hds-font-weight-medium);
+  letter-spacing: 0.01em;
   white-space: nowrap;
 }
 
@@ -95,6 +98,13 @@
   background-color: var(--hds-color-bg-subtle);
 }
 
+/* 행 hover: 어느 줄을 보고 있는지 따라가기 쉽게. 선택된 행은 덮지 않는다 */
+@media (hover: hover) {
+  .hds-table .hds-table__body .hds-table__row:not([data-state='selected']):hover {
+    background-color: var(--hds-color-neutral-subtle);
+  }
+}
+
 .hds-table__row[data-state='selected'] {
   background-color: var(--hds-color-accent-subtle);
 }
@@ -124,11 +134,14 @@
   margin: 0;
   padding: var(--_cell-py) var(--_cell-px);
   border: 0;
+  /* 안쪽 포커스 링이 둥글게 보이도록 */
+  border-radius: var(--hds-radius-sm);
   background: transparent;
   color: inherit;
   font: inherit;
   text-align: inherit;
   cursor: pointer;
+  transition: color var(--hds-duration-fast) var(--hds-easing-standard);
 }
 
 .hds-table__head[data-align='end'] .hds-table__sort {
@@ -148,9 +161,10 @@
   outline-offset: calc(var(--hds-size-focus-ring-width) * -1);
 }
 
+/* hover: 칸 전체를 칠하는 대신 글자만 진하게 (머리 행 배경과 겹쳐 지저분해지지 않게) */
 @media (hover: hover) {
   .hds-table__sort:hover {
-    background-color: var(--hds-color-neutral-subtle);
+    color: var(--hds-color-fg-default);
   }
 }
 

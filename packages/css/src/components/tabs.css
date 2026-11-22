@@ -32,6 +32,7 @@
 
 /* ── Trigger (공통) ──────────────────────── */
 .hds-tabs__trigger {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -43,9 +44,10 @@
   padding-inline: var(--hds-space-4);
   border: 0;
   background: none;
+  border-radius: var(--hds-radius-sm);
   color: var(--hds-color-fg-muted);
   font-family: inherit;
-  font-size: var(--hds-font-size-md);
+  font-size: var(--hds-font-size-sm);
   font-weight: var(--hds-font-weight-medium);
   line-height: var(--hds-font-line-height-tight);
   white-space: nowrap;
@@ -69,16 +71,15 @@
   }
 }
 
+/* 굵기는 바꾸지 않는다: 선택할 때마다 탭 너비가 바뀌어 옆 탭이 밀리는 것을 막는다 */
 .hds-tabs__trigger[data-state='active'] {
   color: var(--hds-color-fg-default);
-  font-weight: var(--hds-font-weight-semibold);
 }
 
+/* 목록은 넘치면 스크롤되는 영역이라 바깥 링은 잘린다 → 둥근 안쪽 링 */
 .hds-tabs__trigger:focus-visible {
   outline: var(--hds-size-focus-ring-width) solid var(--hds-color-focus-ring);
   outline-offset: calc(var(--hds-size-focus-ring-width) * -1);
-  border-radius: var(--hds-radius-sm);
-  border-radius: var(--hds-radius-sm);
 }
 
 .hds-tabs__trigger:disabled {
@@ -87,18 +88,54 @@
 }
 
 /* ── variant: line ───────────────────────── */
+.hds-tabs__list[data-variant='line'],
 .hds-tabs[data-variant='line'] > .hds-tabs__list {
   /* 밑줄을 그리는 기준선 */
   box-shadow: inset 0 -1px 0 var(--hds-color-border-default);
 }
 
+.hds-tabs__list[data-variant='line'][data-orientation='vertical'],
 .hds-tabs[data-variant='line'] > .hds-tabs__list[data-orientation='vertical'] {
   box-shadow: inset -1px 0 0 var(--hds-color-border-default);
 }
 
-.hds-tabs[data-variant='line'] .hds-tabs__trigger[data-state='active'] {
-  /* 색만이 아니라 두께 있는 선으로도 선택 상태를 보여준다 */
-  box-shadow: inset 0 -2px 0 var(--hds-color-accent-solid);
+/* hover: 기준선에 닿지 않는 떠 있는 칩 (별도 요소로 그려 선택 표시줄과 겹치지 않게) */
+.hds-tabs[data-variant='line'] .hds-tabs__trigger {
+  isolation: isolate;
+}
+
+.hds-tabs[data-variant='line'] .hds-tabs__trigger::before {
+  content: '';
+  position: absolute;
+  inset: var(--hds-space-1) 0 calc(var(--hds-space-1) + 2px);
+  z-index: -1;
+  border-radius: var(--hds-radius-sm);
+  background-color: transparent;
+  transition: background-color var(--hds-duration-fast) var(--hds-easing-standard);
+}
+
+@media (hover: hover) {
+  .hds-tabs[data-variant='line']
+    .hds-tabs__trigger:where(:hover):not(:disabled, [data-state='active'])::before {
+    background-color: var(--hds-color-neutral-subtle);
+  }
+}
+
+/* 선택 표시줄: 색만이 아니라 두께 있는 선으로도 선택 상태를 보여준다.
+   별도 요소로 그려서 포커스 링의 둥근 모서리에 휘지 않게 한다 */
+.hds-tabs[data-variant='line'] .hds-tabs__trigger[data-state='active']::after {
+  content: '';
+  position: absolute;
+  inset-inline: var(--hds-space-2);
+  bottom: 0;
+  height: 2px;
+  border-radius: var(--hds-radius-full);
+  background-color: var(--hds-color-accent-solid);
+}
+
+/* line 의 포커스 링은 선택 표시줄(2px)을 덮지 않도록 한 단계 더 안쪽에 그린다 */
+.hds-tabs[data-variant='line'] .hds-tabs__trigger:focus-visible {
+  outline-offset: calc(var(--hds-size-focus-ring-width) * -2);
 }
 
 .hds-tabs[data-variant='line'] .hds-tabs__trigger[data-orientation='vertical'] {
@@ -106,8 +143,12 @@
 }
 
 .hds-tabs[data-variant='line']
-  .hds-tabs__trigger[data-orientation='vertical'][data-state='active'] {
-  box-shadow: inset -2px 0 0 var(--hds-color-accent-solid);
+  .hds-tabs__trigger[data-orientation='vertical'][data-state='active']::after {
+  inset-inline: auto 0;
+  inset-block: var(--hds-space-1);
+  bottom: var(--hds-space-1);
+  width: 2px;
+  height: auto;
 }
 
 /* ── variant: segmented ──────────────────── */
@@ -120,7 +161,13 @@
   max-width: 100%;
   padding: var(--hds-space-1);
   border-radius: var(--hds-radius-lg);
-  background-color: var(--hds-color-bg-muted);
+  /* 페이지 배경을 조금 어둡게/밝게 섞은 트랙: 라이트·다크 모두 선택된 칸(bg-raised)이 트랙보다 밝다 */
+  background-color: color-mix(
+    in oklab,
+    var(--hds-color-bg-default),
+    var(--hds-color-fg-default) 6%
+  );
+  box-shadow: inset 0 0 0 1px var(--hds-color-border-default);
 }
 
 .hds-tabs[data-variant='segmented'] .hds-tabs__trigger {
@@ -130,9 +177,18 @@
   font-size: var(--hds-font-size-sm);
 }
 
+@media (hover: hover) {
+  .hds-tabs[data-variant='segmented']
+    .hds-tabs__trigger:where(:hover):not(:disabled, [data-state='active']) {
+    background-color: var(--hds-color-neutral-subtle);
+  }
+}
+
 .hds-tabs[data-variant='segmented'] .hds-tabs__trigger[data-state='active'] {
   background-color: var(--hds-color-bg-raised);
-  box-shadow: var(--hds-shadow-sm);
+  box-shadow:
+    inset 0 0 0 1px var(--hds-color-border-default),
+    var(--hds-shadow-xs);
 }
 
 /* 목록은 넘치면 스크롤되는(overflow) 영역이라 바깥으로 그린 링은 잘린다 → 안쪽에 그린다 */
@@ -148,7 +204,8 @@
 
 .hds-tabs__content:focus-visible {
   outline: var(--hds-size-focus-ring-width) solid var(--hds-color-focus-ring);
-  outline-offset: var(--hds-size-focus-ring-offset);
+  /* 패널에 안쪽 여백이 없으므로 링을 조금 더 띄워 글자에 붙지 않게 */
+  outline-offset: var(--hds-space-1);
   border-radius: var(--hds-radius-sm);
 }
 
@@ -161,8 +218,12 @@
 
 @media (forced-colors: active) {
   .hds-tabs__trigger[data-state='active'] {
-    /* box-shadow 는 강제 색상 모드에서 사라지므로 테두리로 선택 상태를 그린다 */
+    /* box-shadow·배경은 강제 색상 모드에서 사라지므로 테두리로 선택 상태를 그린다 */
     border-block-end: 2px solid Highlight;
+  }
+
+  .hds-tabs__trigger[data-state='active']::after {
+    background-color: Highlight;
   }
 
   .hds-tabs__trigger[data-orientation='vertical'][data-state='active'] {

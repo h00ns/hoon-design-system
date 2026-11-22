@@ -10,10 +10,12 @@
   min-width: 1.5rem;
   height: 1.5rem;
   padding-inline: 0.375rem;
-  border: 1px solid var(--hds-color-border-default);
+  /* 키캡: 또렷한 테두리 + 두꺼운 아랫변으로 눌리는 키처럼 */
+  border: 1px solid var(--hds-color-border-strong);
   border-bottom-width: 2px;
   border-radius: var(--hds-radius-sm);
-  background-color: var(--hds-color-bg-subtle);
+  background-color: var(--hds-color-bg-raised);
+  box-shadow: var(--hds-shadow-xs);
   color: var(--hds-color-fg-default);
   font-family: var(--hds-font-family-sans);
   font-size: var(--hds-font-size-xs);
