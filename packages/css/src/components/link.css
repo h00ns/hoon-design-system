@@ -1,0 +1,63 @@
+/*
+ * Link
+ * <a class="hds-link" data-variant="default" data-underline="always" href="…">문서</a>
+ * 새 창: <a class="hds-link" data-external target="_blank" rel="noopener noreferrer">…<svg class="hds-link__icon"/><span class="hds-visually-hidden">(새 창)</span></a>
+ */
+.hds-link {
+  border-radius: var(--hds-radius-sm);
+  color: var(--hds-color-accent-fg);
+  font: inherit;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+  transition-property: color, text-decoration-color;
+  transition-duration: var(--hds-duration-fast);
+  transition-timing-function: var(--hds-easing-standard);
+}
+
+.hds-link[data-variant='subtle'] {
+  color: inherit;
+}
+
+.hds-link[data-underline='hover'] {
+  text-decoration-color: transparent;
+}
+
+@media (hover: hover) {
+  .hds-link:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  .hds-link[data-underline='hover']:hover {
+    text-decoration-color: currentColor;
+  }
+}
+
+.hds-link:focus-visible {
+  outline: var(--hds-size-focus-ring-width) solid var(--hds-color-focus-ring);
+  outline-offset: var(--hds-size-focus-ring-offset);
+  text-decoration-color: currentColor;
+}
+
+.hds-link__icon {
+  display: inline-block;
+  width: 0.85em;
+  height: 0.85em;
+  margin-inline-start: 0.2em;
+  vertical-align: -0.05em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hds-link {
+    transition-duration: 0s;
+  }
+}
+
+@media (forced-colors: active) {
+  .hds-link,
+  .hds-link[data-variant='subtle'] {
+    color: LinkText;
+    text-decoration-color: currentColor;
+  }
+}

@@ -1,0 +1,151 @@
+---
+title: Table
+description: 행과 열로 이루어진 데이터를 비교할 수 있게 보여준다.
+---
+
+import Preview from '../../../components/Preview.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import DoDont from '../../../components/DoDont.astro';
+import Do from '../../../components/Do.astro';
+import Dont from '../../../components/Dont.astro';
+
+import Basic from '../../../examples/table/Basic';
+import basicCode from '../../../examples/table/Basic?raw';
+import Sortable from '../../../examples/table/Sortable';
+import sortableCode from '../../../examples/table/Sortable?raw';
+import Selectable from '../../../examples/table/Selectable';
+import selectableCode from '../../../examples/table/Selectable?raw';
+import StickyHeader from '../../../examples/table/StickyHeader';
+import stickyHeaderCode from '../../../examples/table/StickyHeader?raw';
+import Wide from '../../../examples/table/Wide';
+import wideCode from '../../../examples/table/Wide?raw';
+
+행과 열로 이루어진 **데이터를 비교**할 수 있게 보여준다. 네이티브 `<table>` 이라 스크린리더가 행·열 머리를 함께 읽어준다.
+레이아웃을 잡는 용도로는 쓰지 않는다.
+
+<Preview code={basicCode}>
+  <Basic client:visible />
+</Preview>
+
+## 사용법
+
+```tsx
+import { Table } from '@hoon-ds/react';
+
+<Table.Root>
+  <Table.Caption>최근 주문</Table.Caption>
+  <Table.Header>
+    <Table.Row>
+      <Table.Head>고객</Table.Head>
+      <Table.Head numeric>금액</Table.Head>
+    </Table.Row>
+  </Table.Header>
+  <Table.Body>
+    <Table.Row>
+      <Table.Cell>김하늘</Table.Cell>
+      <Table.Cell numeric>48,000원</Table.Cell>
+    </Table.Row>
+  </Table.Body>
+</Table.Root>;
+```
+
+| 부품                                           | 렌더링                                  |
+| ---------------------------------------------- | --------------------------------------- |
+| `Table.Root`                                   | 스크롤 컨테이너 + `<table>`             |
+| `Table.Caption`                                | `<caption>`: 표의 이름                  |
+| `Table.Header` · `Table.Body` · `Table.Footer` | `<thead>` · `<tbody>` · `<tfoot>`       |
+| `Table.Row`                                    | `<tr>`                                  |
+| `Table.Head`                                   | `<th scope="col">`, 정렬 버튼 포함 가능 |
+| `Table.Cell`                                   | `<td>`                                  |
+
+## 예시
+
+### 정렬
+
+`onSort` 를 주면 머리 셀 안에 정렬 버튼이 생긴다. 정렬 중인 열에만 `aria-sort` 가 붙고, 정렬이 바뀌면 "가격 열 오름차순 정렬됨" 처럼 스크린리더에 알린다.
+
+<Preview code={sortableCode}>
+  <Sortable client:visible />
+</Preview>
+
+### 행 선택
+
+선택은 행 안의 [Checkbox](/components/checkbox/) 로 한다. 각 체크박스에 행을 알 수 있는 이름("김하늘 선택")을 준다. 머리 행의 전체 선택은 일부만 선택됐을 때 `indeterminate` 로 표시한다.
+
+<Preview code={selectableCode}>
+  <Selectable client:visible />
+</Preview>
+
+### 고정 머리 행 · 줄무늬 · 촘촘하게
+
+`stickyHeader` 는 스크롤 컨테이너에 높이 제한이 있어야 동작한다. 열이 많아 행을 따라 읽기 어려우면 `striped`, 데이터가 많은 화면은 `density="compact"`.
+
+<Preview code={stickyHeaderCode}>
+  <StickyHeader client:visible />
+</Preview>
+
+### 가로로 넓은 표
+
+표가 컨테이너보다 넓어지면 스크롤 영역이 **키보드로 포커스 가능한 영역(region)**이 된다. 캡션이 영역의 이름이 되고, 포커스한 뒤 화살표 키로 스크롤할 수 있다 (WCAG 2.1.1). Tab 으로 이동해 보자.
+
+<Preview code={wideCode}>
+  <Wide client:visible />
+</Preview>
+
+## API
+
+### Table.Root
+
+<PropsTable of="Table.Root" inherits="<table> 의 모든 HTML 속성" />
+
+### Table.Caption
+
+<PropsTable of="Table.Caption" inherits="<caption> 의 모든 HTML 속성" />
+
+### Table.Head
+
+<PropsTable of="Table.Head" inherits="<th> 의 모든 HTML 속성 (scope 기본값 col)" />
+
+### Table.Cell
+
+<PropsTable of="Table.Cell" inherits="<td> 의 모든 HTML 속성" />
+
+### Table.Row
+
+<PropsTable of="Table.Row" inherits="<tr> 의 모든 HTML 속성" />
+
+## 접근성
+
+### 키보드
+
+| 키                | 동작                                                   |
+| ----------------- | ------------------------------------------------------ |
+| `Tab`             | 정렬 버튼, 셀 안의 컨트롤, 넘치는 스크롤 영역으로 이동 |
+| `Enter` / `Space` | 정렬 버튼에서 정렬 방향을 바꾼다                       |
+| `←` `→` `↑` `↓`   | 스크롤 영역에 포커스가 있을 때 표를 스크롤한다         |
+
+### 스크린리더
+
+- `<caption>` 이 표의 이름이 된다. 화면에 이미 제목이 있으면 `visuallyHidden` 으로 숨겨도 이름은 유지된다.
+- 머리 셀은 `scope="col"` 이라 셀을 읽을 때 열 머리를 함께 읽는다. 행 머리가 필요하면 `<Table.Head scope="row">` 를 쓴다.
+- 정렬 상태는 `aria-sort` 로, 정렬 변경은 보이지 않는 상태 알림(`role="status"`)으로 전달한다. 문구는 `sortAnnouncement` 로 바꿀 수 있다.
+- 일반 표의 `<tr>` 에는 `aria-selected` 를 쓸 수 없다. 선택 상태는 행 안의 체크박스가 전달한다.
+
+### 사용자 설정
+
+- 숫자 열은 고정폭 숫자(`tabular-nums`)라 자릿수가 세로로 정렬된다.
+- Windows 고대비 모드에서 셀 경계와 선택된 행이 시스템 색으로 보인다.
+
+## 가이드
+
+<DoDont>
+  <Do title="캡션 달기">표마다 무엇에 대한 데이터인지 캡션으로 이름을 준다.</Do>
+  <Dont title="레이아웃용 표">화면 배치를 위해 `<table>` 을 쓰지 않는다. 스크린리더가 의미 없는 행·열을 읽는다.</Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="숫자는 끝 정렬">금액, 수량은 `numeric` 으로 끝 정렬해 자릿수를 비교하기 쉽게 한다.</Do>
+  <Dont title="행 전체를 클릭 영역으로">
+    행에 `onClick` 을 걸면 키보드로 쓸 수 없다. 행 안에 링크나 버튼을 둔다.
+  </Dont>
+</DoDont>

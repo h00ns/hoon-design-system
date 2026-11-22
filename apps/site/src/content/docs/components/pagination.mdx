@@ -1,0 +1,106 @@
+---
+title: Pagination
+description: 여러 페이지로 나뉜 목록 사이를 이동한다.
+---
+
+import Preview from '../../../components/Preview.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import DoDont from '../../../components/DoDont.astro';
+import Do from '../../../components/Do.astro';
+import Dont from '../../../components/Dont.astro';
+
+import Basic from '../../../examples/pagination/Basic';
+import basicCode from '../../../examples/pagination/Basic?raw';
+import Controlled from '../../../examples/pagination/Controlled';
+import controlledCode from '../../../examples/pagination/Controlled?raw';
+import Links from '../../../examples/pagination/Links';
+import linksCode from '../../../examples/pagination/Links?raw';
+import Range from '../../../examples/pagination/Range';
+import rangeCode from '../../../examples/pagination/Range?raw';
+
+여러 페이지로 나뉜 **목록 사이를 이동**한다. 검색 결과, 게시판, 주문 내역처럼 전체 개수를 알고 특정 위치로 바로 가야 할 때 쓴다.
+
+<Preview code={basicCode}>
+  <Basic client:visible />
+</Preview>
+
+## 사용법
+
+```tsx
+import { Pagination } from '@hoon-ds/react';
+
+// 버튼: 같은 화면 안에서 목록만 바꿀 때
+<Pagination count={20} page={page} onPageChange={setPage} />;
+
+// 링크: 페이지마다 URL 이 있을 때
+<Pagination count={20} page={page} getHref={(p) => `?page=${p}`} />;
+```
+
+## 예시
+
+### 제어 모드
+
+`page` 와 `onPageChange` 로 현재 페이지를 직접 관리한다. 페이지를 바꾼 뒤에도 누른 버튼에 포커스가 남아 있어 키보드로 계속 넘길 수 있다.
+
+<Preview code={controlledCode}>
+  <Controlled client:visible />
+</Preview>
+
+### 링크로 렌더링
+
+`getHref` 를 주면 각 페이지가 `<a href>` 가 된다. 새 탭으로 열기, 주소 공유, 뒤로 가기가 자연스럽게 동작한다. Next.js 의 `Link` 같은 라우터 컴포넌트는 `linkAs` 로 넘긴다.
+
+<Preview code={linksCode}>
+  <Links client:visible />
+</Preview>
+
+### 보여줄 범위
+
+`siblingCount` 는 현재 페이지 양옆, `boundaryCount` 는 처음과 끝에 항상 보여줄 페이지 수다. 페이지가 바뀌어도 **항목 수가 일정하게** 유지되어 버튼 위치가 덜 흔들린다.
+
+<Preview code={rangeCode}>
+  <Range client:visible />
+</Preview>
+
+## API
+
+<PropsTable of="Pagination" inherits="<nav> 의 모든 HTML 속성" />
+
+보여줄 번호를 직접 그리고 싶다면 계산 함수 `paginationRange({ page, count, siblingCount, boundaryCount })` 를 쓸 수 있다. 숫자와 `'ellipsis-start'`, `'ellipsis-end'` 로 이루어진 배열을 돌려준다.
+
+## 접근성
+
+### 키보드
+
+| 키                | 동작                                    |
+| ----------------- | --------------------------------------- |
+| `Tab`             | 이전, 페이지 번호, 다음 사이를 이동한다 |
+| `Enter` / `Space` | 해당 페이지로 이동한다 (링크는 `Enter`) |
+
+### 스크린리더
+
+- `<nav aria-label="페이지 이동">` 랜드마크다. 한 페이지에 여럿이면 `aria-label` 로 구분한다.
+- 각 번호의 이름은 "3페이지" 처럼 보이는 숫자를 포함한다 (WCAG 2.5.3). 문구는 `labels.page` 로 바꿀 수 있다.
+- 현재 페이지는 `aria-current="page"` 로 "현재 페이지" 라고 읽힌다.
+- 생략 기호(…)는 보조기기에서 숨긴다.
+- 첫 페이지의 "이전" 은 비활성이다. 링크 모드에서는 `href` 를 빼고 `aria-disabled="true"` 로 알린다.
+- 좁은 화면에서는 "이전·다음" 문구를 시각적으로만 숨기고 스크린리더에는 계속 전달한다.
+
+### 사용자 설정
+
+- 숫자는 고정폭(`tabular-nums`)이라 두 자리로 넘어가도 버튼 너비가 흔들리지 않는다.
+- Windows 고대비 모드에서 현재 페이지가 시스템 강조색으로 보인다.
+
+## 가이드
+
+<DoDont>
+  <Do title="URL 이 있으면 링크">
+    검색 결과처럼 페이지를 공유하거나 되돌아올 수 있어야 하면 `getHref` 로 링크를 쓴다.
+  </Do>
+  <Dont title="무한 스크롤과 섞기">같은 목록에 무한 스크롤과 페이지 이동을 함께 두지 않는다.</Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="결과 범위 안내">"전체 137건 중 11~20번째" 처럼 현재 위치를 함께 보여준다.</Do>
+  <Dont title="페이지가 하나일 때">페이지가 1개뿐이면 Pagination 을 숨긴다.</Dont>
+</DoDont>

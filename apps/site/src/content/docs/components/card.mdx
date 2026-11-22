@@ -1,0 +1,136 @@
+---
+title: Card
+description: 관련된 정보와 동작을 하나의 표면으로 묶는다.
+---
+
+import Preview from '../../../components/Preview.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import DoDont from '../../../components/DoDont.astro';
+import Do from '../../../components/Do.astro';
+import Dont from '../../../components/Dont.astro';
+
+import Basic from '../../../examples/card/Basic';
+import basicCode from '../../../examples/card/Basic?raw';
+import Variants from '../../../examples/card/Variants';
+import variantsCode from '../../../examples/card/Variants?raw';
+import Padding from '../../../examples/card/Padding';
+import paddingCode from '../../../examples/card/Padding?raw';
+import Interactive from '../../../examples/card/Interactive';
+import interactiveCode from '../../../examples/card/Interactive?raw';
+import List from '../../../examples/card/List';
+import listCode from '../../../examples/card/List?raw';
+
+관련된 정보와 동작을 **하나의 표면**으로 묶는다. 요금제, 글 목록, 설정 그룹처럼 내용이 서로 독립적인 덩어리일 때 쓴다.
+단순히 영역을 나누기만 한다면 카드 대신 여백이나 [Separator](/components/separator/) 가 덜 시끄럽다.
+
+<Preview code={basicCode}>
+  <Basic client:visible />
+</Preview>
+
+## 사용법
+
+```tsx
+import { Card } from '@hoon-ds/react';
+
+<Card.Root>
+  <Card.Header>
+    <Card.Title>제목</Card.Title>
+    <Card.Description>설명</Card.Description>
+  </Card.Header>
+  <Card.Body>본문</Card.Body>
+  <Card.Footer>버튼</Card.Footer>
+</Card.Root>;
+```
+
+| 부품               | 역할                                                             |
+| ------------------ | ---------------------------------------------------------------- |
+| `Card.Root`        | 표면. `variant`, `padding`, `interactive`, `asChild`             |
+| `Card.Header`      | 제목과 설명 묶음                                                 |
+| `Card.Title`       | 제목. 기본 `<h3>`, 페이지 제목 구조에 맞게 `asChild` 로 바꾼다   |
+| `Card.Description` | 보조 설명                                                        |
+| `Card.Body`        | 본문                                                             |
+| `Card.Footer`      | 버튼 등 동작                                                     |
+| `Card.Link`        | `interactive` 카드의 대표 링크. 클릭 영역이 카드 전체로 넓어진다 |
+
+## 예시
+
+### Variant
+
+기본 `outline` 은 테두리로, `elevated` 는 그림자로, `subtle` 은 옅은 배경으로 구분한다. 한 화면에서는 한 가지만 쓴다.
+
+<Preview code={variantsCode}>
+  <Variants client:visible />
+</Preview>
+
+### 여백
+
+<Preview code={paddingCode}>
+  <Padding client:visible />
+</Preview>
+
+### 누를 수 있는 카드
+
+카드 전체를 누르게 하고 싶을 때 **카드를 클릭 가능한 `div` 로 만들지 않는다.** 대신 제목 안에 `Card.Link` 를 하나 두고 `interactive` 를 켠다.
+링크의 클릭 영역이 카드 전체로 넓어지지만, 스크린리더와 키보드에게는 평범한 링크 하나로 보인다. 카드 안의 다른 버튼은 링크 위로 올라와 따로 동작한다.
+
+<Preview code={interactiveCode}>
+  <Interactive client:visible />
+</Preview>
+
+### 카드 목록
+
+목록이면 `asChild` 로 루트를 `<li>` 로 바꾼다. 스크린리더가 "목록, 3개 항목" 처럼 개수를 알려준다.
+
+<Preview code={listCode} align="stretch">
+  <List client:visible />
+</Preview>
+
+## API
+
+### Card.Root
+
+<PropsTable of="Card.Root" inherits="<div> 의 모든 HTML 속성" />
+
+### Card.Title
+
+<PropsTable of="Card.Title" inherits="<h3> 의 모든 HTML 속성" />
+
+### Card.Link
+
+<PropsTable of="Card.Link" inherits="<a> 의 모든 HTML 속성" />
+
+`Card.Header`, `Card.Description`, `Card.Body`, `Card.Footer` 는 각각 `<div>`, `<p>` 의 HTML 속성을 그대로 받는다.
+
+## 접근성
+
+### 키보드
+
+| 키      | 동작                                                    |
+| ------- | ------------------------------------------------------- |
+| `Tab`   | 대표 링크로 이동한 뒤, 카드 안의 다른 버튼으로 이동한다 |
+| `Enter` | 대표 링크를 연다                                        |
+
+### 스크린리더
+
+- 카드 자체에는 역할이 없다. 제목(`<h3>`)이 있어 제목 단위 이동으로 카드를 훑어볼 수 있다.
+- `interactive` 카드에서 링크의 이름은 **제목만**이다. 카드 전체 텍스트를 링크로 감싸면 스크린리더가 링크를 읽을 때 본문까지 길게 읽어버린다.
+- 포커스 링은 링크가 아니라 카드 전체에 그려져 클릭 영역과 일치한다 (`:has()` 를 지원하지 않는 브라우저에서는 링크 주변에 그린다).
+
+### 사용자 설정
+
+- Windows 고대비 모드에서 카드 테두리가 시스템 텍스트 색으로 보인다.
+- `prefers-reduced-motion` 이면 hover 전환 효과를 끈다.
+
+## 가이드
+
+<DoDont>
+  <Do title="링크는 하나">누를 수 있는 카드에는 대표 링크 하나만 두고, 나머지 동작은 버튼으로 분리한다.</Do>
+  <Dont title="카드 전체를 링크로 감싸기">`<a>` 안에 제목, 설명, 버튼을 모두 넣으면 버튼을 따로 누를 수 없고 링크 이름이 길어진다.</Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="필요할 때만 카드">서로 독립적인 정보 덩어리를 비교하거나 훑어볼 때.</Do>
+  <Dont title="카드 안의 카드">
+    카드를 겹겹이 중첩하면 위계가 흐려진다. 안쪽은 여백이나 구분선으로 나눈다.
+  </Dont>
+</DoDont>

@@ -1,0 +1,92 @@
+---
+title: Link
+description: 다른 페이지나 위치로 이동하는 텍스트 링크.
+---
+
+import Preview from '../../../components/Preview.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import DoDont from '../../../components/DoDont.astro';
+import Do from '../../../components/Do.astro';
+import Dont from '../../../components/Dont.astro';
+
+import Basic from '../../../examples/link/Basic';
+import basicCode from '../../../examples/link/Basic?raw';
+import External from '../../../examples/link/External';
+import externalCode from '../../../examples/link/External?raw';
+import Variants from '../../../examples/link/Variants';
+import variantsCode from '../../../examples/link/Variants?raw';
+
+다른 페이지나 위치로 **이동**하는 텍스트 링크. 무언가를 실행한다면 [Button](/components/button/) 을 쓴다.
+
+<Preview code={basicCode}>
+  <Basic client:visible />
+</Preview>
+
+## 사용법
+
+```tsx
+import { Link } from '@hoon-ds/react';
+
+<Link href="/docs">문서</Link>;
+
+// 라우터 링크
+<Link asChild>
+  <NextLink href="/docs">문서</NextLink>
+</Link>;
+```
+
+## 예시
+
+### 외부 링크
+
+`external` 을 주면 새 창으로 열고 `rel="noopener noreferrer"` 를 붙인다. 아이콘과 함께 스크린리더에는 "(새 창)" 을 덧붙여, 맥락이 바뀐다는 것을 미리 알린다 (WCAG 3.2.5). `target="_blank"` 를 직접 줘도 같다.
+
+<Preview code={externalCode}>
+  <External client:visible />
+</Preview>
+
+### Variant · 밑줄
+
+문장 속 링크는 색만으로 구분하면 안 되므로 기본은 **항상 밑줄**이다. `underline="hover"` 는 내비게이션처럼 링크임이 분명한 곳에서만 쓴다.
+
+<Preview code={variantsCode}>
+  <Variants client:visible />
+</Preview>
+
+## API
+
+<PropsTable of="Link" inherits="<a> 의 모든 HTML 속성" />
+
+## 접근성
+
+### 키보드
+
+| 키      | 동작            |
+| ------- | --------------- |
+| `Tab`   | 링크로 이동한다 |
+| `Enter` | 링크를 연다     |
+
+### 스크린리더
+
+- 네이티브 `<a href>` 라 역할과 방문 여부를 브라우저가 전달한다.
+- 링크 문구만 듣고도 목적지를 알 수 있게 쓴다. 스크린리더 사용자는 링크 목록만 따로 훑어보기도 한다.
+- 새 창 안내 문구는 `newTabLabel` 로 바꿀 수 있다.
+
+### 사용자 설정
+
+- 기본 밑줄 덕분에 색을 구분하기 어려운 사용자도 링크를 찾을 수 있다 (WCAG 1.4.1).
+- Windows 고대비 모드에서 시스템 링크 색으로 보인다.
+
+## 가이드
+
+<DoDont>
+  <Do title="목적지를 말하기">
+    "요금제 비교 보기" 처럼 링크만 읽어도 어디로 가는지 알 수 있게 쓴다.
+  </Do>
+  <Dont title="여기를 클릭">"여기", "더보기" 처럼 맥락 없이는 의미가 없는 문구.</Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="이동은 링크, 실행은 버튼">페이지를 바꾸면 Link, 저장·삭제 같은 동작은 Button.</Do>
+  <Dont title="href 없는 링크">`<a onClick>` 은 키보드 포커스를 받지 못하고 새 탭으로 열 수 없다.</Dont>
+</DoDont>

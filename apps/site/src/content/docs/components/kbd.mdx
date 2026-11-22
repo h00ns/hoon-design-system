@@ -1,0 +1,76 @@
+---
+title: Kbd
+description: 키보드 키와 단축키를 표시한다.
+---
+
+import Preview from '../../../components/Preview.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import DoDont from '../../../components/DoDont.astro';
+import Do from '../../../components/Do.astro';
+import Dont from '../../../components/Dont.astro';
+
+import Basic from '../../../examples/kbd/Basic';
+import basicCode from '../../../examples/kbd/Basic?raw';
+import Combination from '../../../examples/kbd/Combination';
+import combinationCode from '../../../examples/kbd/Combination?raw';
+import ShortcutList from '../../../examples/kbd/ShortcutList';
+import shortcutListCode from '../../../examples/kbd/ShortcutList?raw';
+
+**키보드 키**와 단축키를 표시한다. 단축키 안내, 도움말, 조작 설명에 쓴다. 네이티브 `<kbd>` 요소다.
+
+<Preview code={basicCode}>
+  <Basic />
+</Preview>
+
+## 사용법
+
+```tsx
+import { Kbd } from '@hoon-ds/react';
+
+<Kbd>Esc</Kbd>;
+<Kbd keys={['⌘', 'K']} />;
+```
+
+## 예시
+
+### 조합 키
+
+`keys` 로 여러 키를 넘기면 HTML 명세의 키 조합 표기대로 `<kbd>` 안에 `<kbd>` 를 중첩한다. 구분자가 필요하면 `separator` 를 준다 (보조기기에서는 숨긴다).
+
+<Preview code={combinationCode}>
+  <Combination />
+</Preview>
+
+### 단축키 목록
+
+<Preview code={shortcutListCode}>
+  <ShortcutList />
+</Preview>
+
+## API
+
+<PropsTable of="Kbd" inherits="<kbd> 의 모든 HTML 속성" />
+
+기호 키의 기본 이름은 `KBD_KEY_LABELS` 로 가져올 수 있다: `⌘` Command, `⇧` Shift, `⌥` Option, `⌃` Control, `↵` Enter, `⎋` Escape, `⇥` Tab, 화살표 등.
+
+## 접근성
+
+### 스크린리더
+
+- `⌘`, `⇧` 같은 기호는 스크린리더마다 읽는 방식이 다르거나 아예 읽지 않는다. 기호는 숨기고 "Command" 같은 이름을 숨김 텍스트로 전달한다.
+- 기호에는 `title` 도 붙어 있어, 마우스를 올리면 시각 사용자도 키 이름을 볼 수 있다.
+- 이름을 바꾸거나 더하려면 `labels` 를 쓴다 (예: `labels={{ '⌘': '커맨드' }}`).
+
+### 사용자 설정
+
+- 크기는 글자 크기를 따라 커진다.
+- Windows 고대비 모드에서 키 테두리가 시스템 텍스트 색으로 보인다.
+
+## 가이드
+
+<DoDont>
+  <Do title="운영체제에 맞는 키">macOS 에는 `⌘`, Windows 에는 `Ctrl` 을 보여준다.</Do>
+  <Dont title="장식으로 쓰기">
+    키가 아닌 일반 강조에 Kbd 를 쓰지 않는다. 스크린리더가 키보드 입력으로 해석할 수 있다.
+  </Dont>
+</DoDont>

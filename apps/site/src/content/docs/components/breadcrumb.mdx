@@ -1,0 +1,126 @@
+---
+title: Breadcrumb
+description: 현재 페이지의 위치를 상위 경로와 함께 보여준다.
+---
+
+import Preview from '../../../components/Preview.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import DoDont from '../../../components/DoDont.astro';
+import Do from '../../../components/Do.astro';
+import Dont from '../../../components/Dont.astro';
+
+import Basic from '../../../examples/breadcrumb/Basic';
+import basicCode from '../../../examples/breadcrumb/Basic?raw';
+import Collapsed from '../../../examples/breadcrumb/Collapsed';
+import collapsedCode from '../../../examples/breadcrumb/Collapsed?raw';
+import CustomSeparator from '../../../examples/breadcrumb/CustomSeparator';
+import customSeparatorCode from '../../../examples/breadcrumb/CustomSeparator?raw';
+
+현재 페이지가 **어디에 있는지** 상위 경로와 함께 보여준다. 계층이 깊은 설정, 문서, 상품 분류에서 한 단계씩 올라갈 수 있게 한다.
+[WAI-ARIA Breadcrumb](https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/) 패턴을 따른다.
+
+<Preview code={basicCode}>
+  <Basic client:visible />
+</Preview>
+
+## 사용법
+
+```tsx
+import { Breadcrumb } from '@hoon-ds/react';
+
+<Breadcrumb.Root>
+  <Breadcrumb.List>
+    <Breadcrumb.Item>
+      <Breadcrumb.Link href="/">홈</Breadcrumb.Link>
+    </Breadcrumb.Item>
+    <Breadcrumb.Separator />
+    <Breadcrumb.Item>
+      <Breadcrumb.Page>현재 페이지</Breadcrumb.Page>
+    </Breadcrumb.Item>
+  </Breadcrumb.List>
+</Breadcrumb.Root>;
+```
+
+| 부품                   | 역할                                                   |
+| ---------------------- | ------------------------------------------------------ |
+| `Breadcrumb.Root`      | `<nav aria-label="현재 위치">`                         |
+| `Breadcrumb.List`      | 순서 있는 목록 `<ol>`                                  |
+| `Breadcrumb.Item`      | 경로 항목 `<li>`                                       |
+| `Breadcrumb.Link`      | 상위 경로 링크. 라우터 링크는 `asChild`                |
+| `Breadcrumb.Page`      | 현재 페이지. 링크가 아니며 `aria-current="page"`       |
+| `Breadcrumb.Separator` | 구분자. 보조기기에서 숨긴다                            |
+| `Breadcrumb.Ellipsis`  | 접힌 경로를 여는 버튼. DropdownMenu 의 Trigger 로 쓴다 |
+
+## 예시
+
+### 경로 접기
+
+경로가 길면 처음과 현재 위치만 남기고 중간을 접는다. `Breadcrumb.Ellipsis` 를 [DropdownMenu](/components/dropdown-menu/) 의 Trigger 로 감싸면 접힌 경로를 메뉴로 열 수 있다.
+
+<Preview code={collapsedCode} minHeight="14rem">
+  <Collapsed client:visible />
+</Preview>
+
+### 구분자 바꾸기
+
+`Breadcrumb.Separator` 에 자식을 주면 기본 화살표 대신 쓴다. 같은 페이지에 내비게이션이 여럿이면 `aria-label` 로 이름을 구분한다.
+
+<Preview code={customSeparatorCode}>
+  <CustomSeparator client:visible />
+</Preview>
+
+## API
+
+### Breadcrumb.Root
+
+<PropsTable of="Breadcrumb.Root" inherits="<nav> 의 모든 HTML 속성" />
+
+### Breadcrumb.Link
+
+<PropsTable of="Breadcrumb.Link" inherits="<a> 의 모든 HTML 속성" />
+
+### Breadcrumb.Ellipsis
+
+<PropsTable of="Breadcrumb.Ellipsis" inherits="<button> 의 모든 HTML 속성" />
+
+`Breadcrumb.List`, `Item`, `Page`, `Separator` 는 각각 `<ol>`, `<li>`, `<span>`, `<li>` 의 HTML 속성을 받는다.
+
+## 접근성
+
+### 키보드
+
+| 키              | 동작                                     |
+| --------------- | ---------------------------------------- |
+| `Tab`           | 경로 링크와 접기 버튼 사이를 이동한다    |
+| `Enter`         | 링크를 연다. 접기 버튼에서는 메뉴를 연다 |
+| `↑` `↓` / `Esc` | 열린 메뉴 안에서 이동하고 닫는다         |
+
+### 스크린리더
+
+- `<nav>` 랜드마크라 랜드마크 목록에서 "현재 위치" 로 바로 찾아갈 수 있다.
+- 순서 있는 목록이라 "목록, 3개 항목" 처럼 경로의 깊이를 알려준다. 구분자는 목록 항목 수에 들어가지 않는다.
+- 현재 페이지는 `aria-current="page"` 로 "현재 페이지" 라고 읽힌다.
+- 접기 버튼의 기본 이름은 "숨겨진 경로 보기" 다.
+
+### 사용자 설정
+
+- Windows 고대비 모드에서 링크가 시스템 링크 색으로, 접기 버튼이 테두리와 함께 보인다.
+- 좁은 화면에서는 항목이 줄바꿈된다. 경로가 길면 접기를 쓴다.
+
+## 가이드
+
+<DoDont>
+  <Do title="계층 구조에서">상위 페이지가 분명히 존재하는 2단계 이상의 계층에 쓴다.</Do>
+  <Dont title="방문 기록처럼">
+    사용자가 지나온 순서를 보여주는 용도가 아니다. 경로는 사이트 구조를 따른다.
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do title="현재 페이지는 텍스트">
+    현재 페이지는 `Breadcrumb.Page` 로 표시하고 링크로 만들지 않는다.
+  </Do>
+  <Dont title="주 내비게이션 대신">
+    Breadcrumb 는 보조 내비게이션이다. 주 메뉴를 대신하지 않는다.
+  </Dont>
+</DoDont>

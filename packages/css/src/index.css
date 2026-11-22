@@ -37,3 +37,9 @@
 @import './components/progress.css' layer(hds.components);
 @import './components/collapsible.css' layer(hds.components);
 @import './components/scroll-area.css' layer(hds.components);
+@import './components/card.css' layer(hds.components);
+@import './components/table.css' layer(hds.components);
+@import './components/breadcrumb.css' layer(hds.components);
+@import './components/pagination.css' layer(hds.components);
+@import './components/link.css' layer(hds.components);
+@import './components/kbd.css' layer(hds.components);

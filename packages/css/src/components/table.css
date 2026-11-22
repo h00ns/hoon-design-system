@@ -1,0 +1,177 @@
+/*
+ * Table
+ * <div class="hds-table" data-density="default" [data-striped] [data-sticky-header]>
+ *   <table class="hds-table__table">
+ *     <caption class="hds-table__caption">…</caption>
+ *     <thead class="hds-table__header"><tr class="hds-table__row"><th class="hds-table__head">…</th></tr></thead>
+ *     <tbody class="hds-table__body"><tr class="hds-table__row"><td class="hds-table__cell">…</td></tr></tbody>
+ *   </table>
+ * </div>
+ */
+.hds-table {
+  --_cell-py: var(--hds-space-3);
+  --_cell-px: var(--hds-space-4);
+
+  position: relative;
+  max-width: 100%;
+  overflow: auto;
+  border: 1px solid var(--hds-color-border-default);
+  border-radius: var(--hds-radius-lg);
+  background-color: var(--hds-color-bg-default);
+  /* 가로로 넘칠 때 스크롤 영역임을 알 수 있도록 iOS 에서도 스크롤바 공간을 둔다 */
+  scrollbar-gutter: auto;
+}
+
+.hds-table:focus-visible {
+  outline: var(--hds-size-focus-ring-width) solid var(--hds-color-focus-ring);
+  outline-offset: var(--hds-size-focus-ring-offset);
+}
+
+.hds-table[data-density='compact'] {
+  --_cell-py: var(--hds-space-2);
+  --_cell-px: var(--hds-space-3);
+}
+
+.hds-table__table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  color: var(--hds-color-fg-default);
+  font-family: inherit;
+  font-size: var(--hds-font-size-sm);
+  line-height: var(--hds-font-line-height-normal);
+}
+
+.hds-table__caption {
+  padding: var(--hds-space-3) var(--_cell-px);
+  color: var(--hds-color-fg-default);
+  font-size: var(--hds-font-size-md);
+  font-weight: var(--hds-font-weight-semibold);
+  text-align: start;
+  caption-side: top;
+}
+
+.hds-table__head,
+.hds-table__cell {
+  padding: var(--_cell-py) var(--_cell-px);
+  border-bottom: 1px solid var(--hds-color-border-default);
+  text-align: start;
+  vertical-align: middle;
+}
+
+.hds-table__head {
+  background-color: var(--hds-color-bg-subtle);
+  color: var(--hds-color-fg-muted);
+  font-size: var(--hds-font-size-xs);
+  font-weight: var(--hds-font-weight-semibold);
+  white-space: nowrap;
+}
+
+.hds-table__body .hds-table__row:last-child .hds-table__cell {
+  border-bottom: 0;
+}
+
+.hds-table__footer .hds-table__cell,
+.hds-table__footer .hds-table__head {
+  border-top: 1px solid var(--hds-color-border-default);
+  border-bottom: 0;
+  font-weight: var(--hds-font-weight-semibold);
+}
+
+:is(.hds-table__head, .hds-table__cell)[data-align='center'] {
+  text-align: center;
+}
+
+:is(.hds-table__head, .hds-table__cell)[data-align='end'] {
+  text-align: end;
+}
+
+:is(.hds-table__head, .hds-table__cell)[data-numeric] {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── 줄무늬 · 선택 ──────────────────────── */
+.hds-table[data-striped] .hds-table__body .hds-table__row:nth-child(even) {
+  background-color: var(--hds-color-bg-subtle);
+}
+
+.hds-table__row[data-state='selected'] {
+  background-color: var(--hds-color-accent-subtle);
+}
+
+.hds-table[data-striped] .hds-table__body .hds-table__row[data-state='selected'] {
+  background-color: var(--hds-color-accent-subtle);
+}
+
+/* ── 고정 머리 행 ─────────────────────────── */
+.hds-table[data-sticky-header] .hds-table__header .hds-table__head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+/* ── 정렬 버튼 ──────────────────────────── */
+.hds-table__head[data-sortable] {
+  padding: 0;
+}
+
+.hds-table__sort {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--hds-space-1);
+  width: 100%;
+  min-height: 2.5rem;
+  margin: 0;
+  padding: var(--_cell-py) var(--_cell-px);
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
+  cursor: pointer;
+}
+
+.hds-table__head[data-align='end'] .hds-table__sort {
+  justify-content: flex-end;
+}
+
+.hds-table__head[data-align='center'] .hds-table__sort {
+  justify-content: center;
+}
+
+.hds-table__head[aria-sort] {
+  color: var(--hds-color-fg-default);
+}
+
+.hds-table__sort:focus-visible {
+  outline: var(--hds-size-focus-ring-width) solid var(--hds-color-focus-ring);
+  outline-offset: calc(var(--hds-size-focus-ring-width) * -1);
+}
+
+@media (hover: hover) {
+  .hds-table__sort:hover {
+    background-color: var(--hds-color-neutral-subtle);
+  }
+}
+
+.hds-table__sort-icon {
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+}
+
+@media (forced-colors: active) {
+  .hds-table {
+    border-color: CanvasText;
+  }
+
+  .hds-table__head,
+  .hds-table__cell {
+    border-color: CanvasText;
+  }
+
+  .hds-table__row[data-state='selected'] {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+}
