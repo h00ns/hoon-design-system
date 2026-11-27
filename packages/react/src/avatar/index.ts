@@ -1,2 +1,2 @@
-export { Avatar, getInitials } from './Avatar';
-export type { AvatarProps, AvatarShape, AvatarSize } from './Avatar';
+export { Avatar, getAvatarColor, getInitials } from './Avatar';
+export type { AvatarColor, AvatarProps, AvatarShape, AvatarSize } from './Avatar';

@@ -21,7 +21,7 @@ import rangeCode from '../../../examples/pagination/Range?raw';
 여러 페이지로 나뉜 **목록 사이를 이동**한다. 검색 결과, 게시판, 주문 내역처럼 전체 개수를 알고 특정 위치로 바로 가야 할 때 쓴다.
 
 <Preview code={basicCode}>
-  <Basic client:visible />
+  <Basic client:idle />
 </Preview>
 
 ## 사용법
@@ -43,7 +43,7 @@ import { Pagination } from '@hoon-ds/react';
 `page` 와 `onPageChange` 로 현재 페이지를 직접 관리한다. 페이지를 바꾼 뒤에도 누른 버튼에 포커스가 남아 있어 키보드로 계속 넘길 수 있다.
 
 <Preview code={controlledCode}>
-  <Controlled client:visible />
+  <Controlled client:idle />
 </Preview>
 
 ### 링크로 렌더링
@@ -51,7 +51,7 @@ import { Pagination } from '@hoon-ds/react';
 `getHref` 를 주면 각 페이지가 `<a href>` 가 된다. 새 탭으로 열기, 주소 공유, 뒤로 가기가 자연스럽게 동작한다. Next.js 의 `Link` 같은 라우터 컴포넌트는 `linkAs` 로 넘긴다.
 
 <Preview code={linksCode}>
-  <Links client:visible />
+  <Links client:idle />
 </Preview>
 
 ### 보여줄 범위
@@ -59,7 +59,7 @@ import { Pagination } from '@hoon-ds/react';
 `siblingCount` 는 현재 페이지 양옆, `boundaryCount` 는 처음과 끝에 항상 보여줄 페이지 수다. 페이지가 바뀌어도 **항목 수가 일정하게** 유지되어 버튼 위치가 덜 흔들린다.
 
 <Preview code={rangeCode}>
-  <Range client:visible />
+  <Range client:idle />
 </Preview>
 
 ## API
@@ -80,7 +80,7 @@ import { Pagination } from '@hoon-ds/react';
 ### 스크린리더
 
 - `<nav aria-label="페이지 이동">` 랜드마크다. 한 페이지에 여럿이면 `aria-label` 로 구분한다.
-- 각 번호의 이름은 "3페이지" 처럼 보이는 숫자를 포함한다 (WCAG 2.5.3). 문구는 `labels.page` 로 바꿀 수 있다.
+- 각 번호의 이름은 "3 페이지" 처럼 보이는 숫자를 포함한다 (WCAG 2.5.3). 문구는 `labels.page` 로 바꿀 수 있다.
 - 현재 페이지는 `aria-current="page"` 로 "현재 페이지" 라고 읽힌다.
 - 생략 기호(…)는 보조기기에서 숨긴다.
 - 첫 페이지의 "이전" 은 비활성이다. 링크 모드에서는 `href` 를 빼고 `aria-disabled="true"` 로 알린다.

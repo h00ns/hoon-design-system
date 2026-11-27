@@ -22,6 +22,24 @@ export interface AvatarProps extends React.HTMLAttributes<HTMLSpanElement> {
   size?: AvatarSize;
   /** 사람은 circle, 조직·서비스는 square. @default 'circle' */
   shape?: AvatarShape;
+  /**
+   * 이니셜 배경색. `auto` 는 이름에서 색을 정해, 같은 이름은 항상 같은 색이 된다
+   * (목록에서 사람을 구분하기 쉽게). 이름이 없으면 회색. @default 'auto'
+   */
+  color?: AvatarColor;
+}
+
+export type AvatarColor = 'auto' | 'gray' | 'blue' | 'green' | 'amber' | 'red';
+
+const AUTO_COLORS = ['blue', 'green', 'amber', 'red'] as const;
+
+/** 이름 → 색 (간단한 문자열 해시). 같은 이름은 항상 같은 색 */
+export function getAvatarColor(name: string): Exclude<AvatarColor, 'auto'> {
+  const trimmed = name.trim();
+  if (!trimmed) return 'gray';
+  let hash = 0;
+  for (const ch of trimmed) hash = (hash * 31 + (ch.codePointAt(0) ?? 0)) >>> 0;
+  return AUTO_COLORS[hash % AUTO_COLORS.length]!;
 }
 
 const HANGUL = /^[ㄱ-ㆎ가-힣]+$/;
@@ -56,7 +74,7 @@ const PersonIcon = () => (
 
 /** 사람이나 조직을 나타내는 이미지. 이미지가 없으면 이니셜로 대체한다. */
 export const Avatar = React.forwardRef<HTMLSpanElement, AvatarProps>(function Avatar(
-  { src, alt, name, fallback, size = 'md', shape = 'circle', className, ...rest },
+  { src, alt, name, fallback, size = 'md', shape = 'circle', color = 'auto', className, ...rest },
   ref,
 ) {
   const label = alt ?? name ?? '';
@@ -70,6 +88,7 @@ export const Avatar = React.forwardRef<HTMLSpanElement, AvatarProps>(function Av
       className={cx('hds-avatar', className)}
       data-size={size}
       data-shape={shape}
+      data-color={color === 'auto' ? getAvatarColor(name ?? '') : color}
     >
       {src && <AvatarPrimitive.Image className="hds-avatar__image" src={src} alt={label} />}
       <AvatarPrimitive.Fallback

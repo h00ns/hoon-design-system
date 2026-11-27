@@ -28,7 +28,7 @@ import controlledCode from '../../../examples/dialog/Controlled?raw';
 페이지를 가리지 않는 가벼운 패널이라면 [Popover](/components/popover/) 를 쓴다.
 
 <Preview code={basicCode}>
-  <Basic client:visible />
+  <Basic client:idle />
 </Preview>
 
 ## 사용법
@@ -76,7 +76,7 @@ import { Button, Dialog } from '@hoon-ds/react';
 `full` 은 노치·홈 인디케이터 영역(safe area)을 피해 전체 화면을 채운다. Footer 버튼도 세로로 쌓이며 주요 버튼이 위로 온다.
 
 <Preview code={sizesCode}>
-  <Sizes client:visible />
+  <Sizes client:idle />
 </Preview>
 
 ### 긴 내용
@@ -85,7 +85,7 @@ import { Button, Dialog } from '@hoon-ds/react';
 키보드 사용자도 방향키로 스크롤할 수 있다.
 
 <Preview code={longContentCode}>
-  <LongContent client:visible />
+  <LongContent client:idle />
 </Preview>
 
 ### 설명 없음
@@ -93,7 +93,7 @@ import { Button, Dialog } from '@hoon-ds/react';
 설명이 필요 없는 다이얼로그는 `Content` 에 `aria-describedby={undefined}` 를 넘긴다. 이렇게 명시하면 Radix 의 경고 없이 설명 연결이 생략된다.
 
 <Preview code={withoutDescriptionCode}>
-  <WithoutDescription client:visible />
+  <WithoutDescription client:idle />
 </Preview>
 
 ### 보이지 않는 제목
@@ -101,7 +101,7 @@ import { Button, Dialog } from '@hoon-ds/react';
 디자인상 제목을 보여주지 않더라도 스크린리더용 이름은 있어야 한다. [VisuallyHidden](/components/visually-hidden/) 으로 `Dialog.Title` 을 감싼다.
 
 <Preview code={hiddenTitleCode}>
-  <HiddenTitle client:visible />
+  <HiddenTitle client:idle />
 </Preview>
 
 ### 제어 모드와 폼
@@ -110,7 +110,7 @@ import { Button, Dialog } from '@hoon-ds/react';
 저장 전 닫기를 막고 싶다면 `onOpenChange(false)` 를 무시하거나 [AlertDialog](/components/alert-dialog/) 로 한 번 더 확인한다.
 
 <Preview code={controlledCode}>
-  <Controlled client:visible />
+  <Controlled client:idle />
 </Preview>
 
 ## API

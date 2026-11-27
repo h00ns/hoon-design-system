@@ -42,10 +42,44 @@ function Provider({
 
 export type TooltipRootProps = React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Root>;
 
-/** 툴팁 하나의 열림 상태를 관리한다. Provider 밖에서도 쓸 수 있다. */
-function Root(props: TooltipRootProps) {
+/** 열린 직후 이 시간 안에 스크롤 때문에 닫히는 것은 무시한다 (ms) */
+const SCROLL_CLOSE_GRACE = 600;
+
+/**
+ * 툴팁 하나의 열림 상태를 관리한다. Provider 밖에서도 쓸 수 있다.
+ *
+ * Radix 는 스크롤이 일어나면 툴팁을 닫는다. 그런데 Tab 으로 화면 밖 버튼에 포커스하면
+ * 브라우저가 그 버튼을 보이게 스크롤하므로, 키보드 사용자에게는 툴팁이 열리자마자 닫혀 버린다.
+ * 열린 직후의 "스크롤로 인한 닫힘"만 무시해 이 문제를 막는다.
+ */
+function Root({ open: openProp, defaultOpen = false, onOpenChange, ...props }: TooltipRootProps) {
   const hasProvider = React.useContext(ProviderPresenceContext);
-  const root = <TooltipPrimitive.Root {...props} />;
+  const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen);
+  const open = openProp ?? uncontrolledOpen;
+  const openedAt = React.useRef(0);
+  const lastScrollAt = React.useRef(0);
+
+  React.useEffect(() => {
+    if (!open) return;
+    const onScroll = () => {
+      lastScrollAt.current = performance.now();
+    };
+    window.addEventListener('scroll', onScroll, { capture: true, passive: true });
+    return () => window.removeEventListener('scroll', onScroll, { capture: true });
+  }, [open]);
+
+  const handleOpenChange = (next: boolean) => {
+    const now = performance.now();
+    if (next) {
+      openedAt.current = now;
+    } else if (now - openedAt.current < SCROLL_CLOSE_GRACE && now - lastScrollAt.current < 100) {
+      return;
+    }
+    if (openProp === undefined) setUncontrolledOpen(next);
+    onOpenChange?.(next);
+  };
+
+  const root = <TooltipPrimitive.Root {...props} open={open} onOpenChange={handleOpenChange} />;
   return hasProvider ? root : <Provider>{root}</Provider>;
 }
 

@@ -31,7 +31,7 @@ import stackingCode from '../../../examples/toast/Stacking?raw';
 사용자가 읽고 판단해야 하는 내용이나 오래 남아야 하는 정보는 [Alert](/components/alert/), 반드시 응답이 필요하면 [AlertDialog](/components/alert-dialog/) 를 쓴다.
 
 <Preview code={basicCode}>
-  <Basic client:visible />
+  <Basic client:idle />
 </Preview>
 
 ## 사용법
@@ -68,7 +68,7 @@ toast.dismiss(id); // id 생략 시 모두 닫기
 `toast()`(neutral) · `toast.info` · `toast.success` · `toast.warning` · `toast.error`.
 
 <Preview code={tonesCode}>
-  <Tones client:visible />
+  <Tones client:idle />
 </Preview>
 
 ### 동작 (되돌리기)
@@ -77,7 +77,7 @@ toast.dismiss(id); // id 생략 시 모두 닫기
 동작이 있는 토스트는 기본으로 **자동으로 닫히지 않는다** (WCAG 2.2.1 시간 조절).
 
 <Preview code={withActionCode}>
-  <WithAction client:visible />
+  <WithAction client:idle />
 </Preview>
 
 ### 진행 → 결과로 바꾸기
@@ -85,7 +85,7 @@ toast.dismiss(id); // id 생략 시 모두 닫기
 같은 `id` 로 다시 호출하면 새 토스트를 띄우지 않고 내용을 바꾼다.
 
 <Preview code={updateByIdCode}>
-  <UpdateById client:visible />
+  <UpdateById client:idle />
 </Preview>
 
 ### 닫을 때까지 유지
@@ -93,7 +93,7 @@ toast.dismiss(id); // id 생략 시 모두 닫기
 `duration: Infinity`. 상태가 끝나면 `toast.dismiss(id)` 로 닫는다.
 
 <Preview code={persistentCode}>
-  <Persistent client:visible />
+  <Persistent client:idle />
 </Preview>
 
 ### 여러 개
@@ -101,7 +101,7 @@ toast.dismiss(id); // id 생략 시 모두 닫기
 `limit`(기본 3)을 넘으면 앞의 토스트가 닫힐 때까지 **순서대로 대기**한다. 단, **오류(`toast.error`)는 대기하지 않고 바로 나타난다**: 덜 중요한 알림 때문에 오류 전달이 늦어지면 안 되기 때문이다.
 
 <Preview code={stackingCode}>
-  <Stacking client:visible />
+  <Stacking client:idle />
 </Preview>
 
 ## API

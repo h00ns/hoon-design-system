@@ -28,7 +28,7 @@ import asLinkCode from '../../../examples/button/AsLink?raw';
 다른 페이지로 **이동**한다면 링크(`<a>`)가 맞고, 버튼처럼 보여야 할 때만 `asChild` 로 감싼다.
 
 <Preview code={basicCode}>
-  <Basic client:visible />
+  <Basic client:idle />
 </Preview>
 
 ## 사용법
@@ -44,7 +44,7 @@ import { Button } from '@hoon-ds/react';
 한 영역에 `primary` 는 하나만 둔다. 보조 동작은 `secondary`, 덜 중요한 동작은 `ghost`, 되돌릴 수 없는 동작은 `danger`.
 
 <Preview code={variantsCode}>
-  <Variants client:visible />
+  <Variants client:idle />
 </Preview>
 
 ### 크기
@@ -52,7 +52,7 @@ import { Button } from '@hoon-ds/react';
 `sm` 32px · `md` 40px · `lg` 48px. 모든 크기가 최소 터치 타깃(24px)을 넘는다. 높이는 `min-height` 라 글자를 키워도 잘리지 않는다.
 
 <Preview code={sizesCode}>
-  <Sizes client:visible />
+  <Sizes client:idle />
 </Preview>
 
 ### 아이콘
@@ -60,7 +60,7 @@ import { Button } from '@hoon-ds/react';
 아이콘은 텍스트 앞에 둔다. 아이콘만 있는 버튼은 [IconButton](/components/icon-button/) 을 쓴다.
 
 <Preview code={withIconCode}>
-  <WithIcon client:visible />
+  <WithIcon client:idle />
 </Preview>
 
 ### 비활성
@@ -68,7 +68,7 @@ import { Button } from '@hoon-ds/react';
 기본 `disabled` 는 포커스를 받지 않는다. 비활성 **이유**를 알려줘야 하면 `focusableWhenDisabled` 로 포커스를 유지하고 Tooltip 이나 설명을 연결한다.
 
 <Preview code={disabledCode}>
-  <Disabled client:visible />
+  <Disabled client:idle />
 </Preview>
 
 ### 로딩
@@ -76,13 +76,13 @@ import { Button } from '@hoon-ds/react';
 `loading` 동안 클릭은 막히지만 **포커스와 버튼 너비, 접근 가능한 이름이 그대로 유지된다.** 키보드 사용자가 로딩 후 위치를 잃지 않는다.
 
 <Preview code={loadingCode}>
-  <Loading client:visible />
+  <Loading client:idle />
 </Preview>
 
 ### 링크로 렌더링
 
 <Preview code={asLinkCode}>
-  <AsLink client:visible />
+  <AsLink client:idle />
 </Preview>
 
 ## API

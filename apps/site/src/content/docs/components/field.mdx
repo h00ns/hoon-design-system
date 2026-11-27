@@ -26,7 +26,7 @@ import formValidationCode from '../../../examples/field/FormValidation?raw';
 [Input](/components/input/), [Textarea](/components/textarea/), [Checkbox](/components/checkbox/), [RadioGroup](/components/radio-group/), [Switch](/components/switch/), [Select](/components/select/) 가 Field 안에 있으면 별도 설정 없이 연결된다.
 
 <Preview code={basicCode}>
-  <Basic client:visible />
+  <Basic client:idle />
 </Preview>
 
 ## 사용법
@@ -58,7 +58,7 @@ import { Field, Input } from '@hoon-ds/react';
 ### 필수
 
 <Preview code={requiredCode}>
-  <Required client:visible />
+  <Required client:idle />
 </Preview>
 
 ### 오류
@@ -66,13 +66,13 @@ import { Field, Input } from '@hoon-ds/react';
 오류 메시지에는 아이콘이 함께 붙어 색을 구분하기 어려운 사용자도 알아볼 수 있다.
 
 <Preview code={invalidCode}>
-  <Invalid client:visible />
+  <Invalid client:idle />
 </Preview>
 
 ### 비활성
 
 <Preview code={disabledCode}>
-  <Disabled client:visible />
+  <Disabled client:idle />
 </Preview>
 
 ### 여러 컨트롤
@@ -81,7 +81,7 @@ RadioGroup 처럼 `<label for>` 로 연결할 수 없는 그룹은 `aria-labelle
 Checkbox 는 자신의 `children` 레이블을 쓰고 설명·오류만 Field 에서 받는다.
 
 <Preview code={multipleControlsCode}>
-  <MultipleControls client:visible />
+  <MultipleControls client:idle />
 </Preview>
 
 ### 폼 검증
@@ -90,7 +90,7 @@ Checkbox 는 자신의 `children` 레이블을 쓰고 설명·오류만 Field �
 제출 결과는 `role="status"` 로 알린다.
 
 <Preview code={formValidationCode}>
-  <FormValidation client:visible />
+  <FormValidation client:idle />
 </Preview>
 
 ## API

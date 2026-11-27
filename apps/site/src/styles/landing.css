@@ -13,9 +13,9 @@
   --l-text: #f4f5f7;
   --l-text-2: #b5bcc7;
   --l-text-3: #8a929e;
-  --l-accent: #8bb4fe;
-  --l-accent-solid: #2e6fef;
-  --l-glow: rgb(46 111 239 / 0.26);
+  --l-accent: #86b5ff;
+  --l-accent-solid: #215eba;
+  --l-glow: rgb(51 117 219 / 0.26);
   --l-dot: rgb(255 255 255 / 0.06);
   --l-radius: 20px;
   --l-font: 'Geist Variable', 'Pretendard Variable', Pretendard, var(--hds-font-family-sans);
@@ -33,8 +33,8 @@
   --l-text: #0f1114;
   --l-text-2: #3d434d;
   --l-text-3: #5f6773;
-  --l-accent: #1c57cc;
-  --l-glow: rgb(46 111 239 / 0.13);
+  --l-accent: #215eba;
+  --l-glow: rgb(51 117 219 / 0.12);
   --l-dot: rgb(15 17 20 / 0.07);
   color-scheme: light;
 }

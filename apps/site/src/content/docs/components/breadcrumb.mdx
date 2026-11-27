@@ -20,7 +20,7 @@ import customSeparatorCode from '../../../examples/breadcrumb/CustomSeparator?ra
 [WAI-ARIA Breadcrumb](https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/) 패턴을 따른다.
 
 <Preview code={basicCode}>
-  <Basic client:visible />
+  <Basic client:idle />
 </Preview>
 
 ## 사용법
@@ -58,7 +58,7 @@ import { Breadcrumb } from '@hoon-ds/react';
 경로가 길면 처음과 현재 위치만 남기고 중간을 접는다. `Breadcrumb.Ellipsis` 를 [DropdownMenu](/components/dropdown-menu/) 의 Trigger 로 감싸면 접힌 경로를 메뉴로 열 수 있다.
 
 <Preview code={collapsedCode} minHeight="14rem">
-  <Collapsed client:visible />
+  <Collapsed client:idle />
 </Preview>
 
 ### 구분자 바꾸기
@@ -66,7 +66,7 @@ import { Breadcrumb } from '@hoon-ds/react';
 `Breadcrumb.Separator` 에 자식을 주면 기본 화살표 대신 쓴다. 같은 페이지에 내비게이션이 여럿이면 `aria-label` 로 이름을 구분한다.
 
 <Preview code={customSeparatorCode}>
-  <CustomSeparator client:visible />
+  <CustomSeparator client:idle />
 </Preview>
 
 ## API

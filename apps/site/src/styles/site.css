@@ -22,8 +22,8 @@
   --sl-color-black: #0c0e11;
 
   --sl-color-accent-low: #10224d;
-  --sl-color-accent: #8bb4fe;
-  --sl-color-accent-high: #d7e5ff;
+  --sl-color-accent: #86b5ff;
+  --sl-color-accent-high: #d6e6ff;
 
   --sl-color-bg-nav: color-mix(in oklab, var(--sl-color-black) 78%, transparent);
   --sl-color-bg-sidebar: var(--sl-color-black);
@@ -42,7 +42,7 @@
   --ds-surface-2: #181b20;
   --ds-border: #23272e;
   --ds-border-strong: #343a43;
-  --ds-glow: rgb(88 145 254 / 0.18);
+  --ds-glow: rgb(82 147 249 / 0.18);
   --ds-radius-surface: 16px;
 }
 
@@ -57,9 +57,9 @@
   --sl-color-gray-7: #f5f6f8;
   --sl-color-black: #fbfbfc;
 
-  --sl-color-accent-low: #ecf2fe;
-  --sl-color-accent: #2e6fef;
-  --sl-color-accent-high: #1c57cc;
+  --sl-color-accent-low: #ebf2fe;
+  --sl-color-accent: #3375db;
+  --sl-color-accent-high: #215eba;
 
   --sl-color-bg-nav: color-mix(in oklab, var(--sl-color-black) 80%, transparent);
   --sl-color-bg-sidebar: var(--sl-color-black);
@@ -70,7 +70,7 @@
   --ds-surface-2: #f5f6f8;
   --ds-border: #e6e8ec;
   --ds-border-strong: #cfd4db;
-  --ds-glow: rgb(46 111 239 / 0.1);
+  --ds-glow: rgb(33 94 186 / 0.1);
 }
 
 /* ── 기본 타이포그래피 ─────────────────────────────── */
@@ -80,18 +80,19 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* 예시(.not-content) 안은 문서 스타일을 받지 않는다: 컴포넌트가 실제 앱에서처럼 보여야 한다 */
 .sl-markdown-content {
   word-break: keep-all;
   overflow-wrap: break-word;
 }
 
-.sl-markdown-content :is(h2, h3, h4) {
+.sl-markdown-content :is(h2, h3, h4):not(:where(.not-content *)) {
   letter-spacing: -0.02em;
   font-weight: 650;
   color: var(--sl-color-white);
 }
 
-.sl-markdown-content h2 {
+.sl-markdown-content h2:not(:where(.not-content *)) {
   margin-top: 3.5rem;
   padding-top: 2rem;
   border-top: 1px solid var(--sl-color-hairline);
@@ -115,7 +116,7 @@ body {
   text-decoration-color: currentColor;
 }
 
-.sl-markdown-content :not(pre) > code {
+.sl-markdown-content :not(pre) > code:not(:where(.not-content *)) {
   padding: 0.12em 0.4em;
   border: 1px solid var(--ds-border);
   border-radius: 6px;

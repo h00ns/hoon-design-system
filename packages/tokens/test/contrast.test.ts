@@ -99,6 +99,10 @@ const PAIRS: Array<[string, string, number]> = [
   ['warning-fg', 'warning-subtle-hover', TEXT],
   ['fg-on-warning', 'warning-solid-hover', TEXT],
   ['fg-default', 'neutral-subtle', TEXT],
+  // Badge (옅은 배경은 subtle-hover 단계)
+  ['fg-muted', 'neutral-subtle', TEXT],
+  ['accent-fg', 'accent-subtle-hover', TEXT],
+  ['fg-on-warning', 'warning-solid', TEXT],
   // Alert 본문 (제목 아래 보조 텍스트)
   ['fg-muted', 'accent-subtle', TEXT],
   ['fg-muted', 'danger-subtle', TEXT],

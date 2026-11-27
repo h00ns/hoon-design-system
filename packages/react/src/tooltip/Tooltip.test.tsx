@@ -136,4 +136,21 @@ describe('Tooltip', () => {
     await expectNoA11yViolations(container);
     await expectNoA11yViolations(document.querySelector('.hds-tooltip') as Element);
   });
+
+  it('포커스로 열린 직후 스크롤이 일어나도 닫히지 않는다 (Tab 이동 시 브라우저 자동 스크롤)', async () => {
+    const user = userEvent.setup();
+    render(
+      <Tooltip.Root>
+        <Tooltip.Trigger>설정</Tooltip.Trigger>
+        <Tooltip.Content>설정 열기</Tooltip.Content>
+      </Tooltip.Root>,
+    );
+    await user.tab();
+    expect(await screen.findByRole('tooltip')).toBeInTheDocument();
+    act(() => {
+      window.dispatchEvent(new Event('scroll'));
+      document.dispatchEvent(new Event('scroll', { bubbles: true }));
+    });
+    expect(screen.getByRole('tooltip')).toBeInTheDocument();
+  });
 });

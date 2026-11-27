@@ -14,6 +14,10 @@
       "raised": {
         "$value": "{color.gray.900}"
       },
+      "selected": {
+        "$value": "{color.gray.800}",
+        "$description": "세그먼트 컨트롤·토글 묶음에서 선택된 칸의 표면 (트랙보다 떠 보이게)"
+      },
       "inverse": {
         "$value": "{color.gray.50}"
       },
@@ -58,25 +62,25 @@
     },
     "accent": {
       "solid": {
-        "$value": "{color.blue.600}"
-      },
-      "solid-hover": {
         "$value": "{color.blue.700}"
       },
-      "solid-active": {
+      "solid-hover": {
         "$value": "{color.blue.800}"
+      },
+      "solid-active": {
+        "$value": "{color.blue.900}"
       },
       "fg": {
         "$value": "{color.blue.300}"
       },
       "subtle": {
-        "$value": "#5891fe24"
+        "$value": "#5293f924"
       },
       "subtle-hover": {
-        "$value": "#5891fe38"
+        "$value": "#5293f938"
       },
       "border": {
-        "$value": "#5891fe59"
+        "$value": "#5293f959"
       }
     },
     "danger": {
@@ -93,13 +97,13 @@
         "$value": "{color.red.300}"
       },
       "subtle": {
-        "$value": "#f5575724"
+        "$value": "#ea646524"
       },
       "subtle-hover": {
-        "$value": "#f5575738"
+        "$value": "#ea646538"
       },
       "border": {
-        "$value": "#f5575759"
+        "$value": "#ea646559"
       }
     },
     "success": {
@@ -116,13 +120,13 @@
         "$value": "{color.green.300}"
       },
       "subtle": {
-        "$value": "#37ae7424"
+        "$value": "#45ab8124"
       },
       "subtle-hover": {
-        "$value": "#37ae7438"
+        "$value": "#45ab8138"
       },
       "border": {
-        "$value": "#37ae7459"
+        "$value": "#45ab8159"
       }
     },
     "warning": {
@@ -139,13 +143,13 @@
         "$value": "{color.amber.300}"
       },
       "subtle": {
-        "$value": "#cf810524"
+        "$value": "#c4872324"
       },
       "subtle-hover": {
-        "$value": "#cf810538"
+        "$value": "#c4872338"
       },
       "border": {
-        "$value": "#cf810559"
+        "$value": "#c4872359"
       }
     },
     "neutral": {
@@ -163,7 +167,7 @@
       "$value": "{color.blue.400}"
     },
     "focus-halo": {
-      "$value": "#5891fe40"
+      "$value": "#5293f940"
     }
   }
 }

@@ -28,7 +28,7 @@ import inFormCode from '../../../examples/combobox/InForm?raw';
 [WAI-ARIA Combobox (listbox popup)](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/) 패턴을 따른다.
 
 <Preview code={basicCode}>
-  <Basic client:visible />
+  <Basic client:idle />
 </Preview>
 
 ## 사용법
@@ -61,7 +61,7 @@ const options = [
 Input·Select 와 같은 높이를 쓴다.
 
 <Preview code={sizesCode}>
-  <Sizes client:visible />
+  <Sizes client:idle />
 </Preview>
 
 ### 제어 모드
@@ -69,7 +69,7 @@ Input·Select 와 같은 높이를 쓴다.
 `value` + `onValueChange` 로 선택을 직접 관리한다. 바깥에서 `value` 를 바꾸면 입력창 텍스트도 따라간다.
 
 <Preview code={controlledCode}>
-  <Controlled client:visible />
+  <Controlled client:idle />
 </Preview>
 
 ### 오류
@@ -77,7 +77,7 @@ Input·Select 와 같은 높이를 쓴다.
 `Field.Root invalid` 와 `Field.ErrorMessage` 로 오류를 입력창에 연결한다.
 
 <Preview code={invalidCode}>
-  <Invalid client:visible />
+  <Invalid client:idle />
 </Preview>
 
 ### 비활성
@@ -85,7 +85,7 @@ Input·Select 와 같은 높이를 쓴다.
 비활성 항목은 목록에 보이지만 키보드 이동에서 건너뛰고 선택되지 않는다.
 
 <Preview code={disabledCode}>
-  <Disabled client:visible />
+  <Disabled client:idle />
 </Preview>
 
 ### 항목 직접 그리기
@@ -93,7 +93,7 @@ Input·Select 와 같은 높이를 쓴다.
 `renderOption` 의 결과가 항목의 접근 가능한 이름이 된다. 레이블 텍스트를 꼭 포함한다.
 
 <Preview code={customRenderCode}>
-  <CustomRender client:visible />
+  <CustomRender client:idle />
 </Preview>
 
 ### 폼 제출
@@ -101,7 +101,7 @@ Input·Select 와 같은 높이를 쓴다.
 `name` 을 주면 선택된 **값**(`value`)이 숨은 입력으로 함께 제출된다. 보이는 텍스트가 아니다.
 
 <Preview code={inFormCode}>
-  <InForm client:visible />
+  <InForm client:idle />
 </Preview>
 
 ## API

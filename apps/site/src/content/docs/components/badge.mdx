@@ -24,7 +24,7 @@ import countCode from '../../../examples/badge/Count?raw';
 클릭해서 무언가를 해야 한다면 [Button](/components/button/) 을 쓴다.
 
 <Preview code={basicCode}>
-  <Basic client:visible />
+  <Basic client:idle />
 </Preview>
 
 ## 사용법
@@ -42,7 +42,7 @@ import { Badge } from '@hoon-ds/react';
 `subtle` 이 기본이다. 목록처럼 배지가 많이 반복되는 곳은 `subtle`, 시선을 확실히 끌어야 할 한두 곳만 `solid` 를 쓴다.
 
 <Preview code={tonesCode}>
-  <Tones client:visible />
+  <Tones client:idle />
 </Preview>
 
 ### 크기
@@ -50,7 +50,7 @@ import { Badge } from '@hoon-ds/react';
 `sm` 20px · `md` 24px. 글자를 키우면 높이도 함께 늘어난다.
 
 <Preview code={sizesCode}>
-  <Sizes client:visible />
+  <Sizes client:idle />
 </Preview>
 
 ### 아이콘
@@ -58,7 +58,7 @@ import { Badge } from '@hoon-ds/react';
 아이콘은 장식이다(`aria-hidden`). 의미는 항상 텍스트에 담는다.
 
 <Preview code={withIconCode}>
-  <WithIcon client:visible />
+  <WithIcon client:idle />
 </Preview>
 
 ### 개수
@@ -66,7 +66,7 @@ import { Badge } from '@hoon-ds/react';
 숫자만 있는 배지는 맥락이 없다. [VisuallyHidden](/components/visually-hidden/) 으로 "개의 새 알림" 같은 설명을 붙여 스크린리더가 "알림 3개의 새 알림"으로 읽게 한다.
 
 <Preview code={countCode}>
-  <Count client:visible />
+  <Count client:idle />
 </Preview>
 
 ## API

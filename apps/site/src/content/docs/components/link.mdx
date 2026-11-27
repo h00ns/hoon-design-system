@@ -19,7 +19,7 @@ import variantsCode from '../../../examples/link/Variants?raw';
 다른 페이지나 위치로 **이동**하는 텍스트 링크. 무언가를 실행한다면 [Button](/components/button/) 을 쓴다.
 
 <Preview code={basicCode}>
-  <Basic client:visible />
+  <Basic client:idle />
 </Preview>
 
 ## 사용법
@@ -42,7 +42,7 @@ import { Link } from '@hoon-ds/react';
 `external` 을 주면 새 창으로 열고 `rel="noopener noreferrer"` 를 붙인다. 아이콘과 함께 스크린리더에는 "(새 창)" 을 덧붙여, 맥락이 바뀐다는 것을 미리 알린다 (WCAG 3.2.5). `target="_blank"` 를 직접 줘도 같다.
 
 <Preview code={externalCode}>
-  <External client:visible />
+  <External client:idle />
 </Preview>
 
 ### Variant · 밑줄
@@ -50,7 +50,7 @@ import { Link } from '@hoon-ds/react';
 문장 속 링크는 색만으로 구분하면 안 되므로 기본은 **항상 밑줄**이다. `underline="hover"` 는 내비게이션처럼 링크임이 분명한 곳에서만 쓴다.
 
 <Preview code={variantsCode}>
-  <Variants client:visible />
+  <Variants client:idle />
 </Preview>
 
 ## API

@@ -24,7 +24,7 @@ import listCode from '../../../examples/card/List?raw';
 단순히 영역을 나누기만 한다면 카드 대신 여백이나 [Separator](/components/separator/) 가 덜 시끄럽다.
 
 <Preview code={basicCode}>
-  <Basic client:visible />
+  <Basic client:idle />
 </Preview>
 
 ## 사용법
@@ -59,13 +59,13 @@ import { Card } from '@hoon-ds/react';
 기본 `outline` 은 테두리로, `elevated` 는 그림자로, `subtle` 은 옅은 배경으로 구분한다. 한 화면에서는 한 가지만 쓴다.
 
 <Preview code={variantsCode}>
-  <Variants client:visible />
+  <Variants client:idle />
 </Preview>
 
 ### 여백
 
 <Preview code={paddingCode}>
-  <Padding client:visible />
+  <Padding client:idle />
 </Preview>
 
 ### 누를 수 있는 카드
@@ -74,7 +74,7 @@ import { Card } from '@hoon-ds/react';
 링크의 클릭 영역이 카드 전체로 넓어지지만, 스크린리더와 키보드에게는 평범한 링크 하나로 보인다. 카드 안의 다른 버튼은 링크 위로 올라와 따로 동작한다.
 
 <Preview code={interactiveCode}>
-  <Interactive client:visible />
+  <Interactive client:idle />
 </Preview>
 
 ### 카드 목록
@@ -82,7 +82,7 @@ import { Card } from '@hoon-ds/react';
 목록이면 `asChild` 로 루트를 `<li>` 로 바꾼다. 스크린리더가 "목록, 3개 항목" 처럼 개수를 알려준다.
 
 <Preview code={listCode} align="stretch">
-  <List client:visible />
+  <List client:idle />
 </Preview>
 
 ## API

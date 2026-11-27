@@ -161,7 +161,7 @@
   max-width: 100%;
   padding: var(--hds-space-1);
   border-radius: var(--hds-radius-lg);
-  /* 페이지 배경을 조금 어둡게/밝게 섞은 트랙: 라이트·다크 모두 선택된 칸(bg-raised)이 트랙보다 밝다 */
+  /* 페이지 배경을 조금 어둡게/밝게 섞은 트랙: 선택된 칸(bg-selected)이 트랙보다 떠 보인다 */
   background-color: color-mix(
     in oklab,
     var(--hds-color-bg-default),
@@ -185,7 +185,7 @@
 }
 
 .hds-tabs[data-variant='segmented'] .hds-tabs__trigger[data-state='active'] {
-  background-color: var(--hds-color-bg-raised);
+  background-color: var(--hds-color-bg-selected);
   box-shadow:
     inset 0 0 0 1px var(--hds-color-border-default),
     var(--hds-shadow-xs);

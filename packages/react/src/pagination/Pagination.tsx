@@ -64,7 +64,7 @@ export interface PaginationLabels {
   previous?: string;
   /** @default '다음' */
   next?: string;
-  /** 페이지 버튼의 접근 가능한 이름. 보이는 숫자를 포함해야 한다 (WCAG 2.5.3). @default (p) => `${p}페이지` */
+  /** 페이지 버튼의 접근 가능한 이름. 보이는 숫자를 포함해야 한다 (WCAG 2.5.3). @default (p) => `${p} 페이지` (숫자를 독립된 단어로 두어 음성 명령·WCAG 2.5.3 검사에서 일치하게) */
   page?: (page: number) => string;
 }
 
@@ -147,7 +147,7 @@ export const Pagination = React.forwardRef<HTMLElement, PaginationProps>(functio
 
   const previousLabel = labels?.previous ?? '이전';
   const nextLabel = labels?.next ?? '다음';
-  const pageLabel = labels?.page ?? ((p: number) => `${p}페이지`);
+  const pageLabel = labels?.page ?? ((p: number) => `${p} 페이지`);
 
   const go = (target: number) => {
     if (target < 1 || target > count || target === current) return;

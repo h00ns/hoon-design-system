@@ -24,7 +24,7 @@ import insetCode from '../../../examples/dropdown-menu/Inset?raw';
 [WAI-ARIA Menu Button](https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/) 패턴을 따른다.
 
 <Preview code={basicCode} minHeight="20rem">
-  <Basic client:visible />
+  <Basic client:idle />
 </Preview>
 
 ## 사용법
@@ -64,7 +64,7 @@ import { Button, DropdownMenu } from '@hoon-ds/react';
 목록·카드의 "더보기(⋯)" 처럼 공간이 좁을 때. [IconButton](/components/icon-button/) 의 `aria-label` 이 트리거의 이름이 된다.
 
 <Preview code={iconTriggerCode} minHeight="14rem">
-  <IconTrigger client:visible />
+  <IconTrigger client:idle />
 </Preview>
 
 ### 체크 · 라디오 항목
@@ -73,7 +73,7 @@ import { Button, DropdownMenu } from '@hoon-ds/react';
 그룹 제목(`Label`)은 `aria-labelledby` 로 그룹에 연결하면 그룹 이름으로 읽힌다.
 
 <Preview code={checkboxAndRadioCode} minHeight="22rem">
-  <CheckboxAndRadio client:visible />
+  <CheckboxAndRadio client:idle />
 </Preview>
 
 ### 하위 메뉴
@@ -81,7 +81,7 @@ import { Button, DropdownMenu } from '@hoon-ds/react';
 깊이는 한 단계까지만 권장한다. 마우스는 올리면, 키보드는 `→` 로 연다.
 
 <Preview code={submenuCode} minHeight="16rem">
-  <Submenu client:visible />
+  <Submenu client:idle />
 </Preview>
 
 ### 아이콘 정렬
@@ -89,7 +89,7 @@ import { Button, DropdownMenu } from '@hoon-ds/react';
 아이콘이 있는 항목과 없는 항목이 섞이면 `inset` 으로 텍스트를 맞춘다.
 
 <Preview code={insetCode} minHeight="14rem">
-  <Inset client:visible />
+  <Inset client:idle />
 </Preview>
 
 ## 메뉴 · Select · 내비게이션 고르기

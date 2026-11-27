@@ -24,7 +24,7 @@ import headingLevelCode from '../../../examples/accordion/HeadingLevel?raw';
 [WAI-ARIA Accordion](https://www.w3.org/WAI/ARIA/apg/patterns/accordion/) 패턴을 따른다.
 
 <Preview code={basicCode}>
-  <Basic client:visible />
+  <Basic client:idle />
 </Preview>
 
 ## 사용법
@@ -54,7 +54,7 @@ import { Accordion } from '@hoon-ds/react';
 비교하며 볼 내용이라면 `type="multiple"` 로 여러 섹션을 동시에 연다.
 
 <Preview code={multipleCode}>
-  <Multiple client:visible />
+  <Multiple client:idle />
 </Preview>
 
 ### 항상 하나는 열림
@@ -62,13 +62,13 @@ import { Accordion } from '@hoon-ds/react';
 `type="single"` 에 `collapsible` 을 주지 않으면 열린 섹션을 다시 눌러도 닫히지 않는다. 이때 열린 트리거는 `aria-disabled` 로 "더 이상 닫을 수 없음"을 알린다.
 
 <Preview code={notCollapsibleCode}>
-  <NotCollapsible client:visible />
+  <NotCollapsible client:idle />
 </Preview>
 
 ### 비활성 항목
 
 <Preview code={disabledItemCode}>
-  <DisabledItem client:visible />
+  <DisabledItem client:idle />
 </Preview>
 
 ### 제목 레벨
@@ -77,7 +77,7 @@ import { Accordion } from '@hoon-ds/react';
 페이지 제목 구조가 끊기지 않도록 상위 섹션 제목보다 한 단계 아래로 `headingLevel` 을 맞춘다. 글자 크기는 레벨과 무관하게 같다.
 
 <Preview code={headingLevelCode}>
-  <HeadingLevel client:visible />
+  <HeadingLevel client:idle />
 </Preview>
 
 ## API

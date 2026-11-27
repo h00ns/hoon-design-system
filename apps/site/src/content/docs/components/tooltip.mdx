@@ -27,7 +27,7 @@ import compositionCode from '../../../examples/tooltip/Composition?raw';
 아이콘 버튼의 이름, 단축키, 비활성 이유처럼 _없어도 기능을 쓸 수 있지만 있으면 도움이 되는_ 정보에 쓴다.
 
 <Preview code={basicCode}>
-  <Basic client:visible />
+  <Basic client:idle />
 </Preview>
 
 <Aside type="caution">
@@ -78,7 +78,7 @@ import { Tooltip } from '@hoon-ds/react';
 `Tooltip.Provider` 로 감싸면 첫 툴팁 이후 옆 버튼으로 옮겨갈 때 지연 없이 바로 열린다.
 
 <Preview code={iconToolbarCode}>
-  <IconToolbar client:visible />
+  <IconToolbar client:idle />
 </Preview>
 
 ### 방향
@@ -86,13 +86,13 @@ import { Tooltip } from '@hoon-ds/react';
 기본은 `top`. 공간이 부족하면 자동으로 반대쪽으로 뒤집힌다.
 
 <Preview code={sidesCode}>
-  <Sides client:visible />
+  <Sides client:idle />
 </Preview>
 
 ### 단축키 안내
 
 <Preview code={shortcutCode}>
-  <Shortcut client:visible />
+  <Shortcut client:idle />
 </Preview>
 
 ### 비활성 버튼의 이유
@@ -101,13 +101,13 @@ import { Tooltip } from '@hoon-ds/react';
 비활성 이유를 툴팁으로 알려주려면 [Button](/components/button/) 의 `focusableWhenDisabled` 를 쓴다.
 
 <Preview code={disabledButtonCode}>
-  <DisabledButton client:visible />
+  <DisabledButton client:idle />
 </Preview>
 
 ### 조립형 API
 
 <Preview code={compositionCode}>
-  <Composition client:visible />
+  <Composition client:idle />
 </Preview>
 
 ## API

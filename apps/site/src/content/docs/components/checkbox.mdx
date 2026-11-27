@@ -24,7 +24,7 @@ import longLabelCode from '../../../examples/checkbox/LongLabel?raw';
 누르는 즉시 반영되는 설정이면 [Switch](/components/switch/), 하나만 골라야 하면 [RadioGroup](/components/radio-group/).
 
 <Preview code={basicCode}>
-  <Basic client:visible />
+  <Basic client:idle />
 </Preview>
 
 ## 사용법
@@ -41,7 +41,7 @@ import { Checkbox } from '@hoon-ds/react';
 ### 상태
 
 <Preview code={statesCode}>
-  <States client:visible />
+  <States client:idle />
 </Preview>
 
 ### 전체 선택 (indeterminate)
@@ -49,7 +49,7 @@ import { Checkbox } from '@hoon-ds/react';
 하위 항목 일부만 선택되면 상위 체크박스를 `'indeterminate'` 로 둔다. 스크린리더는 "일부 선택됨(mixed)"으로 읽는다.
 
 <Preview code={selectAllCode}>
-  <SelectAll client:visible />
+  <SelectAll client:idle />
 </Preview>
 
 ### Field 와 함께
@@ -57,13 +57,13 @@ import { Checkbox } from '@hoon-ds/react';
 체크박스 하나에 설명·오류를 붙일 때는 [Field](/components/field/) 로 감싼다. `children` 레이블이 그대로 이름이 되고 설명·오류가 연결된다.
 
 <Preview code={withFieldCode}>
-  <WithField client:visible />
+  <WithField client:idle />
 </Preview>
 
 ### 긴 레이블
 
 <Preview code={longLabelCode}>
-  <LongLabel client:visible />
+  <LongLabel client:idle />
 </Preview>
 
 ## API

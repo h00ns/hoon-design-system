@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { expectNoA11yViolations } from '../../test/axe';
-import { Avatar, getInitials } from './Avatar';
+import { Avatar, getAvatarColor, getInitials } from './Avatar';
 
 describe('getInitials', () => {
   it.each([
@@ -65,5 +65,18 @@ describe('Avatar', () => {
       </div>,
     );
     await expectNoA11yViolations(container);
+  });
+
+  describe('색', () => {
+    it('같은 이름은 항상 같은 색이고, 이름이 없으면 회색', () => {
+      expect(getAvatarColor('홍길동')).toBe(getAvatarColor('홍길동'));
+      expect(['blue', 'green', 'amber', 'red']).toContain(getAvatarColor('홍길동'));
+      expect(getAvatarColor('')).toBe('gray');
+    });
+
+    it('color 를 지정하면 그 색을 쓴다', () => {
+      const { container } = render(<Avatar name="홍길동" color="gray" />);
+      expect(container.querySelector('.hds-avatar')).toHaveAttribute('data-color', 'gray');
+    });
   });
 });

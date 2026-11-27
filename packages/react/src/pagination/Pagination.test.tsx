@@ -34,11 +34,11 @@ describe('Pagination', () => {
   it('"페이지 이동" 내비게이션이며 현재 페이지에 aria-current 가 있다', () => {
     render(<Pagination count={10} defaultPage={3} />);
     const nav = screen.getByRole('navigation', { name: '페이지 이동' });
-    expect(within(nav).getByRole('button', { name: '3페이지' })).toHaveAttribute(
+    expect(within(nav).getByRole('button', { name: '3 페이지' })).toHaveAttribute(
       'aria-current',
       'page',
     );
-    expect(within(nav).getByRole('button', { name: '1페이지' })).not.toHaveAttribute(
+    expect(within(nav).getByRole('button', { name: '1 페이지' })).not.toHaveAttribute(
       'aria-current',
     );
   });
@@ -56,8 +56,11 @@ describe('Pagination', () => {
     render(<Pagination count={5} onPageChange={onPageChange} />);
     await user.click(screen.getByRole('button', { name: '다음' }));
     expect(onPageChange).toHaveBeenLastCalledWith(2);
-    expect(screen.getByRole('button', { name: '2페이지' })).toHaveAttribute('aria-current', 'page');
-    await user.click(screen.getByRole('button', { name: '5페이지' }));
+    expect(screen.getByRole('button', { name: '2 페이지' })).toHaveAttribute(
+      'aria-current',
+      'page',
+    );
+    await user.click(screen.getByRole('button', { name: '5 페이지' }));
     expect(onPageChange).toHaveBeenLastCalledWith(5);
   });
 
@@ -72,16 +75,19 @@ describe('Pagination', () => {
     const user = userEvent.setup();
     const onPageChange = vi.fn();
     render(<Pagination count={5} page={2} onPageChange={onPageChange} />);
-    await user.click(screen.getByRole('button', { name: '3페이지' }));
+    await user.click(screen.getByRole('button', { name: '3 페이지' }));
     expect(onPageChange).toHaveBeenCalledWith(3);
-    expect(screen.getByRole('button', { name: '2페이지' })).toHaveAttribute('aria-current', 'page');
+    expect(screen.getByRole('button', { name: '2 페이지' })).toHaveAttribute(
+      'aria-current',
+      'page',
+    );
   });
 
   it('현재 페이지를 다시 누르면 onPageChange 가 불리지 않는다', async () => {
     const user = userEvent.setup();
     const onPageChange = vi.fn();
     render(<Pagination count={5} defaultPage={2} onPageChange={onPageChange} />);
-    await user.click(screen.getByRole('button', { name: '2페이지' }));
+    await user.click(screen.getByRole('button', { name: '2 페이지' }));
     expect(onPageChange).not.toHaveBeenCalled();
   });
 
@@ -95,14 +101,17 @@ describe('Pagination', () => {
     const next = screen.getByRole('button', { name: '다음' });
     next.focus();
     await user.keyboard('{Enter}{Enter}{Enter}');
-    expect(screen.getByRole('button', { name: '4페이지' })).toHaveAttribute('aria-current', 'page');
+    expect(screen.getByRole('button', { name: '4 페이지' })).toHaveAttribute(
+      'aria-current',
+      'page',
+    );
     expect(screen.getByRole('button', { name: '다음' })).toHaveFocus();
   });
 
   it('getHref 를 주면 링크로 렌더링하고, 비활성 이전 링크는 href 가 없다', () => {
     render(<Pagination count={3} page={1} getHref={(p) => `?page=${p}`} />);
-    expect(screen.getByRole('link', { name: '2페이지' })).toHaveAttribute('href', '?page=2');
-    expect(screen.getByRole('link', { name: '1페이지' })).toHaveAttribute('aria-current', 'page');
+    expect(screen.getByRole('link', { name: '2 페이지' })).toHaveAttribute('href', '?page=2');
+    expect(screen.getByRole('link', { name: '1 페이지' })).toHaveAttribute('aria-current', 'page');
     const prev = screen.getByRole('link', { name: '이전' });
     expect(prev).not.toHaveAttribute('href');
     expect(prev).toHaveAttribute('aria-disabled', 'true');
@@ -120,7 +129,7 @@ describe('Pagination', () => {
       },
     );
     render(<Pagination count={3} page={1} getHref={(p) => `/list/${p}`} linkAs={RouterLink} />);
-    expect(screen.getByRole('link', { name: '2페이지' })).toHaveAttribute('data-router');
+    expect(screen.getByRole('link', { name: '2 페이지' })).toHaveAttribute('data-router');
   });
 
   it('labels 와 aria-label 을 바꿀 수 있다', () => {

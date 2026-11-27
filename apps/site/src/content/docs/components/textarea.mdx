@@ -22,7 +22,7 @@ import statesCode from '../../../examples/textarea/States?raw';
 한 줄 값이면 [Input](/components/input/). 레이블·설명·오류는 [Field](/components/field/) 로 감싸면 자동으로 연결된다.
 
 <Preview code={basicCode}>
-  <Basic client:visible />
+  <Basic client:idle />
 </Preview>
 
 ## 사용법
@@ -46,7 +46,7 @@ import { Field, Textarea } from '@hoon-ds/react';
 CSS [`field-sizing: content`](https://developer.mozilla.org/docs/Web/CSS/field-sizing) 를 쓰고, 지원하지 않는 브라우저(구형 Safari·Firefox)에서는 입력할 때마다 JS 로 높이를 맞춘다.
 
 <Preview code={autoResizeCode}>
-  <AutoResize client:visible />
+  <AutoResize client:idle />
 </Preview>
 
 ### 글자 수 표시
@@ -54,13 +54,13 @@ CSS [`field-sizing: content`](https://developer.mozilla.org/docs/Web/CSS/field-s
 글자 수는 설명(`Field.Description`)으로 연결해 스크린리더도 읽게 한다. 넘치면 입력을 막기보다 오류로 알려 붙여넣은 내용을 잃지 않게 한다.
 
 <Preview code={characterCountCode}>
-  <CharacterCount client:visible />
+  <CharacterCount client:idle />
 </Preview>
 
 ### 상태
 
 <Preview code={statesCode}>
-  <States client:visible />
+  <States client:idle />
 </Preview>
 
 ## API

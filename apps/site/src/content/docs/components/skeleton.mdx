@@ -57,7 +57,7 @@ import { Skeleton } from '@hoon-ds/react';
 스켈레톤 자체는 보조기기에서 숨겨진다. 대신 감싸는 영역에 `aria-busy`, 따로 둔 상태 메시지(`role="status"`)로 로딩 시작·끝을 알린다.
 
 <Preview code={loadingRegionCode}>
-  <LoadingRegion client:visible />
+  <LoadingRegion client:idle />
 </Preview>
 
 ## API

@@ -166,6 +166,21 @@ describe('Toast', () => {
     expect(await screen.findByText('셋째')).toBeInTheDocument();
   });
 
+  it('알림 영역은 부모 쌓임 맥락에 갇히지 않도록 body 로 포털된다', async () => {
+    render(
+      <div data-testid="deep" style={{ overflow: 'hidden', position: 'relative', zIndex: 0 }}>
+        <Toaster />
+      </div>,
+    );
+    act(() => {
+      toast('저장했습니다');
+    });
+    await screen.findByText('저장했습니다');
+    const viewport = document.querySelector('.hds-toast-viewport');
+    expect(viewport).not.toBeNull();
+    expect(screen.getByTestId('deep').contains(viewport)).toBe(false);
+  });
+
   it('오류 토스트는 limit 이 차 있어도 대기하지 않고 바로 나타난다', async () => {
     render(<Toaster limit={2} />);
     act(() => {

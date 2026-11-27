@@ -24,7 +24,7 @@ import disabledCode from '../../../examples/radio-group/Disabled?raw';
 선택지가 많으면 [Select](/components/select/), 여러 개를 고르면 [Checkbox](/components/checkbox/).
 
 <Preview code={basicCode}>
-  <Basic client:visible />
+  <Basic client:idle />
 </Preview>
 
 ## 사용법
@@ -57,7 +57,7 @@ import { Field, RadioGroup } from '@hoon-ds/react';
 그룹 레이블은 `Field.Label` 로 준다 (`aria-labelledby` 로 연결). 항목의 `description` 은 해당 라디오에 `aria-describedby` 로 연결된다.
 
 <Preview code={withFieldCode}>
-  <WithField client:visible />
+  <WithField client:idle />
 </Preview>
 
 ### 가로 배치
@@ -65,19 +65,19 @@ import { Field, RadioGroup } from '@hoon-ds/react';
 `orientation="horizontal"` 은 배치만 바꾼다. 키보드는 방향과 관계없이 ←↑ / →↓ 모두 동작한다 (APG).
 
 <Preview code={horizontalCode}>
-  <Horizontal client:visible />
+  <Horizontal client:idle />
 </Preview>
 
 ### 오류
 
 <Preview code={invalidCode}>
-  <Invalid client:visible />
+  <Invalid client:idle />
 </Preview>
 
 ### 비활성
 
 <Preview code={disabledCode}>
-  <Disabled client:visible />
+  <Disabled client:idle />
 </Preview>
 
 ## API

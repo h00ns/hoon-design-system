@@ -21,7 +21,7 @@ import withAnchorCode from '../../../examples/popover/WithAnchor?raw';
 트리거 옆에 떠서 **부가 정보나 간단한 입력**을 보여주는 비모달 패널. 페이지를 가리지 않고, 열려 있는 동안에도 바깥과 상호작용할 수 있다.
 
 <Preview code={basicCode} minHeight="14rem">
-  <Basic client:visible />
+  <Basic client:idle />
 </Preview>
 
 ### Popover · Dialog · Tooltip 중 무엇을 쓸까
@@ -71,7 +71,7 @@ import { Popover } from '@hoon-ds/react';
 `arrow` 로 트리거를 가리키는 화살표를 그린다. 트리거와 패널의 관계가 덜 분명할 때 (예: 작은 아이콘 버튼) 도움이 된다.
 
 <Preview code={withArrowCode} minHeight="12rem">
-  <WithArrow client:visible />
+  <WithArrow client:idle />
 </Preview>
 
 ### 방향
@@ -79,7 +79,7 @@ import { Popover } from '@hoon-ds/react';
 `side` · `align` · `sideOffset` 으로 위치를 정한다. 공간이 부족하면 반대쪽으로 뒤집히고 화면 안쪽으로 밀린다 (`collisionPadding` 8px).
 
 <Preview code={sidesCode} minHeight="12rem">
-  <Sides client:visible />
+  <Sides client:idle />
 </Preview>
 
 ### Anchor
@@ -87,7 +87,7 @@ import { Popover } from '@hoon-ds/react';
 트리거가 작은 버튼이지만 패널은 더 큰 영역에 맞춰 붙이고 싶을 때 `Popover.Anchor` 로 기준 요소를 따로 지정한다.
 
 <Preview code={withAnchorCode} minHeight="12rem">
-  <WithAnchor client:visible />
+  <WithAnchor client:idle />
 </Preview>
 
 ## API

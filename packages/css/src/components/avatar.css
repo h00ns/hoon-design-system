@@ -18,6 +18,7 @@
   height: var(--_size);
   border-radius: var(--hds-radius-full);
   background-color: var(--hds-color-neutral-subtle);
+  color: var(--hds-color-fg-muted);
   color: var(--hds-color-fg-default);
   vertical-align: middle;
   user-select: none;
@@ -61,7 +62,29 @@
   object-fit: cover;
 }
 
+/* 이니셜 색: 옅은 색조 배경 + 같은 계열의 깊은 글자 (이미지가 보이면 가려진다) */
+.hds-avatar[data-color='blue'] {
+  background-color: var(--hds-color-accent-subtle-hover);
+  color: var(--hds-color-accent-fg);
+}
+
+.hds-avatar[data-color='green'] {
+  background-color: var(--hds-color-success-subtle-hover);
+  color: var(--hds-color-success-fg);
+}
+
+.hds-avatar[data-color='amber'] {
+  background-color: var(--hds-color-warning-subtle-hover);
+  color: var(--hds-color-warning-fg);
+}
+
+.hds-avatar[data-color='red'] {
+  background-color: var(--hds-color-danger-subtle-hover);
+  color: var(--hds-color-danger-fg);
+}
+
 .hds-avatar__fallback {
+  color: inherit;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -78,7 +101,7 @@
 .hds-avatar__fallback svg {
   width: 60%;
   height: 60%;
-  color: var(--hds-color-fg-muted);
+  color: inherit;
 }
 
 @media (forced-colors: active) {

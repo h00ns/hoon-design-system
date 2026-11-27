@@ -25,7 +25,7 @@ import nonModalCode from '../../../examples/sheet/NonModal?raw';
 [Dialog](/components/dialog/) 와 같은 접근성 동작(포커스 트랩, Esc, 포커스 복귀)을 그대로 가지며, 위치와 모양만 다르다.
 
 <Preview code={basicCode}>
-  <Basic client:visible />
+  <Basic client:idle />
 </Preview>
 
 ## 사용법
@@ -71,7 +71,7 @@ import { Button, Sheet } from '@hoon-ds/react';
 `side` 로 붙을 가장자리를 고른다. 기본은 `right`. 읽는 방향이 오른쪽에서 왼쪽인 언어(`dir="rtl"`)에서는 좌우 애니메이션이 자동으로 뒤집힌다.
 
 <Preview code={sidesCode}>
-  <Sides client:visible />
+  <Sides client:idle />
 </Preview>
 
 ### 크기
@@ -80,7 +80,7 @@ import { Button, Sheet } from '@hoon-ds/react';
 `full` 은 화면 전체를 채운다. 작은 화면에서는 `full` 이 아닌 한 바깥을 눌러 닫을 수 있도록 오버레이가 조금 보이게 남는다.
 
 <Preview code={sizesCode}>
-  <Sizes client:visible />
+  <Sizes client:idle />
 </Preview>
 
 ### 긴 내용
@@ -88,7 +88,7 @@ import { Button, Sheet } from '@hoon-ds/react';
 시트 높이는 화면을 넘지 않는다. 내용이 넘치면 **Body 만 스크롤**되고, 이때 Body 는 자동으로 포커스 가능해져 키보드로도 스크롤할 수 있다.
 
 <Preview code={longContentCode}>
-  <LongContent client:visible />
+  <LongContent client:idle />
 </Preview>
 
 ### 비모달
@@ -97,7 +97,7 @@ import { Button, Sheet } from '@hoon-ds/react';
 도움말 패널처럼 **페이지를 쓰면서 함께 열어 두는** 시트에 쓴다. 바깥을 눌러도 닫히지 않게 하려면 `onInteractOutside` 에서 `preventDefault()` 를 호출한다.
 
 <Preview code={nonModalCode}>
-  <NonModal client:visible />
+  <NonModal client:idle />
 </Preview>
 
 ## API

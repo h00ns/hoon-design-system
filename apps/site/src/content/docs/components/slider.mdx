@@ -27,7 +27,7 @@ import inFormCode from '../../../examples/slider/InForm?raw';
 [WAI-ARIA Slider](https://www.w3.org/WAI/ARIA/apg/patterns/slider/) 패턴을 따른다.
 
 <Preview code={basicCode}>
-  <Basic client:visible />
+  <Basic client:idle />
 </Preview>
 
 ## 사용법
@@ -50,7 +50,7 @@ import { Field, Slider } from '@hoon-ds/react';
 손잡이 2개는 기본으로 "최솟값", "최댓값" 이름을 가진다. Field 레이블과 합쳐 "가격 최솟값" 으로 읽힌다. `minStepsBetweenThumbs` 로 두 손잡이 사이 최소 간격을 정한다.
 
 <Preview code={rangeCode}>
-  <Range client:visible />
+  <Range client:idle />
 </Preview>
 
 ### 눈금
@@ -58,19 +58,19 @@ import { Field, Slider } from '@hoon-ds/react';
 `marks` 는 시각 보조다. 스크린리더는 손잡이의 값 문구(`getValueText`)를 읽으므로 의미 있는 단계라면 같은 문구를 `getValueText` 로도 준다.
 
 <Preview code={marksCode}>
-  <Marks client:visible />
+  <Marks client:idle />
 </Preview>
 
 ### 크기
 
 <Preview code={sizesCode}>
-  <Sizes client:visible />
+  <Sizes client:idle />
 </Preview>
 
 ### 오류 · 비활성
 
 <Preview code={statesCode}>
-  <States client:visible />
+  <States client:idle />
 </Preview>
 
 ### 폼 제출
@@ -78,7 +78,7 @@ import { Field, Slider } from '@hoon-ds/react';
 `name` 을 주면 폼 안에서 값이 숨은 입력으로 제출된다. 범위 슬라이더는 `name[]` 으로 두 값이 제출된다.
 
 <Preview code={inFormCode}>
-  <InForm client:visible />
+  <InForm client:idle />
 </Preview>
 
 ## API

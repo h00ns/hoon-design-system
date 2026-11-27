@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Toast as ToastPrimitive } from 'radix-ui';
+import { Portal, Toast as ToastPrimitive } from 'radix-ui';
 import { CloseIcon, DEFAULT_TONE_LABELS, STATUS_ICONS } from '../alert/icons';
 import { Button } from '../button/Button';
 import { IconButton } from '../icon-button/IconButton';
@@ -27,6 +27,11 @@ export interface ToasterProps {
   closeLabel?: string;
   /** 톤별로 스크린리더가 읽을 접두어. */
   toneLabels?: Partial<Record<'info' | 'success' | 'warning' | 'danger', string>>;
+  /**
+   * 알림 영역을 렌더링할 곳. 기본은 `document.body` 끝이다.
+   * Toaster 를 컴포넌트 트리 깊은 곳에 두어도 부모의 쌓임 맥락(z-index, overflow)에 갇히지 않게 하기 위해서다.
+   */
+  container?: HTMLElement | null;
   className?: string;
 }
 
@@ -52,6 +57,7 @@ export function Toaster({
   toastLabel = '알림',
   closeLabel = '닫기',
   toneLabels,
+  container,
   className,
 }: ToasterProps) {
   const toasts = React.useSyncExternalStore(
@@ -91,12 +97,14 @@ export function Toaster({
           }
         />
       ))}
-      <ToastPrimitive.Viewport
-        className={cx('hds-toast-viewport', className)}
-        data-position={position}
-        hotkey={hotkey}
-        label={label}
-      />
+      <Portal.Root container={container}>
+        <ToastPrimitive.Viewport
+          className={cx('hds-toast-viewport', className)}
+          data-position={position}
+          hotkey={hotkey}
+          label={label}
+        />
+      </Portal.Root>
     </ToastPrimitive.Provider>
   );
 }

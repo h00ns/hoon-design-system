@@ -4,7 +4,7 @@ const SHORTCUTS = [
   { action: '검색 열기', keys: ['⌘', 'K'] },
   { action: '다음 항목', keys: ['↓'] },
   { action: '선택', keys: ['↵'] },
-  { action: '닫기', keys: ['⎋'] },
+  { action: '닫기', keys: ['Esc'] },
 ];
 
 export default function ShortcutListExample() {

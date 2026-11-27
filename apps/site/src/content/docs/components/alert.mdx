@@ -26,7 +26,7 @@ import liveAssertiveCode from '../../../examples/alert/LiveAssertive?raw';
 잠깐 떴다 사라지는 피드백은 [Toast](/components/toast/) 를 쓴다.
 
 <Preview code={basicCode}>
-  <Basic client:visible />
+  <Basic client:idle />
 </Preview>
 
 ## 사용법
@@ -46,13 +46,13 @@ import { Alert } from '@hoon-ds/react';
 `info`(기본) · `success` · `warning` · `danger`. 톤마다 아이콘 모양이 달라 색을 구분하지 못해도 알아볼 수 있다.
 
 <Preview code={tonesCode}>
-  <Tones client:visible />
+  <Tones client:idle />
 </Preview>
 
 ### 제목 또는 설명만
 
 <Preview code={titleOrDescriptionCode}>
-  <TitleOrDescription client:visible />
+  <TitleOrDescription client:idle />
 </Preview>
 
 ### 동작
@@ -60,7 +60,7 @@ import { Alert } from '@hoon-ds/react';
 `actions` 에 버튼을 넣는다. 좁은 화면에서는 내용 아래로 내려간다.
 
 <Preview code={withActionsCode}>
-  <WithActions client:visible />
+  <WithActions client:idle />
 </Preview>
 
 ### 닫기
@@ -68,7 +68,7 @@ import { Alert } from '@hoon-ds/react';
 `onClose` 를 주면 "닫기" 버튼이 생긴다. Alert 가 사라지면 포커스가 갈 곳이 없어지므로, 닫은 뒤 다음 의미 있는 요소로 포커스를 옮기는 것을 고려한다.
 
 <Preview code={dismissibleCode}>
-  <Dismissible client:visible />
+  <Dismissible client:idle />
 </Preview>
 
 ### 즉시 알리기
@@ -76,7 +76,7 @@ import { Alert } from '@hoon-ds/react';
 사용자 행동의 결과로 **나중에 나타나는** 오류는 `live="assertive"` 로 스크린리더가 바로 읽게 한다.
 
 <Preview code={liveAssertiveCode}>
-  <LiveAssertive client:visible />
+  <LiveAssertive client:idle />
 </Preview>
 
 ## API

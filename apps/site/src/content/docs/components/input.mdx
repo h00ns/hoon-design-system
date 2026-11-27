@@ -26,7 +26,7 @@ import invalidCode from '../../../examples/input/Invalid?raw';
 레이블·설명·오류는 [Field](/components/field/) 로 감싸면 자동으로 연결된다.
 
 <Preview code={basicCode}>
-  <Basic client:visible />
+  <Basic client:idle />
 </Preview>
 
 ## 사용법
@@ -44,7 +44,7 @@ import { Field, Input } from '@hoon-ds/react';
 Button 과 같은 높이 단계(`sm` 32 · `md` 40 · `lg` 48px)라 나란히 두면 높이가 맞는다.
 
 <Preview code={sizesCode}>
-  <Sizes client:visible />
+  <Sizes client:idle />
 </Preview>
 
 ### 상태
@@ -53,7 +53,7 @@ Button 과 같은 높이 단계(`sm` 32 · `md` 40 · `lg` 48px)라 나란히 �
 `readOnly` 는 값을 복사·포커스할 수 있고 폼으로 제출되지만, `disabled` 는 포커스도 제출도 되지 않는다.
 
 <Preview code={statesCode}>
-  <States client:visible />
+  <States client:idle />
 </Preview>
 
 ### 슬롯
@@ -62,7 +62,7 @@ Button 과 같은 높이 단계(`sm` 32 · `md` 40 · `lg` 48px)라 나란히 �
 장식 아이콘은 `aria-hidden` 으로 숨기고, "원"·".com" 처럼 의미 있는 텍스트는 레이블에도 포함한다 (예: `금액 (원)`).
 
 <Preview code={slotsCode}>
-  <Slots client:visible />
+  <Slots client:idle />
 </Preview>
 
 ### 비밀번호 보기
@@ -70,13 +70,13 @@ Button 과 같은 높이 단계(`sm` 32 · `md` 40 · `lg` 48px)라 나란히 �
 슬롯에 넣은 버튼은 Tab 으로 도달할 수 있다. 토글 버튼에는 `aria-pressed` 로 상태를 알린다.
 
 <Preview code={passwordCode}>
-  <Password client:visible />
+  <Password client:idle />
 </Preview>
 
 ### 오류
 
 <Preview code={invalidCode}>
-  <Invalid client:visible />
+  <Invalid client:idle />
 </Preview>
 
 ## API

@@ -15,6 +15,7 @@
   position: relative;
   max-width: 100%;
   overflow: auto;
+  color: var(--hds-color-fg-default);
   border: 1px solid var(--hds-color-border-default);
   border-radius: var(--hds-radius-lg);
   background-color: var(--hds-color-bg-default);

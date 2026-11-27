@@ -6,6 +6,7 @@
  */
 .hds-accordion {
   width: 100%;
+  color: var(--hds-color-fg-default);
 }
 
 .hds-accordion__item {
