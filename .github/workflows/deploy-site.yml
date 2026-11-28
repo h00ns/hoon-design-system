@@ -26,7 +26,7 @@ jobs:
           node-version-file: .nvmrc
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter @hoon-ds/tokens run build
+      - run: pnpm --filter @hoon-ds/tokens --filter @hoon-ds/icons run build
       - run: pnpm build:site
       - uses: actions/upload-pages-artifact@v3
         with:
