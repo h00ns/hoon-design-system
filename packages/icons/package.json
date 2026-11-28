@@ -1,6 +1,6 @@
 {
   "name": "@hoon-ds/icons",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Accessible, tree-shakable icons for hoon-design-system (React components + raw SVG)",
   "keywords": [
     "icons",
