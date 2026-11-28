@@ -1,6 +1,6 @@
 {
   "name": "@hoon-ds/css",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Framework-agnostic component styles for hoon-design-system (cascade layers)",
   "keywords": [
     "css",
