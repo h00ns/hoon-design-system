@@ -72,7 +72,7 @@
 }
 
 .hds-select__trigger[aria-invalid='true'] {
-  border-color: var(--hds-color-danger-solid);
+  border-color: var(--hds-color-critical-solid);
 }
 
 .hds-select__trigger:disabled {

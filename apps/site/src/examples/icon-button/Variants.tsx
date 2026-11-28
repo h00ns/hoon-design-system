@@ -42,7 +42,7 @@ export default function VariantsExample() {
       <IconButton aria-label="설정" variant="ghost">
         <SettingsIcon />
       </IconButton>
-      <IconButton aria-label="삭제" variant="danger">
+      <IconButton aria-label="삭제" variant="critical">
         <TrashIcon />
       </IconButton>
     </>

@@ -50,9 +50,9 @@
   --_bg: var(--hds-color-warning-subtle-hover);
   --_fg: var(--hds-color-warning-fg);
 }
-.hds-badge[data-tone='danger'] {
-  --_bg: var(--hds-color-danger-subtle-hover);
-  --_fg: var(--hds-color-danger-fg);
+.hds-badge[data-tone='critical'] {
+  --_bg: var(--hds-color-critical-subtle-hover);
+  --_fg: var(--hds-color-critical-fg);
 }
 
 /* solid: 강조가 꼭 필요할 때만. 깊은 색으로 채운다 */
@@ -72,8 +72,8 @@
   --_bg: var(--hds-color-warning-solid);
   --_fg: var(--hds-color-fg-on-warning);
 }
-.hds-badge[data-variant='solid'][data-tone='danger'] {
-  --_bg: var(--hds-color-danger-solid);
+.hds-badge[data-variant='solid'][data-tone='critical'] {
+  --_bg: var(--hds-color-critical-solid);
   --_fg: var(--hds-color-fg-on-accent);
 }
 

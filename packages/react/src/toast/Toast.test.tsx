@@ -44,13 +44,13 @@ describe('Toast', () => {
     expect(within(item as HTMLElement).getByText('파일 3개')).toBeInTheDocument();
   });
 
-  it('톤 단축 함수: toast.error 는 danger 톤', async () => {
+  it('톤 단축 함수: toast.error 는 critical 톤', async () => {
     render(<Toaster />);
     act(() => {
       toast.error('결제에 실패했습니다');
     });
     const item = (await screen.findByText('결제에 실패했습니다')).closest('.hds-toast');
-    expect(item).toHaveAttribute('data-tone', 'danger');
+    expect(item).toHaveAttribute('data-tone', 'critical');
     expect(item).toHaveTextContent('오류: 결제에 실패했습니다');
   });
 

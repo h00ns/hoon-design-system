@@ -81,9 +81,15 @@
       },
       "border": {
         "$value": "#5293f959"
+      },
+      "icon": {
+        "$value": "{color.blue.400}"
+      },
+      "icon-mark": {
+        "$value": "{color.gray.950}"
       }
     },
-    "danger": {
+    "critical": {
       "solid": {
         "$value": "{color.red.600}"
       },
@@ -104,6 +110,12 @@
       },
       "border": {
         "$value": "#ea646559"
+      },
+      "icon": {
+        "$value": "{color.red.400}"
+      },
+      "icon-mark": {
+        "$value": "{color.gray.950}"
       }
     },
     "success": {
@@ -127,6 +139,12 @@
       },
       "border": {
         "$value": "#45ab8159"
+      },
+      "icon": {
+        "$value": "{color.green.400}"
+      },
+      "icon-mark": {
+        "$value": "{color.gray.950}"
       }
     },
     "warning": {
@@ -143,13 +161,19 @@
         "$value": "{color.amber.300}"
       },
       "subtle": {
-        "$value": "#c4872324"
+        "$value": "#f3ab0124"
       },
       "subtle-hover": {
-        "$value": "#c4872338"
+        "$value": "#f3ab0138"
       },
       "border": {
-        "$value": "#c4872359"
+        "$value": "#f3ab0159"
+      },
+      "icon": {
+        "$value": "{color.amber.400}"
+      },
+      "icon-mark": {
+        "$value": "{color.gray.950}"
       }
     },
     "neutral": {

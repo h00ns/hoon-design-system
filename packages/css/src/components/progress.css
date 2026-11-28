@@ -35,8 +35,8 @@
   --_fill: var(--hds-color-success-solid);
 }
 
-.hds-progress[data-tone='danger'] {
-  --_fill: var(--hds-color-danger-solid);
+.hds-progress[data-tone='critical'] {
+  --_fill: var(--hds-color-critical-solid);
 }
 
 .hds-progress__header {

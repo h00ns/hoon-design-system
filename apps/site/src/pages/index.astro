@@ -34,7 +34,7 @@ const pairs = [
   { fg: 'fg-default', bg: 'bg-default', label: '본문' },
   { fg: 'fg-muted', bg: 'bg-default', label: '보조 텍스트' },
   { fg: 'fg-on-accent', bg: 'accent-solid', label: '주요 버튼' },
-  { fg: 'danger-fg', bg: 'bg-default', label: '오류 메시지' },
+  { fg: 'critical-fg', bg: 'bg-default', label: '오류 메시지' },
 ].map((p) => ({
   ...p,
   light: { fg: L[`color-${p.fg}`]!, bg: L[`color-${p.bg}`]!, r: ratio(L[`color-${p.fg}`]!, L[`color-${p.bg}`]!) },

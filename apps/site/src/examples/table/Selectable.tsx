@@ -51,7 +51,7 @@ export default function SelectableExample() {
         </Table.Body>
       </Table.Root>
       <div>
-        <Button variant="danger" size="sm" disabled={selected.length === 0}>
+        <Button variant="critical" size="sm" disabled={selected.length === 0}>
           선택한 {selected.length}명 내보내기
         </Button>
       </div>

@@ -6,7 +6,7 @@ import { expectNoA11yViolations } from '../../test/axe';
 import { Button } from './Button';
 import type { ButtonSize, ButtonVariant } from './Button';
 
-const VARIANTS: ButtonVariant[] = ['primary', 'secondary', 'ghost', 'danger'];
+const VARIANTS: ButtonVariant[] = ['primary', 'secondary', 'ghost', 'critical'];
 const SIZES: ButtonSize[] = ['sm', 'md', 'lg'];
 
 describe('Button', () => {
@@ -41,12 +41,12 @@ describe('Button', () => {
 
     it('variant·size 를 data 속성으로 노출한다', () => {
       render(
-        <Button variant="danger" size="lg">
+        <Button variant="critical" size="lg">
           삭제
         </Button>,
       );
       const button = screen.getByRole('button');
-      expect(button).toHaveAttribute('data-variant', 'danger');
+      expect(button).toHaveAttribute('data-variant', 'critical');
       expect(button).toHaveAttribute('data-size', 'lg');
       expect(button).toHaveClass('hds-button');
     });

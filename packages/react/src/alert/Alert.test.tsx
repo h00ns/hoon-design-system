@@ -5,7 +5,7 @@ import { expectNoA11yViolations } from '../../test/axe';
 import { Alert } from './Alert';
 import type { AlertTone } from './Alert';
 
-const TONES: AlertTone[] = ['info', 'success', 'warning', 'danger'];
+const TONES: AlertTone[] = ['info', 'success', 'warning', 'critical'];
 
 describe('Alert', () => {
   it('기본은 정적 안내라 live region 역할이 없다', () => {
@@ -23,7 +23,7 @@ describe('Alert', () => {
 
   it('톤 이름을 숨김 텍스트로 앞에 붙인다 (색에만 의존하지 않음)', () => {
     render(
-      <Alert tone="danger" live="assertive" title="결제 실패">
+      <Alert tone="critical" live="assertive" title="결제 실패">
         카드 정보를 확인하세요.
       </Alert>,
     );

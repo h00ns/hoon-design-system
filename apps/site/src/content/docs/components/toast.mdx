@@ -53,7 +53,7 @@ function App() {
 // 어디서든
 toast('링크를 복사했습니다');
 toast.success('저장했습니다');
-toast.error('업로드에 실패했습니다', { description: '파일이 10MB를 넘습니다.' });
+toast.critical('업로드에 실패했습니다', { description: '파일이 10MB를 넘습니다.' });
 toast({
   title: '메일을 삭제했습니다',
   action: { label: '되돌리기', altText: '휴지통에서 되돌릴 수 있습니다', onClick: undo },
@@ -65,7 +65,7 @@ toast.dismiss(id); // id 생략 시 모두 닫기
 
 ### Tone
 
-`toast()`(neutral) · `toast.info` · `toast.success` · `toast.warning` · `toast.error`.
+`toast()`(neutral) · `toast.info` · `toast.success` · `toast.warning` · `toast.critical` (`toast.error` 는 같은 동작의 별칭).
 
 <Preview code={tonesCode}>
   <Tones client:idle />
@@ -98,7 +98,7 @@ toast.dismiss(id); // id 생략 시 모두 닫기
 
 ### 여러 개
 
-`limit`(기본 3)을 넘으면 앞의 토스트가 닫힐 때까지 **순서대로 대기**한다. 단, **오류(`toast.error`)는 대기하지 않고 바로 나타난다**: 덜 중요한 알림 때문에 오류 전달이 늦어지면 안 되기 때문이다.
+`limit`(기본 3)을 넘으면 앞의 토스트가 닫힐 때까지 **순서대로 대기**한다. 단, **오류(`toast.critical`)는 대기하지 않고 바로 나타난다**: 덜 중요한 알림 때문에 오류 전달이 늦어지면 안 되기 때문이다.
 
 <Preview code={stackingCode}>
   <Stacking client:idle />
@@ -108,25 +108,26 @@ toast.dismiss(id); // id 생략 시 모두 닫기
 
 ### toast()
 
-| 호출                                        | 설명                                             |
-| ------------------------------------------- | ------------------------------------------------ |
-| `toast(title, options?)` / `toast(options)` | neutral 토스트를 띄우고 `id` 를 돌려준다         |
-| `toast.info` · `success` · `warning`        | 해당 톤으로 띄운다 (`title, options?`)           |
-| `toast.error(title, options?)`              | danger 톤. 기본 `type="foreground"`, 대기열 없음 |
-| `toast.dismiss(id?)`                        | 해당 토스트를 닫는다. `id` 가 없으면 모두 닫는다 |
+| 호출                                        | 설명                                               |
+| ------------------------------------------- | -------------------------------------------------- |
+| `toast(title, options?)` / `toast(options)` | neutral 토스트를 띄우고 `id` 를 돌려준다           |
+| `toast.info` · `success` · `warning`        | 해당 톤으로 띄운다 (`title, options?`)             |
+| `toast.critical(title, options?)`           | critical 톤. 기본 `type="foreground"`, 대기열 없음 |
+| `toast.error(title, options?)`              | `toast.critical` 의 별칭                           |
+| `toast.dismiss(id?)`                        | 해당 토스트를 닫는다. `id` 가 없으면 모두 닫는다   |
 
 ### 옵션
 
-| 옵션          | 타입                                                        | 기본값                                      |
-| ------------- | ----------------------------------------------------------- | ------------------------------------------- |
-| `title`       | `ReactNode`                                                 |                                             |
-| `description` | `ReactNode`                                                 |                                             |
-| `tone`        | `'neutral' \| 'info' \| 'success' \| 'warning' \| 'danger'` | `'neutral'`                                 |
-| `duration`    | `number` (ms, `Infinity` = 유지)                            | action 있으면 `Infinity`, 아니면 Toaster 값 |
-| `action`      | `{ label, altText, onClick }`                               |                                             |
-| `type`        | `'foreground' \| 'background'`                              | danger 면 `'foreground'`                    |
-| `id`          | `string`                                                    | 자동                                        |
-| `onDismiss`   | `() => void`                                                |                                             |
+| 옵션          | 타입                                                          | 기본값                                      |
+| ------------- | ------------------------------------------------------------- | ------------------------------------------- |
+| `title`       | `ReactNode`                                                   |                                             |
+| `description` | `ReactNode`                                                   |                                             |
+| `tone`        | `'neutral' \| 'info' \| 'success' \| 'warning' \| 'critical'` | `'neutral'`                                 |
+| `duration`    | `number` (ms, `Infinity` = 유지)                              | action 있으면 `Infinity`, 아니면 Toaster 값 |
+| `action`      | `{ label, altText, onClick }`                                 |                                             |
+| `type`        | `'foreground' \| 'background'`                                | critical 면 `'foreground'`                  |
+| `id`          | `string`                                                      | 자동                                        |
+| `onDismiss`   | `() => void`                                                  |                                             |
 
 ### Toaster
 

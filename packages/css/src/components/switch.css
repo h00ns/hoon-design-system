@@ -87,7 +87,7 @@
 }
 
 .hds-switch__control[aria-invalid='true'] {
-  outline: 1px solid var(--hds-color-danger-fg);
+  outline: 1px solid var(--hds-color-critical-fg);
   outline-offset: 1px;
 }
 

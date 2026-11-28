@@ -11,7 +11,7 @@ export type ToasterPosition =
   'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right';
 
 export interface ToasterProps {
-  /** @default 'bottom-right' */
+  /** @default 'top-right' */
   position?: ToasterPosition;
   /** 기본 표시 시간(ms). 포인터를 올리거나 포커스가 있거나 창이 비활성이면 멈춘다. @default 5000 */
   duration?: number;
@@ -26,7 +26,7 @@ export interface ToasterProps {
   /** 닫기 버튼 이름. @default '닫기' */
   closeLabel?: string;
   /** 톤별로 스크린리더가 읽을 접두어. */
-  toneLabels?: Partial<Record<'info' | 'success' | 'warning' | 'danger', string>>;
+  toneLabels?: Partial<Record<'info' | 'success' | 'warning' | 'critical', string>>;
   /**
    * 알림 영역을 렌더링할 곳. 기본은 `document.body` 끝이다.
    * Toaster 를 컴포넌트 트리 깊은 곳에 두어도 부모의 쌓임 맥락(z-index, overflow)에 갇히지 않게 하기 위해서다.
@@ -49,7 +49,7 @@ const SWIPE: Record<ToasterPosition, 'up' | 'down' | 'left' | 'right'> = {
  * 토스트는 `toast()` 함수로 띄운다.
  */
 export function Toaster({
-  position = 'bottom-right',
+  position = 'top-right',
   duration = 5000,
   limit = 3,
   hotkey,
@@ -67,12 +67,12 @@ export function Toaster({
   );
 
   // 닫히는 중인 토스트는 애니메이션을 위해 남겨두고, 열린 것은 limit 까지만 보여준다 (나머지는 대기).
-  // 단, 오류(danger)는 대기열에 넣지 않는다 — 덜 중요한 알림 때문에 오류가 늦게 전달되면 안 된다.
-  const openDanger = toasts.filter((t) => t.open && t.tone === 'danger').length;
+  // 단, 오류(critical)는 대기열에 넣지 않는다 — 덜 중요한 알림 때문에 오류가 늦게 전달되면 안 된다.
+  const openCritical = toasts.filter((t) => t.open && t.tone === 'critical').length;
   const visible: ToastRecord[] = [];
-  let otherSlots = Math.max(0, limit - openDanger);
+  let otherSlots = Math.max(0, limit - openCritical);
   for (const t of toasts) {
-    if (!t.open || t.tone === 'danger') visible.push(t);
+    if (!t.open || t.tone === 'critical') visible.push(t);
     else if (otherSlots > 0) {
       visible.push(t);
       otherSlots -= 1;
@@ -130,7 +130,7 @@ function ToastItem({ toast: t, closeLabel, toneLabel }: ToastItemProps) {
         if (!open) dismissToast(t.id);
       }}
       duration={duration}
-      type={t.type ?? (tone === 'danger' ? 'foreground' : 'background')}
+      type={t.type ?? (tone === 'critical' ? 'foreground' : 'background')}
     >
       {Icon && (
         <span className="hds-toast__icon" aria-hidden="true">

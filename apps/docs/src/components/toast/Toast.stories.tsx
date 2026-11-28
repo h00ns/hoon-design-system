@@ -41,7 +41,7 @@ const row = { display: 'flex', gap: 8, flexWrap: 'wrap' } as const;
 const meta = {
   title: 'Components/Toast',
   component: Toaster,
-  args: { position: 'bottom-right', duration: 5000, limit: 3 },
+  args: { position: 'top-right', duration: 5000, limit: 3 },
   argTypes: {
     position: {
       control: 'select',
@@ -80,8 +80,8 @@ const TONE_SAMPLES: Array<[ToastTone, string, () => void]> = [
   ['success', 'Success', () => toast.success('결제가 완료되었습니다')],
   ['warning', 'Warning', () => toast.warning('저장 공간이 거의 찼습니다')],
   [
-    'danger',
-    'Danger',
+    'critical',
+    'Critical',
     () => toast.error('업로드에 실패했습니다', { description: '파일이 10MB를 넘습니다.' }),
   ],
 ];
@@ -103,7 +103,7 @@ export const WithAction: Story = {
   render: (args) => (
     <>
       <Button
-        variant="danger"
+        variant="critical"
         onClick={() =>
           toast({
             title: '메일 1통을 삭제했습니다',

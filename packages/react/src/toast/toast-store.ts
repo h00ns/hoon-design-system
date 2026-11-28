@@ -1,6 +1,6 @@
 import type * as React from 'react';
 
-export type ToastTone = 'neutral' | 'info' | 'success' | 'warning' | 'danger';
+export type ToastTone = 'neutral' | 'info' | 'success' | 'warning' | 'critical';
 
 export interface ToastAction {
   /** 버튼에 보이는 문구. */
@@ -32,7 +32,7 @@ export interface ToastOptions {
    * 스크린리더 알림 우선순위.
    * - `'foreground'`: 하던 낭독을 끊고 즉시 읽는다 (사용자 행동의 직접 결과, 오류)
    * - `'background'`: 하던 낭독이 끝난 뒤 읽는다 (백그라운드 작업 완료 등)
-   * @default tone 이 'danger' 면 'foreground', 아니면 'background'
+   * @default tone 이 'critical' 면 'foreground', 아니면 'background'
    */
   type?: 'foreground' | 'background';
   /** 닫힌 뒤(자동·수동·스와이프 모두) 호출된다. */
@@ -148,6 +148,9 @@ interface ToastFn {
   info: ToneShortcut;
   success: ToneShortcut;
   warning: ToneShortcut;
+  /** 심각한 오류. 하던 낭독을 끊고 바로 읽힌다(foreground). */
+  critical: ToneShortcut;
+  /** `critical` 과 같다. 익숙한 이름으로도 쓸 수 있게 남겨 둔 별칭. */
   error: ToneShortcut;
   /** id 를 주면 그 토스트만, 생략하면 모두 닫는다. */
   dismiss: (id?: string) => void;
@@ -164,7 +167,8 @@ export const toast: ToastFn = Object.assign(
     info: shortcut('info'),
     success: shortcut('success'),
     warning: shortcut('warning'),
-    error: shortcut('danger'),
+    critical: shortcut('critical'),
+    error: shortcut('critical'),
     dismiss: dismissToast,
   },
 );

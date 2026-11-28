@@ -72,13 +72,13 @@
 }
 
 .hds-textarea[data-invalid] {
-  --_border: var(--hds-color-danger-fg);
+  --_border: var(--hds-color-critical-fg);
 }
 
 .hds-textarea[data-invalid]:focus-visible {
   box-shadow:
-    0 0 0 1px var(--hds-color-danger-fg),
-    0 0 0 4px color-mix(in srgb, var(--hds-color-danger-solid) 22%, transparent);
+    0 0 0 1px var(--hds-color-critical-fg),
+    0 0 0 4px color-mix(in srgb, var(--hds-color-critical-solid) 22%, transparent);
 }
 
 .hds-textarea[data-readonly] {

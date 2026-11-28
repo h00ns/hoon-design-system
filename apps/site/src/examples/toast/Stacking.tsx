@@ -16,7 +16,7 @@ export default function StackingExample() {
       <Button variant="secondary" onClick={showMany}>
         5개 한꺼번에 (limit 초과분은 대기)
       </Button>
-      <Button variant="danger" onClick={() => toast.error('결제에 실패했습니다')}>
+      <Button variant="critical" onClick={() => toast.critical('결제에 실패했습니다')}>
         오류 (대기 없이 표시)
       </Button>
     </div>

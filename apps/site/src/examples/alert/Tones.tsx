@@ -12,7 +12,7 @@ export default function TonesExample() {
       <Alert tone="warning" title="저장 공간이 부족합니다">
         사용량이 90%를 넘었습니다. 오래된 파일을 정리해 주세요.
       </Alert>
-      <Alert tone="danger" title="결제에 실패했습니다">
+      <Alert tone="critical" title="결제에 실패했습니다">
         카드 한도를 확인하거나 다른 결제 수단을 선택해 주세요.
       </Alert>
     </div>

@@ -22,9 +22,15 @@ const HUES = {
   red: { h: 22, c: 0.172 },
   // 에메랄드: 연두가 아닌 깊은 초록
   green: { h: 163, c: 0.118 },
-  // 앰버: 노랑·주황 사이의 따뜻한 호박색
-  amber: { h: 74, c: 0.135 },
+  // 앰버(경고): 갈색으로 탁해지지 않도록 노랑 쪽 색상(h)에, 밝은 단계에서 채도가 가장 높은 곡선을 쓴다
+  amber: { h: 85, c: 0.17, curve: 'yellow' },
 };
+
+/** 노랑은 밝을 때 가장 노랗게 보인다 → 밝은 단계(200~400)의 채도를 높이고, 어두운 단계는 갈색이 되지 않게 줄인다 */
+const YELLOW_C = [0.16, 0.32, 0.6, 0.88, 1, 0.98, 0.88, 0.78, 0.68, 0.58, 0.46];
+/** 단계별 색상(h): 밝을수록 노랑, 어두울수록 호박색. 어두운 노랑이 올리브·갈색처럼 탁해지는 것을 막는다 */
+const YELLOW_H = [94, 93, 91, 88, 84, 78, 70, 64, 60, 58, 56];
+const YELLOW_L = [0.987, 0.968, 0.94, 0.905, 0.865, 0.79, 0.66, 0.545, 0.45, 0.36, 0.275];
 
 /* ── OKLCH → sRGB ─────────────────────────── */
 function oklchToLinearRgb(L, C, h) {
@@ -69,8 +75,10 @@ function oklch(L, C, h) {
 }
 
 /* ── 생성 ─────────────────────────────────── */
-const scale = (Ls, Cs, h, cMax) =>
-  Object.fromEntries(STEPS.map((step, i) => [step, { $value: oklch(Ls[i], Cs[i] * cMax, h) }]));
+const scale = (Ls, Cs, h, cMax, Hs) =>
+  Object.fromEntries(
+    STEPS.map((step, i) => [step, { $value: oklch(Ls[i], Cs[i] * cMax, Hs ? Hs[i] : h) }]),
+  );
 
 const gray = {
   0: { $value: '#ffffff' },
@@ -86,7 +94,12 @@ const color = {
     black: { $value: '#000000' },
     gray,
     ...Object.fromEntries(
-      Object.entries(HUES).map(([name, { h, c }]) => [name, scale(TONE_L, TONE_C, h, c)]),
+      Object.entries(HUES).map(([name, { h, c, curve }]) => [
+        name,
+        curve === 'yellow'
+          ? scale(YELLOW_L, YELLOW_C, h, c, YELLOW_H)
+          : scale(TONE_L, TONE_C, h, c),
+      ]),
     ),
   },
 };

@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import { describe, expect, it, vi } from 'vitest';
@@ -38,6 +38,24 @@ describe('Tabs', () => {
   it('variant 를 data 속성으로 노출한다', () => {
     const { container } = render(<BasicTabs variant="segmented" />);
     expect(container.querySelector('.hds-tabs')).toHaveAttribute('data-variant', 'segmented');
+  });
+
+  it('선택 표시(indicator)는 보조기기에서 숨기고, 탭을 바꾸면 새 탭 위치로 다시 잰다', async () => {
+    const user = userEvent.setup();
+    render(<BasicTabs />);
+    const list = screen.getByRole('tablist');
+    const indicator = list.querySelector('.hds-tabs__indicator') as HTMLElement;
+    expect(indicator).toHaveAttribute('aria-hidden', 'true');
+    expect(list).toHaveAttribute('data-indicator');
+    // 탭 목록 안의 탭은 여전히 탭 역할 요소만 보인다
+    expect(screen.getAllByRole('tab')).toHaveLength(
+      list.querySelectorAll('.hds-tabs__trigger').length,
+    );
+
+    const tabs = screen.getAllByRole('tab');
+    Object.defineProperty(tabs[1], 'offsetLeft', { configurable: true, value: 120 });
+    await user.click(tabs[1]!);
+    await waitFor(() => expect(indicator.style.getPropertyValue('--_ind-x')).toBe('120px'));
   });
 
   it('목록이 Root 의 직계 자식이 아니어도 variant 를 받는다', () => {

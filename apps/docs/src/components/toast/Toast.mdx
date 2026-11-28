@@ -74,16 +74,16 @@ toast.dismiss(id); // id 생략 시 모두 닫기
 
 ## API
 
-| 옵션          | 타입                                                        | 기본값                                      |
-| ------------- | ----------------------------------------------------------- | ------------------------------------------- |
-| `title`       | `ReactNode`                                                 |                                             |
-| `description` | `ReactNode`                                                 |                                             |
-| `tone`        | `'neutral' \| 'info' \| 'success' \| 'warning' \| 'danger'` | `'neutral'`                                 |
-| `duration`    | `number` (ms, `Infinity` = 유지)                            | action 있으면 `Infinity`, 아니면 Toaster 값 |
-| `action`      | `{ label, altText, onClick }`                               |                                             |
-| `type`        | `'foreground' \| 'background'`                              | danger 면 `'foreground'`                    |
-| `id`          | `string`                                                    | 자동                                        |
-| `onDismiss`   | `() => void`                                                |                                             |
+| 옵션          | 타입                                                          | 기본값                                      |
+| ------------- | ------------------------------------------------------------- | ------------------------------------------- |
+| `title`       | `ReactNode`                                                   |                                             |
+| `description` | `ReactNode`                                                   |                                             |
+| `tone`        | `'neutral' \| 'info' \| 'success' \| 'warning' \| 'critical'` | `'neutral'`                                 |
+| `duration`    | `number` (ms, `Infinity` = 유지)                              | action 있으면 `Infinity`, 아니면 Toaster 값 |
+| `action`      | `{ label, altText, onClick }`                                 |                                             |
+| `type`        | `'foreground' \| 'background'`                                | critical 면 `'foreground'`                  |
+| `id`          | `string`                                                      | 자동                                        |
+| `onDismiss`   | `() => void`                                                  |                                             |
 
 ## 접근성
 

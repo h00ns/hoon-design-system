@@ -261,8 +261,8 @@
   background: var(--hds-color-neutral-subtle);
 }
 
-.g-menu__danger {
-  color: var(--hds-color-danger-fg);
+.g-menu__critical {
+  color: var(--hds-color-critical-fg);
 }
 
 .g-toast {

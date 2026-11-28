@@ -15,6 +15,7 @@
     "@fontsource-variable/geist": "^5.3.0",
     "@fontsource-variable/geist-mono": "^5.3.0",
     "@hoon-ds/css": "workspace:^",
+    "@hoon-ds/icons": "workspace:^",
     "@hoon-ds/react": "workspace:^",
     "@hoon-ds/tokens": "workspace:^",
     "@phosphor-icons/react": "^2.1.10",

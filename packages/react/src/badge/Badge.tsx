@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { cx } from '../utils/cx';
 
-export type BadgeTone = 'neutral' | 'accent' | 'success' | 'warning' | 'danger';
+export type BadgeTone = 'neutral' | 'accent' | 'success' | 'warning' | 'critical';
 export type BadgeVariant = 'subtle' | 'solid';
 export type BadgeSize = 'sm' | 'md';
 

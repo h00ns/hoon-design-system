@@ -12,6 +12,7 @@
 | [`@hoon-ds/tokens`](packages/tokens) | 디자인 토큰(DTCG JSON) → CSS 변수 · JS · JSON. light/dark 테마, WCAG 대비 테스트 포함    |
 | [`@hoon-ds/css`](packages/css)       | 컴포넌트 스타일. 순수 CSS + cascade layer 라 어떤 프레임워크/순수 HTML 에서도 쓸 수 있다 |
 | [`@hoon-ds/react`](packages/react)   | React 컴포넌트. React 18·19 지원, ESM/CJS, RSC 용 `'use client'` 포함                    |
+| [`@hoon-ds/icons`](packages/icons)   | 아이콘 141개. React 컴포넌트 + 원본 SVG, 기본은 장식(`aria-hidden`), 트리 셰이킹 지원    |
 | [`docs`](apps/docs)                  | Storybook 문서 (a11y 애드온, 테마 전환)                                                  |
 
 ```

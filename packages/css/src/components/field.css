@@ -30,7 +30,7 @@
 }
 
 .hds-field__required {
-  color: var(--hds-color-danger-fg);
+  color: var(--hds-color-critical-fg);
 }
 
 .hds-field__description,
@@ -48,7 +48,7 @@
   display: flex;
   align-items: flex-start;
   gap: var(--hds-space-1);
-  color: var(--hds-color-danger-fg);
+  color: var(--hds-color-critical-fg);
 }
 
 .hds-field__error-icon {

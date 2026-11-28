@@ -152,37 +152,37 @@
     },
     "amber": {
       "50": {
-        "$value": "#fff8ef"
+        "$value": "#fffbed"
       },
       "100": {
-        "$value": "#fdf0de"
+        "$value": "#fff4d3"
       },
       "200": {
-        "$value": "#fae0c0"
+        "$value": "#ffeaaf"
       },
       "300": {
-        "$value": "#f1ca96"
+        "$value": "#ffdc86"
       },
       "400": {
-        "$value": "#dea960"
+        "$value": "#feca58"
       },
       "500": {
-        "$value": "#c48723"
+        "$value": "#f3ab01"
       },
       "600": {
-        "$value": "#a36c03"
+        "$value": "#c88006"
       },
       "700": {
-        "$value": "#845704"
+        "$value": "#a05e02"
       },
       "800": {
-        "$value": "#684300"
+        "$value": "#7f4400"
       },
       "900": {
-        "$value": "#4c3001"
+        "$value": "#5d3002"
       },
       "950": {
-        "$value": "#321e00"
+        "$value": "#3f1d01"
       }
     }
   }

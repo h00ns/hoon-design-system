@@ -62,7 +62,7 @@ export default function BasicExample() {
           공유 (권한 없음)
         </DropdownMenu.Item>
         <DropdownMenu.Separator />
-        <DropdownMenu.Item variant="danger" onSelect={() => console.log('삭제')}>
+        <DropdownMenu.Item variant="critical" onSelect={() => console.log('삭제')}>
           <TrashIcon />
           삭제
         </DropdownMenu.Item>

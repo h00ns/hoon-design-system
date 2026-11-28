@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@hoon-ds/css": "workspace:^",
+    "@hoon-ds/icons": "workspace:^",
     "@hoon-ds/react": "workspace:^",
     "@hoon-ds/tokens": "workspace:^"
   }

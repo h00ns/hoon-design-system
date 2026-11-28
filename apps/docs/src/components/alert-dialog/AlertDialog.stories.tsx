@@ -17,7 +17,7 @@ export const Playground: Story = {
   render: (args) => (
     <AlertDialog.Root>
       <AlertDialog.Trigger asChild>
-        <Button variant="danger">계정 삭제</Button>
+        <Button variant="critical">계정 삭제</Button>
       </AlertDialog.Trigger>
       <AlertDialog.Content {...args}>
         <AlertDialog.Title>계정을 삭제할까요?</AlertDialog.Title>
@@ -26,7 +26,7 @@ export const Playground: Story = {
         </AlertDialog.Description>
         <AlertDialog.Footer>
           <AlertDialog.Cancel>취소</AlertDialog.Cancel>
-          <AlertDialog.Action variant="danger">삭제</AlertDialog.Action>
+          <AlertDialog.Action variant="critical">삭제</AlertDialog.Action>
         </AlertDialog.Footer>
       </AlertDialog.Content>
     </AlertDialog.Root>
@@ -62,7 +62,7 @@ export const Async: Story = {
       <div style={{ display: 'grid', gap: 12, justifyItems: 'center' }}>
         <AlertDialog.Root open={open} onOpenChange={(next) => !pending && setOpen(next)}>
           <AlertDialog.Trigger asChild>
-            <Button variant="danger">게시글 삭제</Button>
+            <Button variant="critical">게시글 삭제</Button>
           </AlertDialog.Trigger>
           <AlertDialog.Content {...args}>
             <AlertDialog.Title>게시글을 삭제할까요?</AlertDialog.Title>
@@ -70,7 +70,7 @@ export const Async: Story = {
             <AlertDialog.Footer>
               <AlertDialog.Cancel disabled={pending}>취소</AlertDialog.Cancel>
               <AlertDialog.Action
-                variant="danger"
+                variant="critical"
                 loading={pending}
                 onClick={(event) => {
                   // 요청이 끝날 때까지 열어 둔다

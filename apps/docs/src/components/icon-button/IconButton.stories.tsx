@@ -41,7 +41,7 @@ const meta = {
   component: IconButton,
   args: { 'aria-label': '닫기', children: <CloseIcon /> },
   argTypes: {
-    variant: { control: 'inline-radio', options: ['primary', 'secondary', 'ghost', 'danger'] },
+    variant: { control: 'inline-radio', options: ['primary', 'secondary', 'ghost', 'critical'] },
     size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] },
     disabled: { control: 'boolean' },
     children: { control: false },
@@ -65,7 +65,7 @@ export const Variants: Story = {
       <IconButton aria-label="설정" variant="ghost">
         <SettingsIcon />
       </IconButton>
-      <IconButton aria-label="삭제" variant="danger">
+      <IconButton aria-label="삭제" variant="critical">
         <TrashIcon />
       </IconButton>
     </div>

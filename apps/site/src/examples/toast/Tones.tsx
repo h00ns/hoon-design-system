@@ -18,10 +18,10 @@ export default function TonesExample() {
       <Button
         variant="secondary"
         onClick={() =>
-          toast.error('업로드에 실패했습니다', { description: '파일이 10MB를 넘습니다.' })
+          toast.critical('업로드에 실패했습니다', { description: '파일이 10MB를 넘습니다.' })
         }
       >
-        Danger
+        Critical
       </Button>
     </div>
   );

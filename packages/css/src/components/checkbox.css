@@ -83,7 +83,7 @@
     [data-state='checked'],
     [data-state='indeterminate']
   ) {
-  border-color: var(--hds-color-danger-fg);
+  border-color: var(--hds-color-critical-fg);
 }
 
 .hds-checkbox__indicator {

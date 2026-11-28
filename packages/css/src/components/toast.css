@@ -1,6 +1,6 @@
 /*
  * Toast
- * <ol class="hds-toast-viewport" data-position="bottom-right">
+ * <ol class="hds-toast-viewport" data-position="top-right">
  *   <li class="hds-toast" data-tone="success" data-state="open|closed" data-swipe="…">
  *     <span class="hds-toast__icon">…</span>
  *     <div class="hds-toast__content"><div class="hds-toast__title"/><div class="hds-toast__description"/></div>
@@ -87,15 +87,23 @@
 
 .hds-toast[data-tone='info'] {
   --_accent: var(--hds-color-accent-fg);
+  --_icon: var(--hds-color-accent-icon);
+  --_icon-mark: var(--hds-color-accent-icon-mark);
 }
 .hds-toast[data-tone='success'] {
   --_accent: var(--hds-color-success-fg);
+  --_icon: var(--hds-color-success-icon);
+  --_icon-mark: var(--hds-color-success-icon-mark);
 }
 .hds-toast[data-tone='warning'] {
   --_accent: var(--hds-color-warning-fg);
+  --_icon: var(--hds-color-warning-icon);
+  --_icon-mark: var(--hds-color-warning-icon-mark);
 }
-.hds-toast[data-tone='danger'] {
-  --_accent: var(--hds-color-danger-fg);
+.hds-toast[data-tone='critical'] {
+  --_accent: var(--hds-color-critical-fg);
+  --_icon: var(--hds-color-critical-icon);
+  --_icon-mark: var(--hds-color-critical-icon-mark);
 }
 
 .hds-toast__icon {

@@ -91,7 +91,7 @@
 }
 
 .hds-radio-group[aria-invalid='true'] .hds-radio__control[data-state='unchecked'] {
-  border-color: var(--hds-color-danger-fg);
+  border-color: var(--hds-color-critical-fg);
 }
 
 .hds-radio__indicator {

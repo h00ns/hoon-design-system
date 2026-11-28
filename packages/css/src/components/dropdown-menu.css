@@ -1,7 +1,7 @@
 /*
  * DropdownMenu
  * .hds-menu (role=menu) > .hds-menu__item (role=menuitem / menuitemcheckbox / menuitemradio)
- *  - data-variant="danger" : 되돌릴 수 없는 동작
+ *  - data-variant="critical" : 되돌릴 수 없는 동작
  *  - data-inset            : 아이콘 없는 항목을 아이콘 있는 항목과 정렬
  */
 .hds-menu {
@@ -89,16 +89,16 @@
   background-color: var(--hds-color-neutral-subtle);
 }
 
-.hds-menu__item[data-variant='danger'] {
-  color: var(--hds-color-danger-fg);
+.hds-menu__item[data-variant='critical'] {
+  color: var(--hds-color-critical-fg);
 }
 
-.hds-menu__item[data-variant='danger'] > svg {
+.hds-menu__item[data-variant='critical'] > svg {
   color: currentColor;
 }
 
-.hds-menu__item[data-variant='danger'][data-highlighted] {
-  background-color: var(--hds-color-danger-subtle);
+.hds-menu__item[data-variant='critical'][data-highlighted] {
+  background-color: var(--hds-color-critical-subtle);
 }
 
 .hds-menu__item[data-disabled] {

@@ -26,7 +26,7 @@
 }
 
 .hds-slider[data-invalid] {
-  --_fill: var(--hds-color-danger-solid);
+  --_fill: var(--hds-color-critical-solid);
 }
 
 .hds-slider[data-disabled] {

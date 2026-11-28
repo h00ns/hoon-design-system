@@ -3,7 +3,7 @@ import { Progress as ProgressPrimitive } from 'radix-ui';
 import { cx } from '../utils/cx';
 
 export type ProgressSize = 'sm' | 'md' | 'lg';
-export type ProgressTone = 'accent' | 'success' | 'danger';
+export type ProgressTone = 'accent' | 'success' | 'critical';
 
 export interface ProgressProps extends Omit<
   React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root>,

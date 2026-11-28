@@ -1,7 +1,7 @@
 /*
  * Button
  * 마크업: <button class="hds-button" data-variant="primary" data-size="md">
- *  - variant: primary | secondary | ghost | danger   (기본 primary)
+ *  - variant: primary | secondary | ghost | critical   (기본 primary)
  *  - size:    sm | md | lg                            (기본 md)
  *  - 로딩:    data-loading + aria-busy="true" + aria-disabled="true"
  *  - 비활성:  disabled 또는 aria-disabled="true" (포커스 유지가 필요할 때)
@@ -97,10 +97,10 @@
   --_shadow: none;
 }
 
-.hds-button[data-variant='danger'] {
-  --_bg: var(--hds-color-danger-solid);
-  --_bg-hover: var(--hds-color-danger-solid-hover);
-  --_bg-active: var(--hds-color-danger-solid-active);
+.hds-button[data-variant='critical'] {
+  --_bg: var(--hds-color-critical-solid);
+  --_bg-hover: var(--hds-color-critical-solid-hover);
+  --_bg-active: var(--hds-color-critical-solid-active);
   --_fg: var(--hds-color-fg-on-accent);
 }
 

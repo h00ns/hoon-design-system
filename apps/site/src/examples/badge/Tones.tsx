@@ -6,7 +6,7 @@ const LABELS: Record<BadgeTone, string> = {
   accent: '신규',
   success: '완료',
   warning: '검토 중',
-  danger: '반려',
+  critical: '반려',
 };
 
 const TONES = Object.keys(LABELS) as BadgeTone[];

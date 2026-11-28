@@ -55,7 +55,7 @@ export const Playground: Story = {
           공유 (권한 없음)
         </DropdownMenu.Item>
         <DropdownMenu.Separator />
-        <DropdownMenu.Item variant="danger">
+        <DropdownMenu.Item variant="critical">
           <TrashIcon />
           삭제
         </DropdownMenu.Item>
@@ -77,7 +77,7 @@ export const IconTrigger: Story = {
         <DropdownMenu.Item>이름 바꾸기</DropdownMenu.Item>
         <DropdownMenu.Item>이동</DropdownMenu.Item>
         <DropdownMenu.Separator />
-        <DropdownMenu.Item variant="danger">삭제</DropdownMenu.Item>
+        <DropdownMenu.Item variant="critical">삭제</DropdownMenu.Item>
       </DropdownMenu.Content>
     </DropdownMenu.Root>
   ),

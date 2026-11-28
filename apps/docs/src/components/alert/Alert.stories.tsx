@@ -3,7 +3,7 @@ import { Alert, Button } from '@hoon-ds/react';
 import type { AlertTone } from '@hoon-ds/react';
 import { useState } from 'react';
 
-const TONES: AlertTone[] = ['info', 'success', 'warning', 'danger'];
+const TONES: AlertTone[] = ['info', 'success', 'warning', 'critical'];
 
 const meta = {
   title: 'Components/Alert',
@@ -44,7 +44,7 @@ const SAMPLES: Record<AlertTone, { title: string; body: string }> = {
     title: '저장 공간이 부족합니다',
     body: '사용량이 90%를 넘었습니다. 오래된 파일을 정리해 주세요.',
   },
-  danger: {
+  critical: {
     title: '결제에 실패했습니다',
     body: '카드 한도를 확인하거나 다른 결제 수단을 선택해 주세요.',
   },
@@ -105,12 +105,12 @@ export const LiveAssertive: Story = {
     const [error, setError] = useState(false);
     return (
       <div style={{ display: 'grid', gap: 12, justifyItems: 'start' }}>
-        <Button variant="danger" onClick={() => setError(true)}>
+        <Button variant="critical" onClick={() => setError(true)}>
           저장 (실패 재현)
         </Button>
         {error && (
           <Alert
-            tone="danger"
+            tone="critical"
             live="assertive"
             title="저장하지 못했습니다"
             onClose={() => setError(false)}

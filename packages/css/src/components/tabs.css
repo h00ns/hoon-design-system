@@ -196,6 +196,86 @@
   outline-offset: calc(var(--hds-size-focus-ring-width) * -1);
 }
 
+/* ── 이동하는 선택 표시 ─────────────────── */
+/*
+ * React 의 Tabs.List 는 선택된 탭의 위치를 재서 .hds-tabs__indicator 를 그 자리로 옮긴다.
+ * 측정이 끝나면 목록에 data-indicator 가 붙고, 탭마다 그리던 정적 표시는 숨긴다.
+ * (CSS 만 쓰는 경우엔 indicator 가 없으므로 정적 표시가 그대로 보인다)
+ */
+.hds-tabs__list {
+  position: relative;
+}
+
+.hds-tabs__indicator {
+  display: none;
+}
+
+.hds-tabs__list[data-indicator] > .hds-tabs__indicator {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.hds-tabs__list[data-indicator-ready] > .hds-tabs__indicator {
+  transition:
+    transform var(--hds-duration-normal) var(--hds-easing-standard),
+    width var(--hds-duration-normal) var(--hds-easing-standard),
+    height var(--hds-duration-normal) var(--hds-easing-standard);
+}
+
+/* line: 2px 밑줄이 탭 사이를 미끄러진다 */
+.hds-tabs__list[data-variant='line'][data-indicator] > .hds-tabs__indicator {
+  z-index: 1;
+  height: 2px;
+  width: calc(var(--_ind-w) - 2 * var(--hds-space-2));
+  border-radius: var(--hds-radius-full);
+  background-color: var(--hds-color-accent-solid);
+  transform: translate(
+    calc(var(--_ind-x) + var(--hds-space-2)),
+    calc(var(--_ind-y) + var(--_ind-h) - 2px)
+  );
+}
+
+.hds-tabs__list[data-variant='line'][data-orientation='vertical'][data-indicator]
+  > .hds-tabs__indicator {
+  width: 2px;
+  height: calc(var(--_ind-h) - 2 * var(--hds-space-1));
+  transform: translate(
+    calc(var(--_ind-x) + var(--_ind-w) - 2px),
+    calc(var(--_ind-y) + var(--hds-space-1))
+  );
+}
+
+.hds-tabs__list[data-variant='line'][data-indicator]
+  .hds-tabs__trigger[data-state='active']::after {
+  content: none;
+}
+
+/* segmented: 떠 있는 칩이 미끄러진다. 글자는 칩 위에 그려진다 */
+.hds-tabs__list[data-variant='segmented'][data-indicator] > .hds-tabs__indicator {
+  z-index: 0;
+  width: var(--_ind-w);
+  height: var(--_ind-h);
+  border-radius: var(--hds-radius-md);
+  background-color: var(--hds-color-bg-selected);
+  box-shadow:
+    inset 0 0 0 1px var(--hds-color-border-default),
+    var(--hds-shadow-xs);
+  transform: translate(var(--_ind-x), var(--_ind-y));
+}
+
+.hds-tabs__list[data-variant='segmented'][data-indicator] .hds-tabs__trigger {
+  position: relative;
+  z-index: 1;
+}
+
+.hds-tabs__list[data-variant='segmented'][data-indicator] .hds-tabs__trigger[data-state='active'] {
+  background-color: transparent;
+  box-shadow: none;
+}
+
 /* ── Content ─────────────────────────────── */
 .hds-tabs__content {
   flex: 1 1 auto;
@@ -211,7 +291,8 @@
 
 /* ── 사용자 설정 ─────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  .hds-tabs__trigger {
+  .hds-tabs__trigger,
+  .hds-tabs__list[data-indicator-ready] > .hds-tabs__indicator {
     transition: none;
   }
 }
@@ -224,6 +305,15 @@
 
   .hds-tabs__trigger[data-state='active']::after {
     background-color: Highlight;
+  }
+
+  .hds-tabs__indicator {
+    background-color: Highlight !important;
+    box-shadow: none !important;
+  }
+
+  .hds-tabs__list[data-variant='segmented'][data-indicator] > .hds-tabs__indicator {
+    background-color: transparent !important;
   }
 
   .hds-tabs__trigger[data-orientation='vertical'][data-state='active'] {

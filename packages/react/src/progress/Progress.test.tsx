@@ -72,11 +72,11 @@ describe('Progress', () => {
   it('size·tone 을 래퍼의 data 속성으로 노출하고, className 은 래퍼에, ref 는 progressbar 에 붙는다', () => {
     const ref = React.createRef<HTMLDivElement>();
     const { container } = render(
-      <Progress ref={ref} value={1} aria-label="x" size="lg" tone="danger" className="custom" />,
+      <Progress ref={ref} value={1} aria-label="x" size="lg" tone="critical" className="custom" />,
     );
     const wrapper = container.querySelector('.hds-progress');
     expect(wrapper).toHaveAttribute('data-size', 'lg');
-    expect(wrapper).toHaveAttribute('data-tone', 'danger');
+    expect(wrapper).toHaveAttribute('data-tone', 'critical');
     expect(wrapper).toHaveClass('custom');
     expect(ref.current).toBe(screen.getByRole('progressbar'));
   });

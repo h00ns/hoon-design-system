@@ -23,6 +23,7 @@
 @import './components/popover.css' layer(hds.components);
 @import './components/tooltip.css' layer(hds.components);
 @import './components/toast.css' layer(hds.components);
+@import './components/status-icon.css' layer(hds.components);
 @import './components/alert.css' layer(hds.components);
 @import './components/badge.css' layer(hds.components);
 @import './components/avatar.css' layer(hds.components);

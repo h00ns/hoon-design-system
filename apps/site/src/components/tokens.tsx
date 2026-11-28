@@ -50,7 +50,21 @@ function Table({ head, children }: { head: string[]; children: ReactNode }) {
 }
 
 function Code({ children }: { children: ReactNode }) {
-  return <code style={{ ...mono, overflowWrap: 'anywhere', wordBreak: 'normal' }}>{children}</code>;
+  return (
+    <code
+      style={{
+        ...mono,
+        padding: '1px 5px',
+        borderRadius: 4,
+        background: 'var(--hds-color-bg-muted)',
+        color: 'var(--hds-color-fg-default)',
+        overflowWrap: 'anywhere',
+        wordBreak: 'normal',
+      }}
+    >
+      {children}
+    </code>
+  );
 }
 
 /* ── 대비 계산 ─────────────────────────────── */
@@ -84,12 +98,12 @@ function ContrastBadge({ ratio }: { ratio: number }) {
           ? 'var(--hds-color-success-subtle)'
           : ratio >= 3
             ? 'var(--hds-color-warning-subtle)'
-            : 'var(--hds-color-danger-subtle)',
+            : 'var(--hds-color-critical-subtle)',
         color: ok
           ? 'var(--hds-color-success-fg)'
           : ratio >= 3
             ? 'var(--hds-color-warning-fg)'
-            : 'var(--hds-color-danger-fg)',
+            : 'var(--hds-color-critical-fg)',
         whiteSpace: 'nowrap',
       }}
     >
@@ -104,7 +118,7 @@ const SCALES = ['gray', 'blue', 'red', 'green', 'amber'] as const;
 /** primitive 팔레트. 컴포넌트에서 직접 쓰지 않고 시맨틱 토큰을 거친다. */
 export function PrimitivePalette() {
   return (
-    <div style={{ display: 'grid', gap: 20 }}>
+    <div className="not-content" style={{ display: 'grid', gap: 20 }}>
       {SCALES.map((scale) => {
         const keys = keysWith(`color-${scale}-`);
         return (
@@ -270,6 +284,7 @@ export function FontWeights() {
 export function LineHeights() {
   return (
     <div
+      className="not-content"
       style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
@@ -369,7 +384,7 @@ const tile: CSSProperties = {
 
 export function RadiusScale() {
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
+    <div className="not-content" style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
       {keysWith('radius-').map((k) => (
         <div
           key={k}
@@ -394,6 +409,7 @@ export function RadiusScale() {
 export function ShadowScale() {
   return (
     <div
+      className="not-content"
       style={{
         display: 'flex',
         flexWrap: 'wrap',

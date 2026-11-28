@@ -25,14 +25,14 @@ export default function AsyncExample() {
       {/* 요청 중에는 Esc 등으로 닫히지 않게 한다 */}
       <AlertDialog.Root open={open} onOpenChange={(next) => !pending && setOpen(next)}>
         <AlertDialog.Trigger asChild>
-          <Button variant="danger">게시글 삭제</Button>
+          <Button variant="critical">게시글 삭제</Button>
         </AlertDialog.Trigger>
         <AlertDialog.Content>
           <AlertDialog.Title>게시글을 삭제할까요?</AlertDialog.Title>
           <AlertDialog.Description>삭제하면 댓글도 함께 사라집니다.</AlertDialog.Description>
           <AlertDialog.Footer>
             <AlertDialog.Cancel disabled={pending}>취소</AlertDialog.Cancel>
-            <AlertDialog.Action variant="danger" loading={pending} onClick={handleDelete}>
+            <AlertDialog.Action variant="critical" loading={pending} onClick={handleDelete}>
               삭제
             </AlertDialog.Action>
           </AlertDialog.Footer>

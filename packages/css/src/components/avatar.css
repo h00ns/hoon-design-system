@@ -79,8 +79,8 @@
 }
 
 .hds-avatar[data-color='red'] {
-  background-color: var(--hds-color-danger-subtle-hover);
-  color: var(--hds-color-danger-fg);
+  background-color: var(--hds-color-critical-subtle-hover);
+  color: var(--hds-color-critical-fg);
 }
 
 .hds-avatar__fallback {

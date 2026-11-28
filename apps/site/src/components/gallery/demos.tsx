@@ -139,7 +139,7 @@ export const DEMOS: Record<string, () => ReactNode> = {
       <Badge tone="accent">신규</Badge>
       <Badge tone="success">완료</Badge>
       <Badge tone="warning">대기</Badge>
-      <Badge tone="danger" variant="solid">
+      <Badge tone="critical" variant="solid">
         오류
       </Badge>
     </div>
@@ -196,7 +196,7 @@ export const DEMOS: Record<string, () => ReactNode> = {
         <Button size="sm" variant="secondary">
           취소
         </Button>
-        <Button size="sm" variant="danger">
+        <Button size="sm" variant="critical">
           삭제
         </Button>
       </div>
@@ -229,7 +229,7 @@ export const DEMOS: Record<string, () => ReactNode> = {
       <ul className="g-surface g-menu">
         <li data-active>이름 바꾸기</li>
         <li>복제</li>
-        <li className="g-menu__danger">삭제</li>
+        <li className="g-menu__critical">삭제</li>
       </ul>
     </div>
   ),

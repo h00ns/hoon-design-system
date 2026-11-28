@@ -13,7 +13,7 @@ const meta = {
   component: Button,
   args: { children: '저장' },
   argTypes: {
-    variant: { control: 'inline-radio', options: ['primary', 'secondary', 'ghost', 'danger'] },
+    variant: { control: 'inline-radio', options: ['primary', 'secondary', 'ghost', 'critical'] },
     size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] },
     disabled: { control: 'boolean' },
   },
@@ -36,8 +36,8 @@ export const Variants: Story = {
       <Button {...args} variant="ghost">
         Ghost
       </Button>
-      <Button {...args} variant="danger">
-        Danger
+      <Button {...args} variant="critical">
+        Critical
       </Button>
     </div>
   ),

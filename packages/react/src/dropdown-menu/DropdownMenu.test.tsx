@@ -26,7 +26,7 @@ function BasicMenu({
           공유
         </DropdownMenu.Item>
         <DropdownMenu.Separator />
-        <DropdownMenu.Item variant="danger" onSelect={() => onSelect('delete')}>
+        <DropdownMenu.Item variant="critical" onSelect={() => onSelect('delete')}>
           삭제
         </DropdownMenu.Item>
       </DropdownMenu.Content>
@@ -136,13 +136,13 @@ describe('DropdownMenu', () => {
       expect(onSelect).not.toHaveBeenCalled();
     });
 
-    it('danger 항목은 data-variant 를 가진다', async () => {
+    it('critical 항목은 data-variant 를 가진다', async () => {
       const user = userEvent.setup();
       render(<BasicMenu />);
       await user.click(screen.getByRole('button', { name: '옵션' }));
       expect(await screen.findByRole('menuitem', { name: '삭제' })).toHaveAttribute(
         'data-variant',
-        'danger',
+        'critical',
       );
     });
 

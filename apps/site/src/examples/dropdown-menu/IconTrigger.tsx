@@ -22,7 +22,7 @@ export default function IconTriggerExample() {
         <DropdownMenu.Item>이름 바꾸기</DropdownMenu.Item>
         <DropdownMenu.Item>이동</DropdownMenu.Item>
         <DropdownMenu.Separator />
-        <DropdownMenu.Item variant="danger">삭제</DropdownMenu.Item>
+        <DropdownMenu.Item variant="critical">삭제</DropdownMenu.Item>
       </DropdownMenu.Content>
     </DropdownMenu.Root>
   );

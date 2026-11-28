@@ -14,7 +14,7 @@ export default function WithActionExample() {
   };
 
   return (
-    <Button variant="danger" onClick={deleteMail}>
+    <Button variant="critical" onClick={deleteMail}>
       메일 삭제
     </Button>
   );

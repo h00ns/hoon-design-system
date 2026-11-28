@@ -126,7 +126,7 @@ export type AlertDialogActionProps = Omit<ButtonProps, 'asChild'>;
 /**
  * 확인 버튼. 누르면 `onClick` 후 다이얼로그가 닫힌다.
  * 비동기 작업 동안 열어두려면 `onClick` 에서 `event.preventDefault()` 를 호출하고 `open` 을 직접 제어한다.
- * 되돌릴 수 없는 동작이면 `variant="danger"`. @default variant 'primary'
+ * 되돌릴 수 없는 동작이면 `variant="critical"`. @default variant 'primary'
  */
 const Action = React.forwardRef<HTMLButtonElement, AlertDialogActionProps>(
   function AlertDialogAction({ variant = 'primary', ...rest }, ref) {

@@ -75,12 +75,12 @@ const Content = React.forwardRef<HTMLDivElement, DropdownMenuContentProps>(
  * Item
  * -----------------------------------------------------------------------------------------------*/
 
-export type DropdownMenuItemVariant = 'default' | 'danger';
+export type DropdownMenuItemVariant = 'default' | 'critical';
 
 export interface DropdownMenuItemProps extends React.ComponentPropsWithoutRef<
   typeof MenuPrimitive.Item
 > {
-  /** 되돌릴 수 없는 동작(삭제 등)은 `danger`. @default 'default' */
+  /** 되돌릴 수 없는 동작(삭제 등)은 `critical`. @default 'default' */
   variant?: DropdownMenuItemVariant;
   /** 아이콘이 없는 항목을 아이콘 있는 항목과 정렬한다. */
   inset?: boolean;

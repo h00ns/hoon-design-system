@@ -24,7 +24,7 @@ import { Button, DropdownMenu } from '@hoon-ds/react';
   <DropdownMenu.Content>
     <DropdownMenu.Item onSelect={edit}>편집</DropdownMenu.Item>
     <DropdownMenu.Separator />
-    <DropdownMenu.Item variant="danger" onSelect={remove}>
+    <DropdownMenu.Item variant="critical" onSelect={remove}>
       삭제
     </DropdownMenu.Item>
   </DropdownMenu.Content>
@@ -36,7 +36,7 @@ import { Button, DropdownMenu } from '@hoon-ds/react';
 | `Root`                                      | 열림 상태. 기본 `modal` — 열린 동안 바깥을 보조기기에서 숨긴다  |
 | `Trigger`                                   | 여는 버튼. `asChild` 로 Button·IconButton 을 감싼다             |
 | `Content`                                   | 메뉴. `side`·`align` 으로 위치, 화면 끝에서는 자동으로 뒤집힌다 |
-| `Item`                                      | 동작. `onSelect` 로 실행, `variant="danger"`, `inset`           |
+| `Item`                                      | 동작. `onSelect` 로 실행, `variant="critical"`, `inset`         |
 | `CheckboxItem` · `RadioGroup` · `RadioItem` | 켜고 끄는 설정, 하나만 고르는 설정                              |
 | `Label` · `Group` · `Separator`             | 묶음 제목, 묶음, 구분선                                         |
 | `Sub` · `SubTrigger` · `SubContent`         | 하위 메뉴                                                       |
@@ -118,7 +118,7 @@ ARIA `menu` 는 데스크톱 앱 메뉴를 흉내 내는 역할이라, 링크를
 
 <DoDont>
   <Do title="위험한 동작은 마지막에">
-    `variant="danger"` 항목은 구분선 뒤 맨 아래에 두고, 실행 전 AlertDialog 로 확인한다.
+    `variant="critical"` 항목은 구분선 뒤 맨 아래에 두고, 실행 전 AlertDialog 로 확인한다.
   </Do>
   <Dont title="깊은 하위 메뉴">하위 메뉴 안의 하위 메뉴는 찾기도, 조작하기도 어렵다.</Dont>
 </DoDont>

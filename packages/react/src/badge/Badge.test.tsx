@@ -5,7 +5,7 @@ import { VisuallyHidden } from '../visually-hidden/VisuallyHidden';
 import { Badge } from './Badge';
 import type { BadgeTone, BadgeVariant } from './Badge';
 
-const TONES: BadgeTone[] = ['neutral', 'accent', 'success', 'warning', 'danger'];
+const TONES: BadgeTone[] = ['neutral', 'accent', 'success', 'warning', 'critical'];
 const VARIANTS: BadgeVariant[] = ['subtle', 'solid'];
 
 describe('Badge', () => {
@@ -28,7 +28,7 @@ describe('Badge', () => {
     render(
       <button type="button">
         알림{' '}
-        <Badge tone="danger" variant="solid">
+        <Badge tone="critical" variant="solid">
           3<VisuallyHidden>개의 새 알림</VisuallyHidden>
         </Badge>
       </button>,

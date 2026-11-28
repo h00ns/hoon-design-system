@@ -6,7 +6,7 @@ export default function VariantsExample() {
       <Button variant="primary">Primary</Button>
       <Button variant="secondary">Secondary</Button>
       <Button variant="ghost">Ghost</Button>
-      <Button variant="danger">Danger</Button>
+      <Button variant="critical">Critical</Button>
     </>
   );
 }

@@ -1,6 +1,6 @@
 /*
  * Alert
- * <div class="hds-alert" data-tone="info|success|warning|danger">
+ * <div class="hds-alert" data-tone="info|success|warning|critical">
  *   <span class="hds-alert__icon" aria-hidden="true">…</span>
  *   <div class="hds-alert__content">
  *     <div class="hds-alert__title">…</div>
@@ -13,6 +13,8 @@
   --_bg: var(--hds-color-accent-subtle);
   --_accent: var(--hds-color-accent-fg);
   --_border: var(--hds-color-accent-border);
+  --_icon: var(--hds-color-accent-icon);
+  --_icon-mark: var(--hds-color-accent-icon-mark);
 
   display: flex;
   flex-wrap: wrap;
@@ -31,18 +33,24 @@
   --_bg: var(--hds-color-success-subtle);
   --_accent: var(--hds-color-success-fg);
   --_border: var(--hds-color-success-border);
+  --_icon: var(--hds-color-success-icon);
+  --_icon-mark: var(--hds-color-success-icon-mark);
 }
 
 .hds-alert[data-tone='warning'] {
   --_bg: var(--hds-color-warning-subtle);
   --_accent: var(--hds-color-warning-fg);
   --_border: var(--hds-color-warning-border);
+  --_icon: var(--hds-color-warning-icon);
+  --_icon-mark: var(--hds-color-warning-icon-mark);
 }
 
-.hds-alert[data-tone='danger'] {
-  --_bg: var(--hds-color-danger-subtle);
-  --_accent: var(--hds-color-danger-fg);
-  --_border: var(--hds-color-danger-border);
+.hds-alert[data-tone='critical'] {
+  --_bg: var(--hds-color-critical-subtle);
+  --_accent: var(--hds-color-critical-fg);
+  --_border: var(--hds-color-critical-border);
+  --_icon: var(--hds-color-critical-icon);
+  --_icon-mark: var(--hds-color-critical-icon-mark);
 }
 
 .hds-alert__icon {

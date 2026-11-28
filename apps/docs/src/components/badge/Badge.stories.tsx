@@ -2,14 +2,14 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Badge, VisuallyHidden } from '@hoon-ds/react';
 import type { BadgeTone, BadgeVariant } from '@hoon-ds/react';
 
-const TONES: BadgeTone[] = ['neutral', 'accent', 'success', 'warning', 'danger'];
+const TONES: BadgeTone[] = ['neutral', 'accent', 'success', 'warning', 'critical'];
 const VARIANTS: BadgeVariant[] = ['subtle', 'solid'];
 const LABELS: Record<BadgeTone, string> = {
   neutral: '임시저장',
   accent: '신규',
   success: '완료',
   warning: '검토 중',
-  danger: '반려',
+  critical: '반려',
 };
 
 const CheckIcon = () => (
@@ -89,7 +89,7 @@ export const Count: Story = {
       }}
     >
       알림{' '}
-      <Badge tone="danger" variant="solid" size="sm">
+      <Badge tone="critical" variant="solid" size="sm">
         3<VisuallyHidden>개의 새 알림</VisuallyHidden>
       </Badge>
     </button>

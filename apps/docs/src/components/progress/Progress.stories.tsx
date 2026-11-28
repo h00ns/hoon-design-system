@@ -9,7 +9,7 @@ const meta = {
   argTypes: {
     value: { control: { type: 'range', min: 0, max: 100 } },
     size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] },
-    tone: { control: 'inline-radio', options: ['accent', 'success', 'danger'] },
+    tone: { control: 'inline-radio', options: ['accent', 'success', 'critical'] },
     getValueLabel: { control: false },
   },
   decorators: [(Story) => <div style={{ width: 320 }}>{Story()}</div>],
@@ -35,7 +35,7 @@ export const Tones: Story = {
     <div style={{ display: 'grid', gap: 20 }}>
       <Progress value={60} label="업로드 중" showValue />
       <Progress value={100} tone="success" label="업로드 완료" showValue />
-      <Progress value={35} tone="danger" label="업로드 실패: 용량 초과" showValue />
+      <Progress value={35} tone="critical" label="업로드 실패: 용량 초과" showValue />
     </div>
   ),
 };

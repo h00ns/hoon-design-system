@@ -1,0 +1,33 @@
+/*
+ * 상태 아이콘 (Alert · Toast 공용)
+ * <svg class="hds-status-icon"><… class="hds-status-icon__shape"/><… class="hds-status-icon__mark"/></svg>
+ * 감싸는 요소에서 --_icon(바탕 도형)과 --_icon-mark(안쪽 기호)를 정한다.
+ */
+.hds-status-icon__shape {
+  fill: var(--_icon, currentColor);
+}
+
+.hds-status-icon__mark {
+  fill: var(--_icon-mark, var(--hds-color-bg-default));
+  stroke: var(--_icon-mark, var(--hds-color-bg-default));
+}
+
+.hds-status-icon__mark[fill='none'] {
+  fill: none;
+}
+
+/* 고대비 모드: 시스템 색으로 */
+@media (forced-colors: active) {
+  .hds-status-icon__shape {
+    fill: CanvasText;
+  }
+
+  .hds-status-icon__mark {
+    fill: Canvas;
+    stroke: Canvas;
+  }
+
+  .hds-status-icon__mark[fill='none'] {
+    fill: none;
+  }
+}
